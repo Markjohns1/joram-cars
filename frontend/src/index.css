@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #0066ff;
+  --color-brand-secondary: #00d4ff;
+  --color-navy-950: #0a1128;
+  --color-navy-900: #0f172a;
+  --color-navy-800: #1e293b;
+  --color-navy-700: #334155;
+
+  --spacing-header: 72px;
+  --spacing-header-mobile: 64px;
+  --spacing-nav-mobile: 68px;
+
+  --radius-premium: 24px;
+  --radius-card: 20px;
+
+  --shadow-premium: 0 8px 30px rgba(0, 102, 255, 0.3);
+  --shadow-premium-hover: 0 8px 40px rgba(0, 102, 255, 0.4);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.03);
+  --shadow-card-hover: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+@layer base {
+  body {
+    @apply antialiased text-slate-900 bg-white font-sans;
+    -webkit-tap-highlight-color: transparent;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply tracking-tight font-bold text-slate-900 leading-[1.1];
+  }
+
+  h1 {
+    @apply text-4xl md:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-5xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  p {
+    @apply leading-relaxed text-slate-600;
+  }
+}
+
+@layer components {
+  .container-premium {
+    @apply max-w-[1280px] mx-auto px-6 md:px-8;
+  }
+
+  .btn-premium {
+    @apply relative inline-flex items-center justify-center overflow-hidden rounded-full px-8 py-3.5 font-bold transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-premium-primary {
+    @apply bg-brand-primary text-white shadow-premium hover:shadow-premium-hover hover:-translate-y-0.5;
+  }
+
+  .btn-premium-outline {
+    @apply bg-transparent border-2 border-slate-200 text-slate-900 hover:border-slate-900 hover:bg-slate-50;
+  }
+
+  .btn-premium-glass {
+    @apply backdrop-blur-md bg-white/10 border border-white/20 text-white hover:bg-white/20;
+  }
+
+  .glass-card {
+    @apply backdrop-blur-xl bg-white/70 border border-white shadow-glass;
+  }
+
+  .glass-nav {
+    @apply backdrop-blur-lg bg-white/80 border-b border-white/20;
+  }
+
+  .premium-card {
+    @apply relative bg-white rounded-radius-card border border-slate-100 shadow-card hover:shadow-card-hover transition-all duration-500 hover:-translate-y-1;
+  }
+
+  .premium-input {
+    @apply w-full h-14 px-6 bg-slate-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-brand-primary focus:ring-4 focus:ring-blue-100 outline-none transition-all duration-300 text-lg;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
