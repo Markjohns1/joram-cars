@@ -8,6 +8,7 @@
  */
 
 import { NavLink } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Home, Search, PlusCircle, Heart, MessageSquare } from 'lucide-react';
 import { cn } from '../../utils/helpers';
 
