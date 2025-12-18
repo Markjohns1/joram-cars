@@ -83,11 +83,11 @@
   }
 
   .premium-card {
-    @apply relative bg-white rounded-radius-card border border-slate-100 shadow-card hover:shadow-card-hover transition-all duration-500 hover:-translate-y-1;
+    @apply relative bg-white rounded-card border border-slate-100 shadow-card hover:shadow-card-hover transition-all duration-500 hover:-translate-y-1;
   }
 
   .premium-input {
-    @apply w-full h-14 px-6 bg-slate-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-brand-primary focus:ring-4 focus:ring-blue-100 outline-none transition-all duration-300 text-lg;
+    @apply w-full h-14 px-6 bg-slate-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-brand-primary outline-none transition-all duration-300 text-lg;
   }
 
   .hide-scrollbar::-webkit-scrollbar {
