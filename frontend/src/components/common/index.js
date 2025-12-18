@@ -9,3 +9,4 @@ export { default as Textarea } from './Textarea';
 export { default as Badge } from './Badge';
 export { default as Spinner, LoadingPage, LoadingOverlay } from './Spinner';
 export { default as EmptyState } from './EmptyState';
+export { default as ScrollToTop } from './ScrollToTop';

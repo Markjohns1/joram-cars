@@ -39,56 +39,57 @@ export default function Home() {
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex flex-col gap-16 md:gap-32 pb-32"
+            className="flex flex-col gap-12 md:gap-24 pb-24"
         >
             {/* 1. Immersive Hero Section */}
-            <section className="relative min-h-[85vh] flex items-center pt-24 overflow-hidden">
-                {/* Visual Backdrop */}
+            <section className="relative min-h-[85vh] flex items-center pt-20 pb-12 overflow-hidden">
+                {/* Visual Backdrop with Stronger Contrast Gradient */}
                 <div className="absolute inset-0 bg-slate-950">
                     <img
                         src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80"
-                        className="w-full h-full object-cover opacity-40 mix-blend-overlay"
+                        className="w-full h-full object-cover opacity-50 mix-blend-overlay"
                         alt="Background"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-transparent to-transparent" />
                 </div>
 
                 <div className="container-premium relative z-10">
-                    <div className="max-w-3xl">
+                    <div className="max-w-2xl">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
                         >
-                            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-[0.2em] mb-6">
-                                <Star size={14} className="fill-blue-400" /> Defining Luxury Performance
+                            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-4 md:mb-6 backdrop-blur-sm">
+                                <Star size={12} className="fill-blue-500" /> Premium Performance
                             </span>
-                            <h1 className="text-white text-5xl md:text-8xl font-black tracking-tighter mb-8 italic">
+                            <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-4 md:mb-6 italic leading-[0.9]">
                                 DRIVE THE <br />
-                                <span className="text-[var(--brand-primary)]">EXTRAORDINARY.</span>
+                                <span className="text-brand-primary drop-shadow-[0_0_15px_rgba(0,102,255,0.5)]">EXTRAORDINARY.</span>
                             </h1>
-                            <p className="text-slate-300 text-lg md:text-2xl mb-12 leading-relaxed max-w-xl font-medium">
+                            <p className="text-slate-300 text-sm md:text-xl mb-8 md:mb-10 leading-relaxed max-w-lg font-medium opacity-90">
                                 Nairobi's premier boutique car marketplace.
                                 Curating the finest machines for the discerning driver.
                             </p>
                         </motion.div>
 
-                        {/* Sophisticated Search Overlay */}
+                        {/* Sophisticated Search Overlay - Mobile Optimized */}
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.4 }}
-                            className="glass-card p-2 rounded-[28px] md:rounded-full flex flex-col md:flex-row items-center gap-2 shadow-2xl"
+                            className="bg-white p-2 rounded-2xl md:rounded-full flex flex-col md:flex-row items-center gap-2 shadow-2xl border border-white/10"
                         >
-                            <div className="flex flex-1 items-center px-6 w-full h-14 md:h-16">
-                                <Search className="text-slate-400 mr-4" size={24} />
+                            <div className="flex flex-1 items-center px-4 w-full h-12">
+                                <Search className="text-slate-400 mr-2" size={20} />
                                 <input
                                     type="text"
-                                    placeholder="Search by Brand, Model, or Year..."
-                                    className="bg-transparent border-none focus:ring-0 flex-1 text-slate-900 placeholder:text-slate-400 font-bold text-lg"
+                                    placeholder="Search Model..."
+                                    className="bg-transparent border-none focus:ring-0 flex-1 text-slate-900 placeholder:text-slate-400 font-bold text-sm md:text-base p-0"
                                 />
                             </div>
-                            <Button className="w-full md:w-auto btn-premium btn-premium-primary h-14 md:h-16 px-10 text-lg">
+                            <Button className="w-full md:w-auto btn-premium btn-premium-primary h-12 px-8 text-sm md:text-base whitespace-nowrap">
                                 Discover Now
                             </Button>
                         </motion.div>
@@ -128,14 +129,14 @@ export default function Home() {
             {/* 3. Featured Showcase */}
             <section className="bg-slate-50 py-20 md:py-32">
                 <div className="container-premium">
-                    <div className="flex items-center justify-between mb-16">
-                        <h2 className="text-4xl font-black tracking-tighter text-slate-900">THE SHOWROOM</h2>
-                        <Link to="/vehicles" className="flex items-center gap-2 text-[var(--brand-primary)] font-black uppercase tracking-widest text-sm group">
-                            Explore All <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                    <div className="flex items-center justify-between mb-10">
+                        <h2 className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 uppercase">The Showroom</h2>
+                        <Link to="/vehicles" className="flex items-center gap-2 text-brand-primary font-bold uppercase tracking-widest text-xs group">
+                            Explore All <ArrowRight className="group-hover:translate-x-1 transition-transform" size={16} />
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {featuredVehicles.map(vehicle => (
                             <VehicleCard key={vehicle.id} vehicle={vehicle} />
                         ))}

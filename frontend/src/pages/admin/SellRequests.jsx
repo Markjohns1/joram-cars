@@ -56,29 +56,29 @@ export default function AdminSellRequests() {
                         {requests.map((req) => (
                             <div key={req.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col md:flex-row">
                                 {/* Car Info (Left) */}
-                                <div className="p-6 md:w-1/3 bg-gray-50 border-r border-gray-100 flex flex-col justify-between">
+                                <div className="p-6 md:w-1/3 bg-slate-50 border-r border-slate-100 flex flex-col justify-between">
                                     <div>
-                                        <h3 className="text-xl font-bold text-gray-900 mb-2">{req.make} {req.model}</h3>
-                                        <div className="space-y-2 text-sm text-gray-600">
+                                        <h3 className="text-lg font-black tracking-tight text-slate-950 mb-4">{req.make} {req.model}</h3>
+                                        <div className="space-y-3 text-[10px] font-bold uppercase tracking-widest text-slate-500">
                                             <div className="flex justify-between">
                                                 <span>Year</span>
-                                                <span className="font-semibold">{req.year}</span>
+                                                <span className="text-slate-900">{req.year}</span>
                                             </div>
                                             <div className="flex justify-between">
                                                 <span>Mileage</span>
-                                                <span className="font-semibold">{req.mileage?.toLocaleString()} km</span>
+                                                <span className="text-slate-900">{req.mileage?.toLocaleString()} km</span>
                                             </div>
-                                            <div className="flex justify-between">
+                                            <div className="flex justify-between items-center pt-2">
                                                 <span>Asking Price</span>
-                                                <span className="font-bold text-primary">{formatPrice(req.price)}</span>
+                                                <span className="text-base text-brand-primary">{formatPrice(req.price)}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="mt-6 pt-4 border-t border-gray-200">
+                                    <div className="mt-8 pt-6 border-t border-slate-200">
                                         <Badge variant={getStatusColor(req.status)}>
                                             {getStatusLabel(req.status)}
                                         </Badge>
-                                        <span className="text-xs text-gray-400 block mt-2">
+                                        <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest block mt-3">
                                             Submitted {formatDate(req.created_at)}
                                         </span>
                                     </div>
@@ -86,23 +86,24 @@ export default function AdminSellRequests() {
 
                                 {/* Customer & Actions (Right) */}
                                 <div className="p-6 md:w-2/3 flex flex-col">
-                                    <div className="flex items-start justify-between mb-6">
+                                    <div className="flex items-start justify-between mb-8">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
-                                                <User size={20} />
+                                            <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold shadow-lg">
+                                                <User size={18} />
                                             </div>
                                             <div>
-                                                <h4 className="font-bold text-gray-900">{req.user_name}</h4>
-                                                <p className="text-sm text-gray-500">{req.user_email}</p>
-                                                <p className="text-sm text-gray-500 flex items-center gap-1 mt-1">
-                                                    <Phone size={12} /> {req.user_phone}
+                                                <h4 className="text-sm font-bold tracking-tight text-slate-950">{req.user_name}</h4>
+                                                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{req.user_email}</p>
+                                                <p className="text-[10px] font-bold text-brand-primary flex items-center gap-1 mt-1 tracking-widest">
+                                                    <Phone size={10} /> {req.user_phone}
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
 
                                     {req.condition && (
-                                        <div className="mb-6 p-4 bg-gray-50 rounded-xl text-sm italic text-gray-600 border border-gray-100">
+                                        <div className="mb-8 p-5 bg-slate-50 rounded-2xl text-xs font-medium text-slate-600 border border-slate-100 leading-relaxed">
+                                            <span className="block text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-2 italic">Seller's Note:</span>
                                             "{req.condition}"
                                         </div>
                                     )}
@@ -112,15 +113,15 @@ export default function AdminSellRequests() {
                                             <>
                                                 <button
                                                     onClick={() => handleUpdateStatus(req.id, 'rejected')}
-                                                    className="px-4 py-2 text-sm font-bold text-red-600 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-2"
+                                                    className="px-5 py-2 text-[10px] font-black uppercase tracking-widest text-red-600 hover:bg-red-50 rounded-lg transition-all"
                                                 >
-                                                    <X size={16} /> Reject
+                                                    Reject
                                                 </button>
                                                 <button
                                                     onClick={() => handleUpdateStatus(req.id, 'contacted')}
-                                                    className="px-4 py-2 text-sm font-bold text-white bg-[#0A2540] hover:bg-blue-900 rounded-lg shadow-md transition-all flex items-center gap-2"
+                                                    className="px-5 py-2 text-[10px] font-black uppercase tracking-widest text-white bg-slate-900 hover:bg-slate-800 rounded-lg shadow-xl translate-y-0 hover:-translate-y-1 transition-all"
                                                 >
-                                                    <Check size={16} /> Contact Seller
+                                                    Contact Seller
                                                 </button>
                                             </>
                                         )}

@@ -7,7 +7,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context';
 import { Layout } from './components/layout';
-import { LoadingPage } from './components/common';
+import { LoadingPage, ScrollToTop } from './components/common';
 
 // Public Pages
 import {
@@ -141,6 +141,7 @@ function AppRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <AuthProvider>
         <AppRoutes />
       </AuthProvider>

@@ -54,40 +54,40 @@ export default function VehicleCard({ vehicle }) {
             </div>
 
             {/* 2. Refined Information Architecture */}
-            <div className="p-6 md:p-8 flex flex-col flex-grow">
-                <div className="flex justify-between items-start mb-4">
+            <div className="p-5 md:p-6 flex flex-col flex-grow">
+                <div className="flex justify-between items-start mb-3">
                     <Link to={`/vehicles/${vehicle.id}`} className="flex-1 mr-4">
-                        <h3 className="text-xl md:text-2xl font-black tracking-tighter text-slate-900 mb-1 leading-tight line-clamp-1 group-hover:text-[var(--brand-primary)] transition-colors">
+                        <h3 className="text-lg md:text-xl font-bold tracking-tight text-slate-900 mb-1 leading-tight line-clamp-1 group-hover:text-brand-primary transition-colors">
                             {vehicle.year} {vehicle.make} {vehicle.model}
                         </h3>
-                        <p className="text-slate-400 font-bold text-[10px] uppercase tracking-[0.2em]">{vehicle.trim || "Verified Edition"}</p>
+                        <p className="text-slate-400 font-bold text-[9px] uppercase tracking-[0.2em]">{vehicle.trim || "Verified Edition"}</p>
                     </Link>
                 </div>
 
                 {/* Price Landmark */}
-                <div className="mb-6">
-                    <p className="text-[var(--brand-primary)] font-black text-2xl md:text-3xl tracking-tighter">
-                        {formatPrice(vehicle.price, vehicle.currency).replace('KSH', 'KSh')}
+                <div className="mb-5">
+                    <p className="text-brand-primary font-extrabold text-xl md:text-2xl tracking-tight">
+                        {(formatPrice(vehicle.price, vehicle.currency) || '').replace('KSH', 'KSh')}
                     </p>
                 </div>
 
                 {/* Minimalist Tech Specs */}
-                <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-50">
-                    <div className="flex flex-col gap-1">
-                        <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Mileage</span>
-                        <div className="flex items-center gap-1.5 text-slate-600 font-black text-xs">
+                <div className="grid grid-cols-3 gap-4 pt-5 border-t border-slate-100">
+                    <div className="flex flex-col gap-0.5">
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Mileage</span>
+                        <div className="flex items-center gap-1.5 text-slate-700 font-bold text-xs">
                             {formatMileage(vehicle.mileage)}
                         </div>
                     </div>
-                    <div className="flex flex-col gap-1 text-center">
-                        <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">DRIVE</span>
-                        <div className="flex items-center justify-center gap-1.5 text-slate-600 font-black text-xs uppercase">
+                    <div className="flex flex-col gap-0.5 text-center">
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">DRIVE</span>
+                        <div className="flex items-center justify-center gap-1.5 text-slate-700 font-bold text-xs uppercase">
                             {vehicle.transmission?.slice(0, 4)}
                         </div>
                     </div>
-                    <div className="flex flex-col gap-1 text-right">
-                        <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">LOCATION</span>
-                        <div className="flex items-center justify-end gap-1.5 text-slate-600 font-black text-xs">
+                    <div className="flex flex-col gap-0.5 text-right">
+                        <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">LOCATION</span>
+                        <div className="flex items-center justify-end gap-1.5 text-slate-700 font-bold text-xs">
                             {vehicle.location}
                         </div>
                     </div>

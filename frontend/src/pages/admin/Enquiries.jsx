@@ -48,9 +48,9 @@ export default function AdminEnquiries() {
                             <button
                                 key={status}
                                 onClick={() => setFilter(status)}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium capitalize transition-colors ${filter === status
-                                        ? 'bg-blue-50 text-blue-600'
-                                        : 'text-gray-500 hover:bg-gray-50'
+                                className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest transition-all ${filter === status
+                                    ? 'bg-slate-900 text-white shadow-lg'
+                                    : 'text-slate-500 hover:bg-slate-50'
                                     }`}
                             >
                                 {status}
@@ -69,50 +69,50 @@ export default function AdminEnquiries() {
                         icon={Mail}
                     />
                 ) : (
-                    <div className="divide-y divide-gray-50">
+                    <div className="divide-y divide-slate-50">
                         {enquiries.map((enquiry) => (
                             <div
                                 key={enquiry.id}
-                                className={`p-6 hover:bg-gray-50 transition-colors cursor-pointer group ${enquiry.status === 'unread' ? 'bg-blue-50/30' : ''
+                                className={`p-6 hover:bg-slate-50/50 transition-colors cursor-pointer group ${enquiry.status === 'unread' ? 'bg-blue-50/20' : ''
                                     }`}
                             >
                                 <div className="flex justify-between items-start mb-2">
                                     <div className="flex items-center gap-3">
-                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold
-                                            ${enquiry.status === 'unread' ? 'bg-blue-500' : 'bg-gray-300'}
+                                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-xs
+                                            ${enquiry.status === 'unread' ? 'bg-brand-primary' : 'bg-slate-300'}
                                         `}>
                                             {enquiry.name.charAt(0).toUpperCase()}
                                         </div>
                                         <div>
-                                            <h3 className={`text-sm font-bold ${enquiry.status === 'unread' ? 'text-gray-900' : 'text-gray-600'}`}>
+                                            <h3 className={`text-sm font-bold tracking-tight ${enquiry.status === 'unread' ? 'text-slate-950' : 'text-slate-700'}`}>
                                                 {enquiry.name}
                                             </h3>
-                                            <p className="text-xs text-gray-400">{enquiry.email}</p>
+                                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{enquiry.email}</p>
                                         </div>
                                     </div>
-                                    <span className="text-xs text-gray-400 font-medium flex items-center gap-1">
-                                        <Clock size={12} />
+                                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1">
+                                        <Clock size={10} />
                                         {formatDate(enquiry.created_at)}
                                     </span>
                                 </div>
 
-                                <div className="pl-13 ml-13 md:ml-13 pl-13">
+                                <div className="ml-11">
                                     {/* Subject/Vehicle Context */}
                                     {enquiry.vehicle && (
-                                        <div className="mb-2 inline-flex items-center gap-2 px-2 py-1 bg-gray-100 rounded-md text-xs text-gray-600 font-medium">
-                                            <span>Re: {enquiry.vehicle.year} {enquiry.vehicle.make} {enquiry.vehicle.model}</span>
+                                        <div className="mb-3 inline-flex items-center gap-2 px-2 py-1 bg-slate-100 rounded text-[9px] text-slate-500 font-bold uppercase tracking-widest">
+                                            <span>{enquiry.vehicle.year} {enquiry.vehicle.make} {enquiry.vehicle.model}</span>
                                         </div>
                                     )}
 
-                                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
+                                    <p className="text-slate-600 text-sm leading-relaxed line-clamp-2 mb-4">
                                         {enquiry.message}
                                     </p>
 
-                                    <div className="mt-3 flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <button className="text-xs font-bold text-blue-600 hover:underline">Reply via Email</button>
+                                    <div className="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button className="text-[10px] font-black uppercase tracking-widest text-brand-primary hover:underline">Reply</button>
                                         {enquiry.phone && (
-                                            <a href={`tel:${enquiry.phone}`} className="text-xs font-bold text-gray-500 hover:text-gray-900 flex items-center gap-1">
-                                                <Phone size={12} /> Call {enquiry.phone}
+                                            <a href={`tel:${enquiry.phone}`} className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-slate-900 flex items-center gap-1">
+                                                <Phone size={10} /> {enquiry.phone}
                                             </a>
                                         )}
                                         {enquiry.status === 'unread' && (

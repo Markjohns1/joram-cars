@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     ChevronLeft, ChevronRight, Share2, Heart,
     Fuel, Gauge, Settings, Calendar, MapPin,
@@ -165,8 +165,8 @@ export default function VehicleDetail() {
                                             key={img.id}
                                             onClick={() => setCurrentImageIndex(index)}
                                             className={`relative flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden transition-all ${index === currentImageIndex
-                                                    ? 'ring-2 ring-primary ring-offset-2'
-                                                    : 'opacity-70 hover:opacity-100'
+                                                ? 'ring-2 ring-primary ring-offset-2'
+                                                : 'opacity-70 hover:opacity-100'
                                                 }`}
                                         >
                                             <img
