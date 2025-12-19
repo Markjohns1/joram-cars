@@ -38,23 +38,58 @@ def get_dashboard_stats(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    """Get dashboard statistics for admin panel."""
+    """Get dashboard statistics for admin panel with Numerical Wisdom."""
+    from datetime import datetime, timedelta
+    from app.models import Enquiry, SellRequest, Vehicle
+    from sqlalchemy import func
+    
+    # 1. Base Stats
     total_vehicles = db.query(Vehicle).count()
     vehicles_available = db.query(Vehicle).filter(Vehicle.availability_status == "available").count()
     vehicles_sold = db.query(Vehicle).filter(Vehicle.availability_status == "sold").count()
     featured_vehicles = db.query(Vehicle).filter(Vehicle.is_featured == True).count()
     
-    total_enquiries = db.query(EnquiryService).count() if False else 0
     new_enquiries = EnquiryService.get_new_enquiries_count(db)
     pending_sell_requests = SellRequestService.get_pending_count(db)
     
-    from app.models import Enquiry, SellRequest
     total_enquiries = db.query(Enquiry).count()
     total_sell_requests = db.query(SellRequest).count()
-    
-    # Calculate total views from vehicles
-    from sqlalchemy import func
     total_views = db.query(func.sum(Vehicle.views_count)).scalar() or 0
+    
+    # 2. Numerical Wisdom: Inventory Value
+    total_inventory_value = db.query(func.sum(Vehicle.price)).filter(
+        Vehicle.availability_status == "available"
+    ).scalar() or 0
+    
+    # 3. Numerical Wisdom: Enquiries WoW Growth
+    now = datetime.utcnow()
+    this_week_start = now - timedelta(days=7)
+    last_week_start = now - timedelta(days=14)
+    
+    this_week_enquiries = db.query(Enquiry).filter(Enquiry.created_at >= this_week_start).count()
+    last_week_enquiries = db.query(Enquiry).filter(
+        Enquiry.created_at >= last_week_start,
+        Enquiry.created_at < this_week_start
+    ).count()
+    
+    enquiries_wow = 0.0
+    if last_week_enquiries > 0:
+        enquiries_wow = ((this_week_enquiries - last_week_enquiries) / last_week_enquiries) * 100
+    elif this_week_enquiries > 0:
+        enquiries_wow = 100.0 # First week growth
+        
+    # 4. Numerical Wisdom: Conversion Rate (Visitor to Lead)
+    conversion_rate = 0.0
+    if total_views > 0:
+        conversion_rate = (total_enquiries / total_views) * 100
+        
+    # 5. Numerical Wisdom: Inventory Velocity (Avg Days to Sell)
+    # Using SQLite friendly calculation (difference in days)
+    sold_vehicles = db.query(Vehicle).filter(Vehicle.availability_status == "sold").all()
+    avg_days_to_sell = 0.0
+    if sold_vehicles:
+        total_days = sum([(v.updated_at - v.created_at).days for v in sold_vehicles])
+        avg_days_to_sell = total_days / len(sold_vehicles)
     
     return DashboardStats(
         total_vehicles=total_vehicles,
@@ -65,7 +100,12 @@ def get_dashboard_stats(
         vehicles_available=vehicles_available,
         vehicles_sold=vehicles_sold,
         featured_vehicles=featured_vehicles,
-        total_views=total_views
+        total_views=total_views,
+        # Wisdom
+        enquiries_wow=round(enquiries_wow, 1),
+        conversion_rate=round(conversion_rate, 2),
+        avg_days_to_sell=round(avg_days_to_sell, 1),
+        total_inventory_value=total_inventory_value
     )
 
 

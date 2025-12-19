@@ -38,3 +38,8 @@ class DashboardStats(BaseModel):
     vehicles_sold: int
     featured_vehicles: int
     total_views: int
+    # Numerical Wisdom
+    enquiries_wow: float = 0.0 # Week-over-week growth
+    conversion_rate: float = 0.0 # Lead conversion %
+    avg_days_to_sell: float = 0.0 # Inventory velocity
+    total_inventory_value: float = 0.0 # Market value of active stock

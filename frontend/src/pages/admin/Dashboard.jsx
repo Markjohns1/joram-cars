@@ -76,8 +76,10 @@ export default function Dashboard() {
         total_views: 0,
         new_enquiries: 0,
         pending_sell_requests: 0,
-        conversion_rate: 4.8,
-        inventory_value: 48500000
+        conversion_rate: 0,
+        total_inventory_value: 0,
+        enquiries_wow: 0,
+        avg_days_to_sell: 0
     });
     const [isLoading, setIsLoading] = useState(true);
 
@@ -88,12 +90,7 @@ export default function Dashboard() {
     const loadStats = async () => {
         try {
             const data = await adminAPI.getDashboardStats();
-            // Mocking extended analytical data for now
-            setStats({
-                ...data,
-                conversion_rate: 3.2,
-                inventory_value: 52400000
-            });
+            setStats(data);
         } catch (error) {
             // Silent error for dashboard stats
         } finally {
@@ -151,7 +148,9 @@ export default function Dashboard() {
                                 <h4 className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-4">Lead Conversion</h4>
                                 <div className="flex items-end gap-2 mb-2">
                                     <span className="text-3xl font-black">{stats.conversion_rate}%</span>
-                                    <span className="text-green-400 text-xs font-bold mb-1">+1.2%</span>
+                                    <span className={`text-xs font-bold mb-1 ${stats.enquiries_wow >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                        {stats.enquiries_wow >= 0 ? '+' : ''}{stats.enquiries_wow}% WoW
+                                    </span>
                                 </div>
                                 <p className="text-slate-400 text-xs leading-relaxed">System performance based on View-to-Enquiry ratio.</p>
                             </div>
@@ -159,26 +158,33 @@ export default function Dashboard() {
                                 <DollarSign className="absolute -bottom-4 -right-4 w-32 h-32 text-slate-500 opacity-[0.02] group-hover:scale-110 transition-transform" />
                                 <h4 className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-4">Inventory Value (Est.)</h4>
                                 <div className="flex items-end gap-2 mb-2">
-                                    <span className="text-3xl font-black text-slate-900">KSh {stats.inventory_value.toLocaleString()}</span>
+                                    <span className="text-3xl font-black text-slate-900">KSh {(stats.total_inventory_value || 0).toLocaleString()}</span>
                                 </div>
                                 <p className="text-slate-500 text-xs leading-relaxed">Estimated market value of active stock.</p>
                             </div>
                         </div>
                     )}
 
-                    <div className="bg-white border border-black p-6">
+                    <div className="bg-white border border-slate-200 p-6 rounded-[5px]">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Growth Performance</h2>
-                            <select className="text-[10px] font-bold uppercase tracking-widest border-slate-200 rounded-lg p-2 bg-slate-50">
-                                <option>Last 30 Days</option>
-                                <option>Last 90 Days</option>
-                            </select>
+                            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 py-1 bg-slate-50 rounded-full">
+                                Real-Time Wisdom
+                            </div>
                         </div>
 
-                        <div className="h-48 flex items-center justify-center text-slate-400 bg-slate-50/50 rounded-xl border border-dashed border-slate-200">
-                            <div className="text-center">
-                                <TrendingUp className="mx-auto mb-2 opacity-20" size={32} />
-                                <p className="text-[10px] font-bold uppercase tracking-widest opacity-50">Analytics Engine Warming Up</p>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
+                            <div>
+                                <span className="text-slate-400 text-[9px] font-bold uppercase tracking-widest block mb-2">Avg. Days to Sell</span>
+                                <p className="text-2xl font-black text-slate-900">{stats.avg_days_to_sell} <span className="text-xs font-bold text-slate-400">Days</span></p>
+                            </div>
+                            <div>
+                                <span className="text-slate-400 text-[9px] font-bold uppercase tracking-widest block mb-2">Enquiry Pulse</span>
+                                <p className="text-2xl font-black text-slate-900">{stats.new_enquiries + stats.pending_sell_requests} <span className="text-xs font-bold text-slate-400">Leads</span></p>
+                            </div>
+                            <div className="col-span-2 md:col-span-1 border-t md:border-t-0 md:border-l border-slate-100 pt-4 md:pt-0 md:pl-8">
+                                <span className="text-slate-400 text-[9px] font-bold uppercase tracking-widest block mb-2">Visitor Intent</span>
+                                <p className="text-2xl font-black text-blue-600">{stats.conversion_rate}%</p>
                             </div>
                         </div>
                     </div>

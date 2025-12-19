@@ -13,6 +13,8 @@ import { Gauge, Settings, ShieldCheck, Heart, MapPin } from 'lucide-react';
 import { Badge } from '../common';
 import { formatPrice, formatMileage, getImageUrl, getStatusColor, getStatusLabel } from '../../utils/helpers';
 import { cn } from '../../utils/helpers';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 export default function VehicleCard({ vehicle }) {
     return (
@@ -25,9 +27,11 @@ export default function VehicleCard({ vehicle }) {
             {/* 1. Immersive Image Base */}
             <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                 <Link to={`/vehicles/${vehicle.id}`}>
-                    <img
+                    <LazyLoadImage
                         src={vehicle.primary_image ? getImageUrl(vehicle.primary_image) : '/placeholder-car.jpg'}
                         alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
+                        effect="blur"
+                        wrapperClassName="w-full h-full"
                         className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                     />
                 </Link>
