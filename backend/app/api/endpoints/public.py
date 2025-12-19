@@ -4,14 +4,43 @@ Public Stats & Newsletter Endpoints
 Public utility endpoints.
 """
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Response
 from sqlalchemy.orm import Session
+from datetime import datetime
 
 from app.core.database import get_db
 from app.models import Vehicle, Brand, NewsletterSubscriber
 from app.schemas import PublicStats, NewsletterSubscribe, MessageResponse
 
 router = APIRouter(tags=["Public"])
+
+
+@router.get("/sitemap.xml")
+def get_sitemap(db: Session = Depends(get_db)):
+    """Generate a dynamic XML sitemap."""
+    base_url = "https://joramcars.co.ke" # Should ideally come from settings
+    
+    # Static pages
+    static_pages = ["", "/vehicles", "/about", "/contact", "/sell"]
+    
+    xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    
+    # Add static pages
+    for page in static_pages:
+        xml_content += f"  <url>\n    <loc>{base_url}{page}</loc>\n    <changefreq>daily</changefreq>\n    <priority>0.8</priority>\n  </url>\n"
+    
+    # Add dynamic vehicle pages
+    vehicles = db.query(Vehicle).filter(
+        Vehicle.availability_status.in_(["available", "direct_import"])
+    ).all()
+    
+    for vehicle in vehicles:
+        xml_content += f"  <url>\n    <loc>{base_url}/vehicles/{vehicle.id}</loc>\n    <lastmod>{vehicle.updated_at.date()}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>\n"
+        
+    xml_content += "</urlset>"
+    
+    return Response(content=xml_content, media_type="application/xml")
 
 
 @router.get("/stats/public", response_model=PublicStats)

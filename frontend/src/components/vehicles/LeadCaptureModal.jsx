@@ -28,8 +28,7 @@ export default function LeadCaptureModal({ isOpen, onClose, vehicle, whatsappLin
             window.open(whatsappLink, '_blank');
             onClose();
         } catch (error) {
-            console.error("Lead capture failed", error);
-            // Fallback: still open WhatsApp if backend fails, strictly speaking we shouldn't block the sale
+            // Fallback: still open WhatsApp if backend fails
             window.open(whatsappLink, '_blank');
             onClose();
         } finally {

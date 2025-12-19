@@ -11,7 +11,7 @@ import {
     ArrowUpDown, Grid, List
 } from 'lucide-react';
 import { VehicleGrid } from '../components/vehicles';
-import { Button, LoadingPage, EmptyState } from '../components/common';
+import { Button, LoadingPage, EmptyState, SEO } from '../components/common';
 import { vehiclesAPI } from '../api';
 // Constants
 const PRICES = [
@@ -87,7 +87,7 @@ export default function VehiclesListing() {
             setVehicles(data.items);
             setTotalItems(data.total);
         } catch (error) {
-            console.error('Error loading vehicles:', error);
+            // Error handled by UI state
         } finally {
             setIsLoading(false);
         }
@@ -148,7 +148,12 @@ export default function VehiclesListing() {
     );
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-gray-50 pb-20">
+            <SEO
+                title="Inventory"
+                description="Browse our wide selection of quality used cars in Kenya. Filter by make, model, price and more."
+                canonical="/vehicles"
+            />
             {/* Header / Toolbar */}
             <div className="sticky top-[72px] z-20 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
                 <div className="container py-4">

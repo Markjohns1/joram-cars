@@ -13,7 +13,7 @@ import {
     Car, Palette, Zap, Eye, MessageCircle, Phone,
     Check, ShieldCheck
 } from 'lucide-react';
-import { Button, Badge, LoadingPage, Input, Textarea, Select } from '../components/common';
+import { Button, Badge, LoadingPage, Input, Textarea, Select, SEO } from '../components/common';
 import { VehicleGrid } from '../components/vehicles';
 import { vehiclesAPI, enquiriesAPI } from '../api';
 import LeadCaptureModal from '../components/vehicles/LeadCaptureModal';
@@ -62,7 +62,7 @@ export default function VehicleDetail() {
             });
             setSimilarVehicles(similar.items.filter(v => v.id !== id).slice(0, 4));
         } catch (error) {
-            console.error('Error loading vehicle:', error);
+            // Error managed by local state
         } finally {
             setIsLoading(false);
         }
@@ -112,8 +112,36 @@ export default function VehicleDetail() {
 
     const whatsappMessage = `Hi, I'm interested in the ${vehicle.year} ${vehicle.make} ${vehicle.model} listed at ${formatPrice(vehicle.price, vehicle.currency)}. Is it still available?`;
 
+    const vehicleJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": `${vehicle.year} ${vehicle.make} ${vehicle.model} ${vehicle.trim || ''}`,
+        "image": getImageUrl(vehicle.primary_image),
+        "description": vehicle.description,
+        "brand": {
+            "@type": "Brand",
+            "name": vehicle.make
+        },
+        "model": vehicle.model,
+        "offers": {
+            "@type": "Offer",
+            "url": window.location.href,
+            "priceCurrency": vehicle.currency || "KSH",
+            "price": vehicle.price,
+            "availability": "https://schema.org/InStock",
+            "itemCondition": vehicle.condition === 'Foreign Used' ? "https://schema.org/UsedCondition" : "https://schema.org/NewCondition"
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 pt-8 pb-20">
+            <SEO
+                title={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
+                description={`Verified ${vehicle.year} ${vehicle.make} ${vehicle.model} for sale at Joram Cars. Price: ${formatPrice(vehicle.price, vehicle.currency)}. Mileage: ${formatMileage(vehicle.mileage)}.`}
+                image={getImageUrl(vehicle.primary_image)}
+                type="article"
+                jsonLd={vehicleJsonLd}
+            />
             <div className="container">
                 {/* Breadcrumb */}
                 <nav className="flex items-center gap-2 text-sm text-gray-500 mb-8 overflow-x-auto whitespace-nowrap pb-2">

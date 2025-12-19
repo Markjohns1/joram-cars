@@ -12,7 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Search, ArrowRight, Star, ShieldCheck, Zap, Car, Filter } from 'lucide-react';
 import { vehiclesAPI } from '../api';
 import { VehicleCard } from '../components/vehicles';
-import { Button, LoadingPage } from '../components/common';
+import { Button, LoadingPage, SEO } from '../components/common';
 import { cn } from '../utils/helpers';
 import { motion } from 'framer-motion';
 
@@ -28,7 +28,7 @@ export default function Home() {
                 const data = await vehiclesAPI.getFeatured(3);
                 setFeaturedVehicles(data);
             } catch (error) {
-                console.error('Failed to load premium home data', error);
+                // Fail silently for premium data
             } finally {
                 setIsLoading(false);
             }
@@ -41,8 +41,6 @@ export default function Home() {
         const query = searchQuery.trim() ? `?search=${encodeURIComponent(searchQuery)}` : '';
         navigate(`/vehicles${query}`);
     };
-
-    if (isLoading) return <LoadingPage />;
 
     return (
         <motion.div

@@ -11,3 +11,4 @@ export { default as Spinner, LoadingPage, LoadingOverlay } from './Spinner';
 export { default as EmptyState } from './EmptyState';
 export { default as ScrollToTop } from './ScrollToTop';
 export { default as ErrorBoundary } from './ErrorBoundary';
+export { default as SEO } from './SEO';

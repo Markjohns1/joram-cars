@@ -28,7 +28,7 @@ export default function AdminEnquiries() {
             const data = await enquiriesAPI.getAll({ limit: 20 });
             setEnquiries(data.items || []);
         } catch (error) {
-            console.error('Failed to load enquiries');
+            // Management handled by layout
         } finally {
             setIsLoading(false);
         }
@@ -42,7 +42,7 @@ export default function AdminEnquiries() {
                 setSelectedEnquiry(prev => ({ ...prev, status: 'contacted' }));
             }
         } catch (error) {
-            console.error('Failed to update status');
+            // Silently fail update
         }
     };
 

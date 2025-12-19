@@ -41,7 +41,7 @@ export default function SellCar() {
                     setCurrentStep(savedStep);
                 }
             } catch (e) {
-                console.error("Error parsing saved draft", e);
+                // Silently ignore draft parsing errors
             }
         }
     }, []);
@@ -83,7 +83,6 @@ export default function SellCar() {
             alert('Request submitted efficiently! We will contact you shortly.');
             navigate('/');
         } catch (error) {
-            console.error('Submission failed', error);
             alert('Failed to submit. Please try again.');
         } finally {
             setIsSubmitting(false);

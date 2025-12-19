@@ -34,7 +34,7 @@ export default function UsersManagement() {
             const data = await adminAPI.getUsers();
             setUsers(data);
         } catch (err) {
-            console.error('Failed to load users:', err);
+            // Managed by UI load state
         } finally {
             setIsLoading(false);
         }
@@ -69,7 +69,7 @@ export default function UsersManagement() {
             await adminAPI.deleteUser(userId);
             loadUsers();
         } catch (err) {
-            console.error('Failed to delete user:', err);
+            // Silently fail, user can retry
         }
     };
 

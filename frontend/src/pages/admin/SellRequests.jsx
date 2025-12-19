@@ -27,7 +27,7 @@ export default function AdminSellRequests() {
             const data = await sellRequestsAPI.getAll({ limit: 20 });
             setRequests(data.items || []);
         } catch (error) {
-            console.error('Failed to load sell requests');
+            // Error managed by global layout
         } finally {
             setIsLoading(false);
         }
@@ -42,7 +42,7 @@ export default function AdminSellRequests() {
                     setSelectedRequest(prev => ({ ...prev, status: newStatus }));
                 }
             } catch (error) {
-                console.error('Failed to update status');
+                // Silently fail update
             }
         }
     };

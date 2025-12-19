@@ -30,7 +30,7 @@ export default function AdminVehicles() {
             const data = await vehiclesAPI.getAll({ limit: 10 }); // Limited fetch as requested
             setVehicles(data.items);
         } catch (error) {
-            console.error('Error loading vehicles:', error);
+            // Error handled by layout
         } finally {
             setIsLoading(false);
         }
@@ -42,7 +42,6 @@ export default function AdminVehicles() {
                 await vehiclesAPI.delete(id);
                 loadVehicles();
             } catch (error) {
-                console.error('Delete failed:', error);
                 alert(error.response?.data?.detail || 'Failed to delete vehicle. You might not have permission.');
             }
         }

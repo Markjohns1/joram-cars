@@ -95,7 +95,7 @@ export default function Dashboard() {
                 inventory_value: 52400000
             });
         } catch (error) {
-            console.error('Error loading stats:', error);
+            // Silent error for dashboard stats
         } finally {
             setIsLoading(false);
         }
