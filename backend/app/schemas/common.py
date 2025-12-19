@@ -37,3 +37,4 @@ class DashboardStats(BaseModel):
     vehicles_available: int
     vehicles_sold: int
     featured_vehicles: int
+    total_views: int

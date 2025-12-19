@@ -7,7 +7,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context';
 import { Layout } from './components/layout';
-import { LoadingPage, ScrollToTop } from './components/common';
+import { LoadingPage, ScrollToTop, ErrorBoundary } from './components/common';
 
 // Public Pages
 import {
@@ -29,6 +29,8 @@ const AdminVehicles = lazy(() => import('./pages/admin/Vehicles'));
 const AdminVehicleForm = lazy(() => import('./pages/admin/VehicleForm'));
 const AdminEnquiries = lazy(() => import('./pages/admin/Enquiries'));
 const AdminSellRequests = lazy(() => import('./pages/admin/SellRequests'));
+const AdminProfile = lazy(() => import('./pages/admin/Profile'));
+const AdminUsers = lazy(() => import('./pages/admin/Users'));
 
 // Protected Route Component
 function ProtectedRoute({ children }) {
@@ -76,13 +78,16 @@ function AppRoutes() {
         </AdminLayout>
       } />
 
-      <Route path="/admin" element={
+      <Route path="/admin/dashboard" element={
         <ProtectedRoute>
           <AdminLayout>
             <AdminDashboard />
           </AdminLayout>
         </ProtectedRoute>
       } />
+
+      {/* Redirect /admin to /admin/dashboard */}
+      <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
 
       <Route path="/admin/vehicles" element={
         <ProtectedRoute>
@@ -124,6 +129,30 @@ function AppRoutes() {
         </ProtectedRoute>
       } />
 
+      <Route path="/admin/profile" element={
+        <ProtectedRoute>
+          <AdminLayout>
+            <AdminProfile />
+          </AdminLayout>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/admin/users" element={
+        <ProtectedRoute>
+          <AdminLayout>
+            <AdminUsers />
+          </AdminLayout>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/admin/users/new" element={
+        <ProtectedRoute>
+          <AdminLayout>
+            <AdminUsers />
+          </AdminLayout>
+        </ProtectedRoute>
+      } />
+
       {/* 404 */}
       <Route path="*" element={
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -143,7 +172,9 @@ export default function App() {
     <BrowserRouter>
       <ScrollToTop />
       <AuthProvider>
-        <AppRoutes />
+        <ErrorBoundary>
+          <AppRoutes />
+        </ErrorBoundary>
       </AuthProvider>
     </BrowserRouter>
   );

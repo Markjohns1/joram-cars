@@ -9,6 +9,7 @@ from app.services.enquiry_service import EnquiryService
 from app.services.sell_request_service import SellRequestService
 from app.services.auth_service import AuthService
 from app.services.image_service import ImageService
+from app.services.lead_service import LeadService
 
 __all__ = [
     "VehicleService",
@@ -16,4 +17,5 @@ __all__ = [
     "SellRequestService",
     "AuthService",
     "ImageService",
+    "LeadService",
 ]

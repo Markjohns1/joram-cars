@@ -255,9 +255,9 @@ def seed_vehicles():
                 vehicle = Vehicle(**vehicle_data)
                 db.add(vehicle)
             db.commit()
-            print(f"✅ Seeded {len(vehicles_data)} vehicles")
+            print(f"Seeded {len(vehicles_data)} vehicles")
         else:
-            print(f"ℹ️ Database already has {existing_count} vehicles, skipping seed")
+            print(f"Database already has {existing_count} vehicles, skipping seed")
     finally:
         db.close()
 

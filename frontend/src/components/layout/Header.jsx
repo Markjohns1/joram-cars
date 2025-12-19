@@ -12,10 +12,15 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, Car } from 'lucide-react';
 import { cn } from '../../utils/helpers';
 import { Button } from '../common';
+import AuthModal from '../auth/AuthModal';
+import { useAuth } from '../../context/AuthContext';
+import { LogOut, User as UserIcon } from 'lucide-react';
 
 export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+    const { user, isAuthenticated, logout, isAdmin, isStaff } = useAuth();
     const location = useLocation();
 
     useEffect(() => {
@@ -30,6 +35,7 @@ export default function Header() {
 
     const navLinks = [
         { path: '/', label: 'Home' },
+        ...(isStaff ? [{ path: '/admin/dashboard', label: 'Dashboard' }] : []),
         { path: '/vehicles', label: 'Inventory' },
         { path: '/sell-car', label: 'Sell' },
         { path: '/about', label: 'Our Story' },
@@ -59,14 +65,16 @@ export default function Header() {
                     </Link>
 
                     {/* Desktop Navigation */}
-                    <nav className="hidden lg:flex items-center gap-8">
+                    <nav className="hidden lg:flex items-center gap-2">
                         {navLinks.map(link => (
                             <Link
                                 key={link.path}
                                 to={link.path}
                                 className={cn(
-                                    "text-sm font-bold tracking-tight py-1 transition-all duration-200",
-                                    location.pathname === link.path ? "text-brand-primary" : "text-slate-600 hover:text-slate-950"
+                                    "text-sm font-bold tracking-tight px-4 py-2 rounded-full transition-all duration-200",
+                                    location.pathname === link.path
+                                        ? "bg-blue-50 text-blue-600"
+                                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                                 )}
                             >
                                 {link.label}
@@ -80,6 +88,27 @@ export default function Header() {
                             <Phone size={14} />
                             <span>+254 716 770 077</span>
                         </a>
+
+                        {/* User Auth */}
+                        {isAuthenticated ? (
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={logout}
+                                    className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 hover:bg-slate-200 transition-colors"
+                                    title="Logout"
+                                >
+                                    <LogOut size={18} />
+                                </button>
+                            </div>
+                        ) : (
+                            <button
+                                onClick={() => setIsAuthModalOpen(true)}
+                                className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-700 hover:bg-slate-200 transition-colors"
+                                title="Login / Register"
+                            >
+                                <UserIcon size={18} />
+                            </button>
+                        )}
 
                         <Link to="/sell-car" className="hidden sm:block">
                             <Button className="btn-premium btn-premium-primary text-xs h-10 px-5">
@@ -97,19 +126,25 @@ export default function Header() {
                 </div>
             </header>
 
+            <AuthModal
+                isOpen={isAuthModalOpen}
+                onClose={() => setIsAuthModalOpen(false)}
+            />
             {/* Mobile Menu Overlay */}
             <div className={cn(
                 "fixed inset-0 bg-white z-[90] transition-all duration-300 md:hidden flex flex-col",
                 isMobileMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
             )}>
-                <div className="pt-24 px-6 space-y-2">
+                <div className="pt-24 px-6 space-y-2 overflow-y-auto h-full pb-32">
                     {navLinks.map((link) => (
                         <Link
                             key={link.path}
                             to={link.path}
                             className={cn(
                                 "block py-4 text-2xl font-bold border-b border-slate-50",
-                                location.pathname === link.path ? "text-brand-primary" : "text-slate-900"
+                                link.path === '/admin/dashboard'
+                                    ? "text-blue-600 font-black"
+                                    : (location.pathname === link.path ? "text-brand-primary" : "text-slate-900")
                             )}
                         >
                             {link.label}

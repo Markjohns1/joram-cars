@@ -67,7 +67,7 @@ export default function AdminLogin() {
                     animate={{ opacity: 1, y: 0 }}
                     className="w-full max-w-md"
                 >
-                    <div className="bg-white p-8 md:p-10 rounded-3xl shadow-2xl border border-gray-100">
+                    <div className="bg-white p-8 md:p-10 border border-slate-200 shadow-lg rounded-[5px]">
                         <div className="text-center mb-8">
                             <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign In</h2>
                             <p className="text-gray-500">Welcome back! Please enter your details.</p>
@@ -83,7 +83,7 @@ export default function AdminLogin() {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="Enter your email"
-                                        className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium text-gray-900 placeholder:text-gray-400"
+                                        className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-slate-200 rounded-[5px] focus:bg-white focus:border-slate-400 focus:ring-2 focus:ring-slate-400/5 outline-none transition-all font-medium text-gray-900 placeholder:text-gray-400"
                                         required
                                     />
                                 </div>
@@ -98,7 +98,7 @@ export default function AdminLogin() {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="Enter your password"
-                                        className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all font-medium text-gray-900 placeholder:text-gray-400"
+                                        className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-slate-200 rounded-[5px] focus:bg-white focus:border-slate-400 focus:ring-2 focus:ring-slate-400/5 outline-none transition-all font-medium text-gray-900 placeholder:text-gray-400"
                                         required
                                     />
                                 </div>

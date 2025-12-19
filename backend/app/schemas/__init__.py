@@ -21,7 +21,7 @@ from app.schemas.sell_request import (
 )
 from app.schemas.user import (
     UserBase, UserCreate, UserUpdate, UserResponse,
-    LoginRequest, TokenResponse, TokenData, UserRole
+    LoginRequest, TokenResponse, TokenData, UserRole, UserProfileUpdate
 )
 from app.schemas.brand import (
     BrandBase, BrandCreate, BrandUpdate, BrandResponse, BrandListResponse
@@ -45,7 +45,7 @@ __all__ = [
     "SellRequestImageResponse", "ServiceType", "SellRequestStatus",
     # User
     "UserBase", "UserCreate", "UserUpdate", "UserResponse",
-    "LoginRequest", "TokenResponse", "TokenData", "UserRole",
+    "LoginRequest", "TokenResponse", "TokenData", "UserRole", "UserProfileUpdate",
     # Brand
     "BrandBase", "BrandCreate", "BrandUpdate", "BrandResponse", "BrandListResponse",
     # Common

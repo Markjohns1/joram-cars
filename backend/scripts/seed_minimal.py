@@ -17,14 +17,14 @@ def seed_minimal():
     db = SessionLocal()
     try:
         # 1. Wipe existing vehicles
-        print("🧹 Wiping existing vehicles...")
+        print("Wiping existing vehicles...")
         # Delete images first due to FK constraint
         db.query(VehicleImage).delete()
         db.query(Vehicle).delete()
         db.commit()
         
         # 2. Add 3 High-Quality Examples
-        print("🌱 Seeding 3 premium vehicles...")
+        print("Seeding 3 premium vehicles...")
         
         vehicles = [
             {
@@ -105,10 +105,10 @@ def seed_minimal():
             db.add(image)
         
         db.commit()
-        print("✅ Successfully seeded 3 vehicles.")
+        print("Successfully seeded 3 vehicles.")
         
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"Error: {e}")
         db.rollback()
     finally:
         db.close()

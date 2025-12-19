@@ -28,11 +28,11 @@ class Settings(BaseSettings):
     allowed_extensions: str = "jpg,jpeg,png,webp"
     
     # CORS
-    cors_origins: str = "http://localhost:5173,http://localhost:3000"
+    cors_origins: str = "http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173,http://127.0.0.1:3000"
     
     # Admin Default
-    admin_email: str = "admin@joramcars.co.ke"
-    admin_password: str = "changeme123"
+    admin_email: str = "carseller@gmail.com"
+    admin_password: str = "carseller2025"
     
     @property
     def allowed_extensions_list(self) -> List[str]:

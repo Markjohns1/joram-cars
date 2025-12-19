@@ -54,12 +54,13 @@ export default function Contact() {
     return (
         <div className="min-h-screen">
             {/* Hero */}
-            <section className="bg-gradient-hero text-white py-16">
+            {/* Hero */}
+            <section className="bg-slate-50 py-12 border-b border-gray-200">
                 <div className="container text-center">
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-4xl lg:text-5xl font-bold mb-4"
+                        className="mb-4"
                     >
                         Contact Us
                     </motion.h1>
@@ -67,7 +68,7 @@ export default function Contact() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="text-xl text-white/80 max-w-2xl mx-auto"
+                        className="text-lg text-slate-600 max-w-2xl mx-auto"
                     >
                         Have questions? We'd love to hear from you. Reach out to us anytime.
                     </motion.p>
@@ -116,7 +117,7 @@ export default function Contact() {
                                 href={getWhatsAppLink('Hi, I have a question about Joram Cars.')}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="btn btn-whatsapp w-full"
+                                className="btn-premium btn-premium-whatsapp w-full flex items-center justify-center gap-2"
                             >
                                 <MessageCircle size={20} />
                                 Chat on WhatsApp

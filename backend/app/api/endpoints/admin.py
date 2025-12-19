@@ -52,6 +52,10 @@ def get_dashboard_stats(
     total_enquiries = db.query(Enquiry).count()
     total_sell_requests = db.query(SellRequest).count()
     
+    # Calculate total views from vehicles
+    from sqlalchemy import func
+    total_views = db.query(func.sum(Vehicle.views_count)).scalar() or 0
+    
     return DashboardStats(
         total_vehicles=total_vehicles,
         total_enquiries=total_enquiries,
@@ -60,7 +64,8 @@ def get_dashboard_stats(
         pending_sell_requests=pending_sell_requests,
         vehicles_available=vehicles_available,
         vehicles_sold=vehicles_sold,
-        featured_vehicles=featured_vehicles
+        featured_vehicles=featured_vehicles,
+        total_views=total_views
     )
 
 
@@ -487,6 +492,15 @@ def create_user(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="User with this email or username already exists"
         )
+    
+    # Enforce Max 2 Admins
+    if data.role == "admin":
+        admin_count = db.query(User).filter(User.role == "admin").count()
+        if admin_count >= 2:
+             raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Maximum number of admins (2) reached. You cannot create more admins."
+            )
     
     user = AuthService.create_user(db, data)
     return user

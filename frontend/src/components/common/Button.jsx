@@ -16,18 +16,18 @@ export default function Button({
     ...props
 }) {
     const variants = {
-        primary: 'btn-primary',
-        secondary: 'btn-secondary',
-        accent: 'btn-accent',
-        whatsapp: 'btn-whatsapp',
+        primary: 'btn-premium-primary',
+        secondary: 'btn-premium-outline',
+        accent: 'btn-premium-primary', // Fallback
+        whatsapp: 'btn-premium-whatsapp',
         danger: 'bg-red-500 text-white hover:bg-red-600',
-        ghost: 'bg-transparent hover:bg-gray-100 text-gray-700',
+        ghost: 'bg-transparent hover:bg-gray-100 text-slate-700',
     };
 
     const sizes = {
-        sm: 'btn-sm',
-        md: '',
-        lg: 'btn-lg',
+        sm: 'h-9 px-4 text-sm',
+        md: 'h-12 px-6 text-base',
+        lg: 'h-14 px-8 text-lg',
     };
 
     return (
@@ -35,7 +35,7 @@ export default function Button({
             type={type}
             disabled={disabled || isLoading}
             className={cn(
-                'btn',
+                'btn-premium',
                 variants[variant],
                 sizes[size],
                 className

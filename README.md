@@ -69,20 +69,20 @@ npm run dev
 ## Features
 
 ### Public Website
-- ✅ Home page with hero, featured vehicles, search
-- ✅ Vehicle listing with filters (make, body type, price, etc.)
-- ✅ Vehicle detail page with gallery and enquiry form
-- ✅ Sell your car multi-step form
-- ✅ About, Contact, FAQ pages
-- ✅ Newsletter subscription
-- ✅ WhatsApp integration
+- [x] Home page with hero, featured vehicles, search
+- [x] Vehicle listing with filters (make, body type, price, etc.)
+- [x] Vehicle detail page with gallery and enquiry form
+- [x] Sell your car multi-step form
+- [x] About, Contact, FAQ pages
+- [x] Newsletter subscription
+- [x] WhatsApp integration
 
 ### Admin Dashboard
-- ✅ Dashboard with statistics
-- ✅ Vehicle management (CRUD + images)
-- ✅ Enquiries management
-- ✅ Sell requests management with valuation
-- ✅ JWT authentication
+- [x] Dashboard with statistics
+- [x] Vehicle management (CRUD + images)
+- [x] Enquiries management
+- [x] Sell requests management with valuation
+- [x] JWT authentication
 
 ## Tech Stack
 

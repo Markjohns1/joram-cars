@@ -11,6 +11,7 @@ from app.api.endpoints.brands import router as brands_router
 from app.api.endpoints.auth import router as auth_router
 from app.api.endpoints.admin import router as admin_router
 from app.api.endpoints.public import router as public_router
+from app.api.endpoints.leads import router as leads_router
 
 __all__ = [
     "vehicles_router",

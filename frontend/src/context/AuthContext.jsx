@@ -58,14 +58,16 @@ export function AuthProvider({ children }) {
     // Check if user is authenticated
     const isAuthenticated = !!user;
 
-    // Check if user is admin
-    const isAdmin = user?.role === 'admin';
+    // Check if user is admin or staff
+    const isAdmin = user?.role?.toLowerCase() === 'admin';
+    const isStaff = user?.role?.toLowerCase() === 'staff' || isAdmin;
 
     const value = {
         user,
         isLoading,
         isAuthenticated,
         isAdmin,
+        isStaff,
         login,
         logout,
     };

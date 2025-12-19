@@ -26,6 +26,7 @@ class Vehicle(Base, TimestampMixin):
     make = Column(String(100), nullable=False, index=True)
     model = Column(String(100), nullable=False, index=True)
     year = Column(Integer, nullable=False, index=True)
+    trim = Column(String(50), nullable=True, index=True) # e.g. "TX-L", "V8"
     
     # Pricing
     price = Column(Float, nullable=False, index=True)

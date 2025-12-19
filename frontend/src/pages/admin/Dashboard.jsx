@@ -9,20 +9,22 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
     Car, MessageSquare, FileText, ArrowUpRight,
-    TrendingUp, Eye, DollarSign
+    TrendingUp, Eye, DollarSign, UserPlus
 } from 'lucide-react';
 import { AdminLayout } from './components';
+
+import { Button } from '../../components/common';
 import { adminAPI } from '../../api';
 import { useAuth } from '../../context';
 
 function StatCard({ title, value, icon: Icon, color, trend, link }) {
     return (
         <motion.div
-            whileHover={{ y: -5 }}
-            className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 relative overflow-hidden group"
+            whileHover={{ y: -2 }}
+            className="bg-white p-6 border border-slate-200 rounded-[5px] relative overflow-hidden group shadow-sm"
         >
-            <div className={`absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity text-${color}-500`}>
-                <Icon size={80} />
+            <div className={`absolute top-6 right-6 opacity-[0.02] group-hover:opacity-10 transition-all duration-500 text-${color}-600 group-hover:scale-110`}>
+                <Icon size={64} />
             </div>
 
             <div className={`relative z-10`}>
@@ -52,7 +54,7 @@ function QuickAction({ title, icon: Icon, onClick, color }) {
     return (
         <button
             onClick={onClick}
-            className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 shadow-sm hover:shadow-md hover:border-primary/20 transition-all text-left group"
+            className="flex items-center gap-4 p-4 bg-white border border-slate-200 rounded-[5px] hover:bg-slate-50 transition-all text-left group shadow-sm"
         >
             <div className={`w-12 h-12 rounded-full bg-${color}-50 flex items-center justify-center text-${color}-600 group-hover:scale-110 transition-transform`}>
                 <Icon size={24} />
@@ -101,6 +103,16 @@ export default function Dashboard() {
 
     return (
         <AdminLayout title="System Overview">
+            <div className="flex justify-end mb-6">
+                <Link to="/admin/users/new">
+                    <Button
+                        className="btn-premium btn-premium-primary whitespace-nowrap"
+                    >
+                        <UserPlus size={18} className="mr-2" />
+                        Add New User
+                    </Button>
+                </Link>
+            </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <StatCard
                     title="Active Fleet"
@@ -111,7 +123,7 @@ export default function Dashboard() {
                 />
                 <StatCard
                     title="Traffic Volume"
-                    value={stats.total_views.toLocaleString()}
+                    value={(stats?.total_views || 0).toLocaleString()}
                     icon={Eye}
                     trend="8.5%"
                 />
@@ -134,8 +146,8 @@ export default function Dashboard() {
                 <div className="lg:col-span-2 space-y-6">
                     {isAdmin && (
                         <div className="grid md:grid-cols-2 gap-6">
-                            <div className="bg-slate-900 rounded-2xl p-6 text-white overflow-hidden relative group">
-                                <TrendingUp className="absolute -bottom-4 -right-4 w-32 h-32 opacity-10 group-hover:scale-110 transition-transform" />
+                            <div className="bg-slate-900 p-6 text-white overflow-hidden relative group border border-slate-800 rounded-[5px]">
+                                <TrendingUp className="absolute -bottom-4 -right-4 w-32 h-32 opacity-[0.02] group-hover:scale-110 transition-transform" />
                                 <h4 className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-4">Lead Conversion</h4>
                                 <div className="flex items-end gap-2 mb-2">
                                     <span className="text-3xl font-black">{stats.conversion_rate}%</span>
@@ -143,8 +155,8 @@ export default function Dashboard() {
                                 </div>
                                 <p className="text-slate-400 text-xs leading-relaxed">System performance based on View-to-Enquiry ratio.</p>
                             </div>
-                            <div className="bg-white border border-slate-100 rounded-2xl p-6 overflow-hidden relative group">
-                                <DollarSign className="absolute -bottom-4 -right-4 w-32 h-32 text-slate-50 group-hover:scale-110 transition-transform" />
+                            <div className="bg-white border border-slate-200 p-6 overflow-hidden relative group rounded-[5px] shadow-sm">
+                                <DollarSign className="absolute -bottom-4 -right-4 w-32 h-32 text-slate-500 opacity-[0.02] group-hover:scale-110 transition-transform" />
                                 <h4 className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-4">Inventory Value (Est.)</h4>
                                 <div className="flex items-end gap-2 mb-2">
                                     <span className="text-3xl font-black text-slate-900">KSh {stats.inventory_value.toLocaleString()}</span>
@@ -154,7 +166,7 @@ export default function Dashboard() {
                         </div>
                     )}
 
-                    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+                    <div className="bg-white border border-black p-6">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-sm font-bold text-slate-900 uppercase tracking-widest">Growth Performance</h2>
                             <select className="text-[10px] font-bold uppercase tracking-widest border-slate-200 rounded-lg p-2 bg-slate-50">
@@ -174,7 +186,7 @@ export default function Dashboard() {
 
                 {/* Quick Actions */}
                 <div className="space-y-6">
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+                    <div className="bg-white border border-slate-200 p-6 rounded-[5px] shadow-sm">
                         <h2 className="text-lg font-bold text-gray-900 mb-4">Quick Actions</h2>
                         <div className="flex flex-col gap-3">
                             <Link to="/admin/vehicles/new">

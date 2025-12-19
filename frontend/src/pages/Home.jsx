@@ -8,16 +8,19 @@
  */
 
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, ArrowRight, Star, ShieldCheck, Zap, Car, Filter } from 'lucide-react';
 import { vehiclesAPI } from '../api';
 import { VehicleCard } from '../components/vehicles';
 import { Button, LoadingPage } from '../components/common';
+import { cn } from '../utils/helpers';
 import { motion } from 'framer-motion';
 
 export default function Home() {
+    const navigate = useNavigate();
     const [featuredVehicles, setFeaturedVehicles] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,13 +36,19 @@ export default function Home() {
         fetchData();
     }, []);
 
+    const handleSearch = () => {
+        // If query is empty, just go to all vehicles
+        const query = searchQuery.trim() ? `?search=${encodeURIComponent(searchQuery)}` : '';
+        navigate(`/vehicles${query}`);
+    };
+
     if (isLoading) return <LoadingPage />;
 
     return (
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex flex-col gap-12 md:gap-24 pb-24"
+            className="flex flex-col gap-12 md:gap-24 pb-24 w-full overflow-x-hidden"
         >
             {/* 1. Immersive Hero Section */}
             <section className="relative min-h-[85vh] flex items-center pt-20 pb-12 overflow-hidden">
@@ -79,18 +88,24 @@ export default function Home() {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.4 }}
-                            className="bg-white p-2 rounded-2xl md:rounded-full flex flex-col md:flex-row items-center gap-2 shadow-2xl border border-white/10"
+                            className="flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-0 md:bg-white md:p-1 md:rounded-[5px] md:shadow-2xl"
                         >
-                            <div className="flex flex-1 items-center px-4 w-full h-12">
-                                <Search className="text-slate-400 mr-2" size={20} />
+                            <div className="flex flex-1 items-center px-6 h-16 bg-white rounded-[5px] shadow-xl md:shadow-none md:bg-transparent md:h-auto md:px-4 border-2 border-transparent focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/20 transition-all duration-300">
+                                <Search className="text-slate-400 mr-4" size={24} />
                                 <input
                                     type="text"
                                     placeholder="Search Model..."
-                                    className="bg-transparent border-none focus:ring-0 flex-1 text-slate-900 placeholder:text-slate-400 font-bold text-sm md:text-base p-0"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                                    className="bg-transparent border-none outline-none focus:ring-0 flex-1 text-slate-900 placeholder:text-slate-400 font-bold text-lg p-0 h-full w-full"
                                 />
                             </div>
-                            <Button className="w-full md:w-auto btn-premium btn-premium-primary h-12 px-8 text-sm md:text-base whitespace-nowrap">
-                                Discover Now
+                            <Button
+                                onClick={handleSearch}
+                                className="w-full md:w-auto btn-premium btn-premium-primary h-16 px-8 text-base font-bold uppercase tracking-widest rounded-[5px] shadow-xl md:shadow-none md:rounded-[3px]"
+                            >
+                                Discover
                             </Button>
                         </motion.div>
                     </div>
@@ -98,28 +113,43 @@ export default function Home() {
             </section>
 
             {/* 2. Premium Grid Categories */}
-            <section className="container-premium">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            {/* 2. Premium Grid Categories */}
+            <section className="container-premium relative">
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-6">
                     <div>
                         <h2 className="text-4xl font-black tracking-tighter text-slate-900 mb-2">COLLECTIONS</h2>
                         <p className="text-slate-500 font-bold text-sm uppercase tracking-widest">Hand-picked by our automotive experts</p>
                     </div>
-                    <div className="flex gap-4">
+                    {/* PC Tabs */}
+                    <div className="hidden md:flex gap-4">
                         {['SUV', 'Sedan', 'Luxury', 'Performance'].map(type => (
-                            <button key={type} className="px-6 py-3 rounded-2xl bg-slate-50 text-slate-900 font-bold text-sm hover:bg-slate-900 hover:text-white transition-all">
+                            <button
+                                key={type}
+                                onClick={() => navigate(`/vehicles?body_type=${type}`)}
+                                className="px-6 py-3 rounded-xl bg-slate-50 text-slate-900 font-bold text-sm hover:bg-slate-900 hover:text-white transition-all"
+                            >
                                 {type}
                             </button>
                         ))}
                     </div>
+                    {/* Mobile Scroll Hint */}
+                    <div className="md:hidden flex items-center gap-2 text-brand-primary animate-pulse">
+                        <span className="text-xs font-bold uppercase tracking-widest">Swipe</span>
+                        <ArrowRight size={16} />
+                    </div>
                 </div>
 
-                <div className="flex overflow-x-auto gap-6 hide-scrollbar pb-4 -mx-6 px-6">
+                <div className="flex overflow-x-auto gap-4 md:gap-6 hide-scrollbar pb-8 -mx-4 px-4 md:mx-0 md:px-0 snap-x">
                     {/* Horizontal Categories */}
-                    {['Toyota', 'BMW', 'Mercedes', 'Mazda'].map(brand => (
-                        <div key={brand} className="flex-shrink-0 w-48 group cursor-pointer">
-                            <div className="aspect-square bg-slate-50 rounded-[40px] flex items-center justify-center border border-slate-100 group-hover:bg-[var(--brand-primary)] group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-500 shadow-sm group-hover:shadow-2xl group-hover:shadow-blue-200">
-                                <Car size={48} className="text-slate-200 group-hover:text-white/20 transition-colors" />
-                                <span className="absolute text-slate-900 font-black tracking-tighter group-hover:text-white transition-colors uppercase">{brand}</span>
+                    {['Toyota', 'Subaru', 'Mazda', 'Nissan', 'Honda'].map(brand => (
+                        <div
+                            key={brand}
+                            onClick={() => navigate(`/vehicles?make=${brand}`)}
+                            className="flex-shrink-0 w-[75vw] md:w-56 group cursor-pointer snap-center"
+                        >
+                            <div className="aspect-square bg-white rounded-xl flex flex-col items-center justify-center gap-4 border border-slate-100 group-hover:bg-[var(--brand-primary)] group-hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-xl">
+                                <Car size={48} className="text-slate-300 group-hover:text-white transition-colors" />
+                                <span className="text-slate-900 font-black text-2xl tracking-tighter group-hover:text-white transition-colors uppercase">{brand}</span>
                             </div>
                         </div>
                     ))}
@@ -131,9 +161,6 @@ export default function Home() {
                 <div className="container-premium">
                     <div className="flex items-center justify-between mb-10">
                         <h2 className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 uppercase">The Showroom</h2>
-                        <Link to="/vehicles" className="flex items-center gap-2 text-brand-primary font-bold uppercase tracking-widest text-xs group">
-                            Explore All <ArrowRight className="group-hover:translate-x-1 transition-transform" size={16} />
-                        </Link>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -141,12 +168,21 @@ export default function Home() {
                             <VehicleCard key={vehicle.id} vehicle={vehicle} />
                         ))}
                     </div>
+
+                    {/* Browse More CTA */}
+                    <div className="mt-16 flex justify-center">
+                        <Link to="/vehicles">
+                            <button className="bg-blue-600 text-white h-16 px-12 rounded-[5px] font-bold text-base uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl w-full md:w-auto min-w-[200px]">
+                                Browse Full Inventory
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </section>
 
             {/* 4. The Joram Standard */}
             <section className="container-premium py-10">
-                <div className="bg-slate-950 rounded-[48px] p-10 md:p-24 relative overflow-hidden flex flex-col md:flex-row items-center gap-16">
+                <div className="bg-slate-950 rounded-[5px] p-10 md:p-24 relative overflow-hidden flex flex-col md:flex-row items-center gap-16 shadow-2xl">
                     <div className="absolute top-0 right-0 p-4 opacity-5">
                         <Car size={300} className="text-white" />
                     </div>
@@ -176,15 +212,15 @@ export default function Home() {
 
             {/* 5. Sell CTA */}
             <section className="container-premium">
-                <div className="relative group cursor-pointer overflow-hidden rounded-[48px]">
-                    <div className="absolute inset-0 bg-[var(--brand-primary)] group-hover:bg-[#0052cc] transition-colors duration-500" />
-                    <div className="relative z-10 p-12 md:p-24 flex flex-col md:flex-row items-center justify-between gap-10">
+                <div className="relative group cursor-pointer overflow-hidden rounded-[5px] shadow-lg">
+                    <div className="absolute inset-0 bg-blue-600 group-hover:bg-blue-700 transition-colors duration-500" />
+                    <div className="relative z-10 p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-8">
                         <div className="text-center md:text-left">
-                            <h2 className="text-white text-4xl md:text-6xl font-black tracking-tighter mb-4">SELL YOUR VEHICLE.</h2>
-                            <p className="text-blue-100 text-lg font-bold">Get a world-class valuation in under 10 minutes.</p>
+                            <h2 className="text-white text-3xl md:text-5xl font-black tracking-tighter mb-4">SELL YOUR VEHICLE.</h2>
+                            <p className="text-blue-100 text-base md:text-lg font-bold">Get a world-class valuation in under 10 minutes.</p>
                         </div>
                         <Link to="/sell-car">
-                            <button className="bg-white text-slate-900 h-20 px-12 rounded-full font-black text-xl hover:scale-105 transition-transform shadow-2xl">
+                            <button className="bg-white text-blue-900 h-16 px-10 rounded-[5px] font-black text-lg hover:bg-slate-50 transition-colors shadow-xl">
                                 START APPRAISAL
                             </button>
                         </Link>

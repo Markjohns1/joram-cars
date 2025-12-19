@@ -42,6 +42,43 @@ export const vehiclesAPI = {
         const response = await api.get(`/vehicles/models/${make}`);
         return response.data;
     },
+
+    // Create a new vehicle
+    create: async (data) => {
+        const response = await api.post('/admin/vehicles', data);
+        return response.data;
+    },
+
+    // Update an existing vehicle
+    update: async (id, data) => {
+        const response = await api.put(`/admin/vehicles/${id}`, data);
+        return response.data;
+    },
+
+    // Delete a vehicle
+    delete: async (id) => {
+        const response = await api.delete(`/admin/vehicles/${id}`);
+        return response.data;
+    },
+
+    // Upload vehicle images
+    uploadImage: async (id, file, options = {}) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        if (options.is_primary) formData.append('is_primary', 'true');
+
+        const response = await api.post(`/admin/vehicles/${id}/upload-image`, formData, {
+            params: { is_primary: options.is_primary || false },
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        return response.data;
+    },
+
+    // Delete a vehicle image
+    deleteImage: async (imageId) => {
+        const response = await api.delete(`/admin/vehicles/images/${imageId}`);
+        return response.data;
+    }
 };
 
 export default vehiclesAPI;

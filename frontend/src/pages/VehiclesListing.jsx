@@ -128,14 +128,14 @@ export default function VehiclesListing() {
     );
 
     const CheckboxFilter = ({ label, checked, onChange }) => (
-        <label className="flex items-center gap-3 cursor-pointer group">
+        <label className="flex items-center gap-3 cursor-pointer group select-none">
             <div className={`w-5 h-5 rounded border flex items-center justify-center transition-all ${checked
-                    ? 'bg-primary border-primary text-white'
-                    : 'bg-white border-gray-300 group-hover:border-primary'
+                ? 'bg-blue-600 border-blue-600 text-white'
+                : 'bg-white border-gray-300 group-hover:border-blue-500'
                 }`}>
                 {checked && <Check size={12} strokeWidth={3} />}
             </div>
-            <span className={`text-sm ${checked ? 'text-gray-900 font-medium' : 'text-gray-600'}`}>
+            <span className={`text-sm ${checked ? 'text-gray-900 font-bold' : 'text-gray-600 group-hover:text-gray-900'}`}>
                 {label}
             </span>
             <input
@@ -225,16 +225,16 @@ export default function VehiclesListing() {
 
                             <FilterSection title="Price Range">
                                 {PRICES.map((price) => (
-                                    <label key={price.value} className="flex items-center gap-3 cursor-pointer group py-1">
-                                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${filters.price_range === price.value
-                                                ? 'border-primary'
-                                                : 'border-gray-300 group-hover:border-primary'
+                                    <label key={price.value} className="flex items-center gap-3 cursor-pointer group py-1 select-none">
+                                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all ${filters.price_range === price.value
+                                            ? 'border-blue-600 ring-2 ring-blue-100'
+                                            : 'border-gray-300 group-hover:border-blue-500'
                                             }`}>
                                             {filters.price_range === price.value && (
-                                                <div className="w-2 h-2 rounded-full bg-primary" />
+                                                <div className="w-2.5 h-2.5 rounded-full bg-blue-600" />
                                             )}
                                         </div>
-                                        <span className={`text-sm ${filters.price_range === price.value ? 'text-gray-900 font-medium' : 'text-gray-600'}`}>
+                                        <span className={`text-sm ${filters.price_range === price.value ? 'text-gray-900 font-bold' : 'text-gray-600 group-hover:text-gray-900'}`}>
                                             {price.label}
                                         </span>
                                         <input

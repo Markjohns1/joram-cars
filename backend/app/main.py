@@ -20,7 +20,8 @@ from app.api.endpoints import (
     brands_router,
     auth_router,
     admin_router,
-    public_router
+    public_router,
+    leads_router
 )
 
 settings = get_settings()
@@ -33,20 +34,27 @@ def create_default_admin():
     
     db = SessionLocal()
     try:
-        # Check if admin exists
-        admin = db.query(User).filter(User.email == settings.admin_email).first()
+        # Check if admin exists by email OR username
+        admin = db.query(User).filter(
+            (User.email == settings.admin_email) | (User.username == "John")
+        ).first()
+        
         if not admin:
             admin = User(
-                username="admin",
+                username="John",
                 email=settings.admin_email,
                 hashed_password=get_password_hash(settings.admin_password),
-                full_name="System Administrator",
+                full_name="John (Admin)",
                 role="admin",
                 is_active=True
             )
             db.add(admin)
             db.commit()
-            print(f"✅ Default admin created: {settings.admin_email}")
+            print(f"Default admin created: {settings.admin_email}")
+        else:
+            # Optionally update the existing admin to match settings if needed
+            # For now, just print that it exists to avoid IntegrityErrors
+            print(f"Admin user already exists (Username: {admin.username}, Email: {admin.email})")
     finally:
         db.close()
 
@@ -82,7 +90,7 @@ def seed_brands():
                 brand = Brand(**brand_data, is_active=True)
                 db.add(brand)
             db.commit()
-            print(f"✅ Seeded {len(brands_data)} brands")
+            print(f"Seeded {len(brands_data)} brands")
     finally:
         db.close()
 
@@ -91,7 +99,7 @@ def seed_brands():
 async def lifespan(app: FastAPI):
     """Application lifespan events."""
     # Startup
-    print("🚗 Starting Joram Cars API...")
+    print("Starting Joram Cars API...")
     
     # Create uploads directory
     Path(settings.upload_dir).mkdir(parents=True, exist_ok=True)
@@ -101,7 +109,7 @@ async def lifespan(app: FastAPI):
     
     # Initialize database
     init_db()
-    print("✅ Database initialized")
+    print("Database initialized")
     
     # Create default admin
     create_default_admin()
@@ -109,13 +117,13 @@ async def lifespan(app: FastAPI):
     # Seed brands
     seed_brands()
     
-    print("🚀 Joram Cars API ready!")
-    print(f"📖 Docs: http://localhost:8000/docs")
+    print("Joram Cars API ready!")
+    print(f"Docs: http://localhost:8000/docs")
     
     yield
     
     # Shutdown
-    print("👋 Shutting down Joram Cars API")
+    print("Shutting down Joram Cars API")
 
 
 # Create FastAPI app
@@ -151,6 +159,7 @@ app.include_router(brands_router, prefix="/api")
 app.include_router(auth_router, prefix="/api")
 app.include_router(admin_router, prefix="/api")
 app.include_router(public_router, prefix="/api")
+app.include_router(leads_router, prefix="/api")
 
 
 @app.get("/", tags=["Root"])

@@ -18,12 +18,12 @@ export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-[#1a1f36] text-gray-400 pb-24 md:pb-0"> {/* pb-24 for mobile nav clearance */}
+        <footer className="bg-[#1a1f36] text-slate-300 pb-24 md:pb-0"> {/* pb-24 for mobile nav clearance */}
             <div className="container px-6 py-12 mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8 text-center md:text-left">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-10 md:gap-8 text-left">
 
-                    {/* Brand Section */}
-                    <div className="flex flex-col items-center md:items-start space-y-4">
+                    {/* Brand Section - Full width on mobile */}
+                    <div className="col-span-2 md:col-span-1 flex flex-col items-start space-y-4">
                         <Link to="/" className="flex items-center gap-2 group">
                             <div className="w-10 h-10 rounded-xl bg-[#0066ff] flex items-center justify-center text-white shadow-lg shadow-blue-900/50">
                                 <Car size={24} />
@@ -32,25 +32,25 @@ export default function Footer() {
                                 Joram<span className="text-[#0066ff]">Cars</span>
                             </span>
                         </Link>
-                        <p className="text-sm leading-relaxed max-w-xs mx-auto md:mx-0">
+                        <p className="text-sm leading-relaxed max-w-xs text-slate-400">
                             Kenya's most trusted marketplace for verified quality used cars.
                         </p>
                         <div className="flex gap-4 pt-2">
                             {[Facebook, Twitter, Instagram, Youtube].map((Icon, i) => (
-                                <a key={i} href="#" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#0066ff] hover:text-white transition-all text-gray-400">
+                                <a key={i} href="#" className="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#0066ff] hover:text-white transition-all text-slate-400 hover:text-white">
                                     <Icon size={18} />
                                 </a>
                             ))}
                         </div>
                     </div>
 
-                    {/* Quick Access (Mobile: Hidden/Simplified? No, keep it clean) */}
+                    {/* Quick Access */}
                     <div className="space-y-4">
                         <h4 className="text-white font-semibold tracking-wide uppercase text-xs">Quick Links</h4>
-                        <ul className="space-y-3">
+                        <ul className="space-y-2">
                             {NAV_LINKS.map(link => (
                                 <li key={link.path}>
-                                    <Link to={link.path} className="hover:text-[#0066ff] transition-colors flex items-center justify-center md:justify-start gap-1">
+                                    <Link to={link.path} className="text-slate-300 hover:text-white transition-colors flex items-center gap-1 text-sm">
                                         {link.label}
                                     </Link>
                                 </li>
@@ -58,35 +58,35 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Contact (Center on mobile) */}
-                    <div className="space-y-4">
+                    {/* Contact */}
+                    <div className="space-y-4 col-span-2 md:col-span-1">
                         <h4 className="text-white font-semibold tracking-wide uppercase text-xs">Contact Us</h4>
-                        <ul className="space-y-4 text-sm">
-                            <li className="flex flex-col md:flex-row items-center md:items-start gap-2">
-                                <Phone size={16} className="text-[#0066ff]" />
-                                <a href={`tel:${CONTACT_INFO.phone}`} className="hover:text-white font-medium">{CONTACT_INFO.phone}</a>
+                        <ul className="space-y-3 text-sm">
+                            <li className="flex items-start gap-3">
+                                <Phone size={16} className="text-[#0066ff] mt-1 shrink-0" />
+                                <a href={`tel:${CONTACT_INFO.phone}`} className="text-slate-300 hover:text-white font-medium">{CONTACT_INFO.phone}</a>
                             </li>
-                            <li className="flex flex-col md:flex-row items-center md:items-start gap-2">
-                                <Mail size={16} className="text-[#0066ff]" />
-                                <a href={`mailto:${CONTACT_INFO.email}`} className="hover:text-white">{CONTACT_INFO.email}</a>
+                            <li className="flex items-start gap-3">
+                                <Mail size={16} className="text-[#0066ff] mt-1 shrink-0" />
+                                <a href={`mailto:${CONTACT_INFO.email}`} className="text-slate-300 hover:text-white break-all">{CONTACT_INFO.email}</a>
                             </li>
-                            <li className="flex flex-col md:flex-row items-center md:items-start gap-2">
-                                <MapPin size={16} className="text-[#0066ff]" />
-                                <span>{CONTACT_INFO.city}, {CONTACT_INFO.country}</span>
+                            <li className="flex items-start gap-3">
+                                <MapPin size={16} className="text-[#0066ff] mt-1 shrink-0" />
+                                <span className="text-slate-300">{CONTACT_INFO.city}, {CONTACT_INFO.country}</span>
                             </li>
-                            <li className="flex flex-col md:flex-row items-center md:items-start gap-2">
-                                <Clock size={16} className="text-[#0066ff]" />
-                                <span>Mon - Sat: 8:00 AM - 6:00 PM</span>
+                            <li className="flex items-start gap-3">
+                                <Clock size={16} className="text-[#0066ff] mt-1 shrink-0" />
+                                <span className="text-slate-300">Mon - Sat: 8:00 AM - 6:00 PM</span>
                             </li>
                         </ul>
                     </div>
                 </div>
 
-                <div className="mt-12 pt-8 border-t border-gray-800 text-sm text-center md:flex md:justify-between items-center text-gray-600">
+                <div className="mt-12 pt-8 border-t border-gray-800 text-sm text-center md:flex md:justify-between items-center text-slate-500">
                     <p>© {currentYear} Joram Cars. All rights reserved.</p>
                     <div className="flex justify-center gap-6 mt-4 md:mt-0">
-                        <Link to="/privacy" className="hover:text-gray-400">Privacy</Link>
-                        <Link to="/terms" className="hover:text-gray-400">Terms</Link>
+                        <Link to="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+                        <Link to="/terms" className="hover:text-white transition-colors">Terms</Link>
                     </div>
                 </div>
             </div>

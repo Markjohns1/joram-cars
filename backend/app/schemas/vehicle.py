@@ -83,6 +83,7 @@ class VehicleBase(BaseModel):
     make: str = Field(..., min_length=1, max_length=100)
     model: str = Field(..., min_length=1, max_length=100)
     year: int = Field(..., ge=1900, le=2030)
+    trim: Optional[str] = Field(None, max_length=50)
     price: float = Field(..., gt=0)
     currency: CurrencyType = CurrencyType.KSH
     
@@ -112,6 +113,7 @@ class VehicleUpdate(BaseModel):
     make: Optional[str] = Field(None, min_length=1, max_length=100)
     model: Optional[str] = Field(None, min_length=1, max_length=100)
     year: Optional[int] = Field(None, ge=1900, le=2030)
+    trim: Optional[str] = Field(None, max_length=50)
     price: Optional[float] = Field(None, gt=0)
     currency: Optional[CurrencyType] = None
     

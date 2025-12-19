@@ -16,6 +16,7 @@ import {
 import { Button, Badge, LoadingPage, Input, Textarea, Select } from '../components/common';
 import { VehicleGrid } from '../components/vehicles';
 import { vehiclesAPI, enquiriesAPI } from '../api';
+import LeadCaptureModal from '../components/vehicles/LeadCaptureModal';
 import {
     formatPrice, formatMileage, formatDate,
     getStatusLabel, getStatusColor, getImageUrl, getWhatsAppLink
@@ -29,6 +30,7 @@ export default function VehicleDetail() {
     const [isLoading, setIsLoading] = useState(true);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [showEnquiryForm, setShowEnquiryForm] = useState(false);
+    const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
 
     // Form state
     const [formData, setFormData] = useState({
@@ -189,12 +191,12 @@ export default function VehicleDetail() {
                                 {formatPrice(vehicle.price, vehicle.currency)}
                             </p>
                             <div className="flex flex-col gap-3">
-                                <a
-                                    href={getWhatsAppLink(whatsappMessage)}
-                                    className="btn btn-whatsapp w-full"
+                                <button
+                                    onClick={() => setIsLeadModalOpen(true)}
+                                    className="btn-premium btn-premium-whatsapp w-full flex items-center justify-center gap-2"
                                 >
                                     <MessageCircle size={20} /> WhatsApp
-                                </a>
+                                </button>
                                 <Button
                                     onClick={() => setShowEnquiryForm(!showEnquiryForm)}
                                     className="w-full"
@@ -273,19 +275,17 @@ export default function VehicleDetail() {
                                 </div>
 
                                 <div className="space-y-3">
-                                    <a
-                                        href={getWhatsAppLink(whatsappMessage)}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="btn btn-whatsapp w-full btn-lg shadow-green-200"
+                                    <button
+                                        onClick={() => setIsLeadModalOpen(true)}
+                                        className="btn-premium btn-premium-whatsapp w-full h-14 text-lg shadow-green-200 flex items-center justify-center gap-2"
                                     >
                                         <MessageCircle size={20} />
                                         Chat on WhatsApp
-                                    </a>
+                                    </button>
 
                                     <a
                                         href={`tel:${CONTACT_INFO.phone}`}
-                                        className="btn btn-outline w-full border-gray-200 text-gray-700 hover:bg-gray-50 hover:text-primary hover:border-primary"
+                                        className="btn-premium btn-premium-outline w-full h-14 text-lg border-gray-200 text-slate-700 hover:bg-gray-50 hover:text-blue-600 hover:border-blue-600 flex items-center justify-center gap-2"
                                     >
                                         <Phone size={20} />
                                         Call {CONTACT_INFO.phone}
@@ -293,7 +293,8 @@ export default function VehicleDetail() {
 
                                     <Button
                                         onClick={() => setShowEnquiryForm(!showEnquiryForm)}
-                                        className="w-full btn-lg"
+                                        size="lg"
+                                        className="w-full"
                                     >
                                         Send Enquiry
                                     </Button>
@@ -368,6 +369,14 @@ export default function VehicleDetail() {
                         <VehicleGrid vehicles={similarVehicles} />
                     </section>
                 )}
+
+
+                <LeadCaptureModal
+                    isOpen={isLeadModalOpen}
+                    onClose={() => setIsLeadModalOpen(false)}
+                    vehicle={vehicle}
+                    whatsappLink={getWhatsAppLink(whatsappMessage)}
+                />
             </div>
         </div>
     );

@@ -10,3 +10,4 @@ export { brandsAPI } from './brands';
 export { authAPI } from './auth';
 export { adminAPI } from './admin';
 export { publicAPI } from './public';
+export { leadsAPI } from './leads';
