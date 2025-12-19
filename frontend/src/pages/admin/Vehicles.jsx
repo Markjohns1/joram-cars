@@ -69,7 +69,6 @@ export default function AdminVehicles() {
                 setSelectedIds([]);
                 loadVehicles();
             } catch (error) {
-                console.error('Bulk delete failed:', error);
                 alert('Some vehicles could not be deleted. Check your permissions.');
                 loadVehicles(); // Refresh to show current state
             }
