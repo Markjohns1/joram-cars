@@ -28,7 +28,7 @@ export default function VehicleCard({ vehicle }) {
             <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                 <Link to={`/vehicles/${vehicle.id}`}>
                     <LazyLoadImage
-                        src={vehicle.primary_image ? getImageUrl(vehicle.primary_image) : '/placeholder-car.jpg'}
+                        src={vehicle.primary_image ? getImageUrl(vehicle.primary_image) : 'https://images.unsplash.com/photo-1489824904134-891ab64558e1?auto=format&fit=crop&q=80'}
                         alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
                         effect="blur"
                         wrapperClassName="w-full h-full"

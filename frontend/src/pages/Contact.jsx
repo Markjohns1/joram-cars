@@ -24,6 +24,13 @@ export default function Contact() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Strict validation
+        if (!formData.customer_name.trim() || !formData.customer_email.trim() || !formData.message.trim()) {
+            setError('Please fill in all required fields.');
+            return;
+        }
+
         setIsSubmitting(true);
         setError('');
 

@@ -62,6 +62,12 @@ export default function SellCar() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+
+        // Validation: Prevent negative values
+        if (['price', 'mileage', 'year'].includes(name)) {
+            if (value < 0) return; // Block negative numbers
+        }
+
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
@@ -76,6 +82,12 @@ export default function SellCar() {
     };
 
     const handleSubmit = async () => {
+        // Final Validation
+        if (!formData.make || !formData.model || !formData.year || !formData.mileage || !formData.user_name || !formData.user_phone) {
+            alert("Please complete all required fields before submitting.");
+            return;
+        }
+
         setIsSubmitting(true);
         try {
             await sellRequestsAPI.create(formData);
@@ -145,16 +157,43 @@ export default function SellCar() {
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-bold text-gray-700 mb-1">Year *</label>
-                                    <input name="year" type="number" value={formData.year} onChange={handleChange} className="input" placeholder="2018" />
+                                    <input
+                                        name="year"
+                                        type="number"
+                                        min="0"
+                                        value={formData.year}
+                                        onChange={handleChange}
+                                        onKeyDown={(e) => ['-', '+', 'e', 'E'].includes(e.key) && e.preventDefault()}
+                                        className="input"
+                                        placeholder="2018"
+                                    />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-bold text-gray-700 mb-1">Mileage (km) *</label>
-                                    <input name="mileage" type="number" value={formData.mileage} onChange={handleChange} className="input" placeholder="78000" />
+                                    <input
+                                        name="mileage"
+                                        type="number"
+                                        min="0"
+                                        value={formData.mileage}
+                                        onChange={handleChange}
+                                        onKeyDown={(e) => ['-', '+', 'e', 'E'].includes(e.key) && e.preventDefault()}
+                                        className="input"
+                                        placeholder="78000"
+                                    />
                                 </div>
                             </div>
                             <div>
                                 <label className="block text-sm font-bold text-gray-700 mb-1">Asking Price (KSh)</label>
-                                <input name="price" type="number" value={formData.price} onChange={handleChange} className="input" placeholder="1200000" />
+                                <input
+                                    name="price"
+                                    type="number"
+                                    min="0"
+                                    value={formData.price}
+                                    onChange={handleChange}
+                                    onKeyDown={(e) => ['-', '+', 'e', 'E'].includes(e.key) && e.preventDefault()}
+                                    className="input"
+                                    placeholder="1200000"
+                                />
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">

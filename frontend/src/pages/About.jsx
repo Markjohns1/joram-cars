@@ -58,9 +58,14 @@ export default function About() {
                             initial={{ opacity: 0, x: 20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            className="bg-slate-100 rounded-2xl aspect-video flex items-center justify-center"
+                            className="relative h-full min-h-[300px] rounded-2xl overflow-hidden shadow-2xl"
                         >
-                            <Car size={80} className="text-slate-300" />
+                            <img
+                                src="https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80"
+                                alt="Premium Family Car at Joram Cars"
+                                className="absolute inset-0 w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent" />
                         </motion.div>
                     </div>
                 </div>

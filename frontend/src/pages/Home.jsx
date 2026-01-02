@@ -100,8 +100,8 @@ export default function Home() {
     }, []);
 
     const handleSearch = () => {
-        // If query is empty, just go to all vehicles
-        const query = searchQuery.trim() ? `?search=${encodeURIComponent(searchQuery)}` : '';
+        if (!searchQuery.trim()) return; // Block empty search
+        const query = `?search=${encodeURIComponent(searchQuery.trim())}`;
         navigate(`/vehicles${query}`);
     };
 
@@ -303,20 +303,33 @@ export default function Home() {
                     </section>
 
                     {/* 3. Featured Showcase */}
-                    <section className="bg-slate-50 py-10 md:py-16">
+                    {/* 3. Featured Showcase - Compact Layout */}
+                    <section className="bg-slate-50 py-8 md:py-10">
                         <div className="container-premium">
-                            <div className="flex items-center justify-between mb-10">
+                            <div className="flex items-center justify-between mb-6">
                                 <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 uppercase">The Showroom</h2>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                {featuredVehicles.map(vehicle => (
-                                    <VehicleCard key={vehicle.id} vehicle={vehicle} />
-                                ))}
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {featuredVehicles.length > 0 ? (
+                                    featuredVehicles.map(vehicle => (
+                                        <VehicleCard key={vehicle.id} vehicle={vehicle} />
+                                    ))
+                                ) : (
+                                    <div className="col-span-1 md:col-span-2 lg:col-span-3 py-8 text-center bg-white rounded-xl border border-dashed border-slate-300">
+                                        <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
+                                            <Car size={24} />
+                                        </div>
+                                        <h3 className="text-lg font-bold text-slate-900 mb-1">New Collections Arriving Soon</h3>
+                                        <p className="text-slate-500 text-sm max-w-sm mx-auto">
+                                            We are currently curating our next selection. Check back shortly.
+                                        </p>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Browse More CTA */}
-                            <div className="mt-16 flex justify-center">
+                            <div className="mt-8 flex justify-center">
                                 <Link to="/vehicles">
                                     <button className="bg-blue-600 text-white h-12 px-8 rounded-[5px] font-bold text-sm uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl w-full md:w-auto min-w-[180px] active:scale-95">
                                         Browse Full Inventory
