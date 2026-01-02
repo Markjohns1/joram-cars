@@ -9,10 +9,9 @@
 import { Link } from 'react-router-dom';
 import {
     Phone, Mail, MapPin, Clock,
-    Facebook, Twitter, Instagram, Youtube,
-    Car, ChevronRight
+    Facebook, Twitter, Instagram, Youtube
 } from 'lucide-react';
-import { SOCIAL_LINKS, NAV_LINKS, CONTACT_INFO } from '../../utils/constants';
+import { NAV_LINKS, CONTACT_INFO } from '../../utils/constants';
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
@@ -24,20 +23,12 @@ export default function Footer() {
 
                     {/* Brand Section - Full width on mobile */}
                     <div className="col-span-2 md:col-span-1 flex flex-col items-start space-y-4">
-                        <Link to="/" className="flex items-center gap-4 group">
+                        <Link to="/" className="flex items-center group">
                             <img
                                 src="/brand/logo.png"
                                 alt="Joram Cars"
-                                className="h-10 md:h-12 w-auto object-contain brightness-0 invert opacity-80 group-hover:opacity-100 transition-all"
+                                className="h-16 md:h-20 w-auto object-contain opacity-90 group-hover:opacity-100 transition-all"
                             />
-                            <div className="flex flex-col justify-center leading-none">
-                                <span className="text-xl font-black tracking-tighter text-white leading-[0.9]">
-                                    JORAM
-                                </span>
-                                <span className="text-xl font-black tracking-tighter text-blue-500 leading-[0.9]">
-                                    CARS
-                                </span>
-                            </div>
                         </Link>
                         <p className="text-sm leading-relaxed max-w-xs text-slate-400">
                             Kenya's most trusted marketplace for verified quality used cars.
@@ -97,6 +88,6 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-        </footer >
+        </footer>
     );
 }

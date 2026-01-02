@@ -55,20 +55,12 @@ export default function Header() {
                 <div className="container-premium flex items-center justify-between h-16 md:h-20">
 
                     {/* Brand Signature */}
-                    <Link to="/" className="flex items-center gap-3 md:gap-4 group">
+                    <Link to="/" className="flex items-center group">
                         <img
                             src="/brand/logo.png"
                             alt="Joram Cars"
-                            className="h-12 md:h-16 w-auto object-contain transition-all group-hover:scale-105"
+                            className="h-16 md:h-24 lg:h-28 w-auto object-contain transition-all group-hover:scale-105"
                         />
-                        <div className="flex flex-col justify-center leading-none">
-                            <span className="text-xl md:text-2xl font-black tracking-tighter text-slate-900 leading-[0.9]">
-                                JORAM
-                            </span>
-                            <span className="text-xl md:text-2xl font-black tracking-tighter text-blue-600 leading-[0.9]">
-                                CARS
-                            </span>
-                        </div>
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -168,7 +160,7 @@ export default function Header() {
             </div>
 
             {/* SPACER - CRITICAL TO PREVENT OVERLAP */}
-            <div className="h-[76px] md:h-[84px] lg:h-[88px]" />
+            <div className="h-[100px] md:h-[120px] lg:h-[140px]" />
         </>
     );
 }
