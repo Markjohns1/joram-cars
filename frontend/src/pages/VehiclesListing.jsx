@@ -318,20 +318,90 @@ export default function VehiclesListing() {
                     {showMobileFilters && (
                         <div className="fixed inset-0 z-50 lg:hidden">
                             <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowMobileFilters(false)} />
-                            <div className="absolute inset-y-0 right-0 w-full max-w-xs bg-white shadow-2xl p-6 overflow-y-auto">
-                                <div className="flex items-center justify-between mb-6">
+                            <div className="absolute inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl overflow-y-auto">
+                                <div className="sticky top-0 bg-white border-b border-gray-100 p-4 flex items-center justify-between z-10">
                                     <h2 className="text-xl font-bold">Filters</h2>
-                                    <button onClick={() => setShowMobileFilters(false)}>
+                                    <button onClick={() => setShowMobileFilters(false)} className="p-2 hover:bg-gray-100 rounded-full">
                                         <X size={24} />
                                     </button>
                                 </div>
-                                {/* Re-use filter sections here specifically for mobile if needed, or extract component */}
-                                <div className="space-y-6">
-                                    {/* ... (Mobile filter implementation same as desktop) ... */}
-                                    <p className="text-sm text-gray-500">Filter options...</p>
+
+                                <div className="p-6 space-y-6">
+                                    {/* Search */}
+                                    <div>
+                                        <div className="relative">
+                                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                                            <input
+                                                type="text"
+                                                placeholder="Search keyword..."
+                                                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none transition-all text-sm"
+                                                value={filters.search}
+                                                onChange={(e) => updateFilter('search', e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* Price Range */}
+                                    <FilterSection title="Price Range">
+                                        {PRICES.map((price) => (
+                                            <label key={price.value} className="flex items-center gap-3 cursor-pointer group py-2 select-none">
+                                                <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all ${filters.price_range === price.value
+                                                    ? 'border-blue-600 ring-2 ring-blue-100'
+                                                    : 'border-gray-300 group-hover:border-blue-500'
+                                                    }`}>
+                                                    {filters.price_range === price.value && (
+                                                        <div className="w-2.5 h-2.5 rounded-full bg-blue-600" />
+                                                    )}
+                                                </div>
+                                                <span className={`text-sm ${filters.price_range === price.value ? 'text-gray-900 font-bold' : 'text-gray-600 group-hover:text-gray-900'}`}>
+                                                    {price.label}
+                                                </span>
+                                                <input
+                                                    type="radio"
+                                                    className="hidden"
+                                                    name="mobile_price_range"
+                                                    checked={filters.price_range === price.value}
+                                                    onChange={() => updateFilter('price_range', price.value)}
+                                                />
+                                            </label>
+                                        ))}
+                                    </FilterSection>
+
+                                    {/* Make */}
+                                    <FilterSection title="Make">
+                                        {MAKES.map((make) => (
+                                            <CheckboxFilter
+                                                key={make}
+                                                label={make}
+                                                checked={filters.make === make}
+                                                onChange={() => updateFilter('make', filters.make === make ? '' : make)}
+                                            />
+                                        ))}
+                                    </FilterSection>
+
+                                    {/* Body Type */}
+                                    <FilterSection title="Body Type">
+                                        {BODY_TYPES.map((type) => (
+                                            <CheckboxFilter
+                                                key={type}
+                                                label={type}
+                                                checked={filters.body_type === type}
+                                                onChange={() => updateFilter('body_type', filters.body_type === type ? '' : type)}
+                                            />
+                                        ))}
+                                    </FilterSection>
                                 </div>
-                                <div className="mt-8 pt-6 border-t border-gray-100">
-                                    <Button onClick={() => setShowMobileFilters(false)} className="w-full">
+
+                                <div className="sticky bottom-0 bg-white border-t border-gray-100 p-4 space-y-3">
+                                    {(filters.make || filters.body_type || filters.price_range || filters.search) && (
+                                        <button
+                                            onClick={clearFilters}
+                                            className="w-full py-2 text-sm text-red-500 hover:text-red-600 font-medium"
+                                        >
+                                            Reset All Filters
+                                        </button>
+                                    )}
+                                    <Button onClick={() => setShowMobileFilters(false)} className="w-full h-12">
                                         Show {totalItems} Vehicles
                                     </Button>
                                 </div>

@@ -25,7 +25,7 @@ export default function Footer() {
                     <div className="col-span-2 md:col-span-1 flex flex-col items-start space-y-4">
                         <Link to="/" className="flex items-center group">
                             <img
-                                src="/brand/logo.png"
+                                src="/brand/master-logo.png"
                                 alt="Joram Cars"
                                 className="h-16 md:h-20 w-auto object-contain opacity-90 group-hover:opacity-100 transition-all"
                             />

@@ -54,32 +54,34 @@ export default function Header() {
             >
                 <div className="container-premium flex items-center justify-between h-16 md:h-20">
 
-                    {/* Brand Signature */}
-                    <Link to="/" className="flex items-center group">
-                        <img
-                            src="/brand/logo.png"
-                            alt="Joram Cars"
-                            className="h-16 md:h-24 lg:h-28 w-auto object-contain transition-all group-hover:scale-105"
-                        />
-                    </Link>
+                    {/* Brand + Nav Group */}
+                    <div className="flex items-center gap-8 lg:gap-10">
+                        <Link to="/" className="flex items-center group shrink-0">
+                            <img
+                                src="/brand/master-logo.png"
+                                alt="Joram Cars"
+                                className="h-14 md:h-16 lg:h-20 w-auto object-contain transition-all group-hover:scale-105"
+                            />
+                        </Link>
 
-                    {/* Desktop Navigation */}
-                    <nav className="hidden lg:flex items-center gap-2">
-                        {navLinks.map(link => (
-                            <Link
-                                key={link.path}
-                                to={link.path}
-                                className={cn(
-                                    "text-sm font-bold tracking-tight px-4 py-2 rounded-full transition-all duration-200",
-                                    location.pathname === link.path
-                                        ? "bg-blue-50 text-blue-600"
-                                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-                                )}
-                            >
-                                {link.label}
-                            </Link>
-                        ))}
-                    </nav>
+                        {/* Desktop Navigation */}
+                        <nav className="hidden lg:flex items-center gap-1">
+                            {navLinks.map(link => (
+                                <Link
+                                    key={link.path}
+                                    to={link.path}
+                                    className={cn(
+                                        "text-sm font-extrabold tracking-tight px-4 py-2 rounded-full transition-all duration-200",
+                                        location.pathname === link.path
+                                            ? "bg-blue-50 text-blue-600"
+                                            : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                                    )}
+                                >
+                                    {link.label}
+                                </Link>
+                            ))}
+                        </nav>
+                    </div>
 
                     {/* Actions */}
                     <div className="flex items-center gap-4">
@@ -129,18 +131,26 @@ export default function Header() {
                 isOpen={isAuthModalOpen}
                 onClose={() => setIsAuthModalOpen(false)}
             />
+            {/* Mobile Menu Backdrop - Click to Close */}
+            {isMobileMenuOpen && (
+                <div
+                    className="fixed inset-0 bg-black/20 z-[85] md:hidden"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                />
+            )}
+
             {/* Mobile Menu Overlay */}
             <div className={cn(
                 "fixed inset-0 bg-white z-[90] transition-all duration-300 md:hidden flex flex-col",
                 isMobileMenuOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full pointer-events-none"
             )}>
-                <div className="pt-24 px-6 space-y-2 overflow-y-auto h-full pb-32">
+                <div className="pt-24 px-6 space-y-1 overflow-y-auto flex-1 pb-32">
                     {navLinks.map((link) => (
                         <Link
                             key={link.path}
                             to={link.path}
                             className={cn(
-                                "block py-4 text-2xl font-bold border-b border-slate-50",
+                                "block py-4 text-2xl font-bold",
                                 link.path === '/admin/dashboard'
                                     ? "text-blue-600 font-black"
                                     : (location.pathname === link.path ? "text-brand-primary" : "text-slate-900")
@@ -160,7 +170,7 @@ export default function Header() {
             </div>
 
             {/* SPACER - CRITICAL TO PREVENT OVERLAP */}
-            <div className="h-[100px] md:h-[120px] lg:h-[140px]" />
+            <div className="h-[80px] md:h-[90px] lg:h-[100px]" />
         </>
     );
 }

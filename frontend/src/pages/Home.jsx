@@ -7,7 +7,7 @@
  * - Premium cards with soft-depth
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, ArrowRight, Star, ShieldCheck, Zap, Car, Filter } from 'lucide-react';
 import { vehiclesAPI } from '../api';
@@ -21,6 +21,44 @@ export default function Home() {
     const [featuredVehicles, setFeaturedVehicles] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
+    const brandsCarouselRef = useRef(null);
+    const brands = ['Toyota', 'Subaru', 'Mazda', 'Nissan', 'Honda'];
+
+    // Auto-scroll carousel on mobile (2s interval, infinite loop)
+    useEffect(() => {
+        // Small delay to ensure the DOM is fully rendered
+        const timer = setTimeout(() => {
+            const carousel = brandsCarouselRef.current;
+            if (!carousel) return;
+
+            // Only run on mobile (screen width < 768px)
+            if (window.innerWidth >= 768) return;
+
+            let currentIndex = 0;
+            const totalCards = brands.length;
+
+            const interval = setInterval(() => {
+                currentIndex++;
+                if (currentIndex >= totalCards) {
+                    // Reset to beginning for infinite loop
+                    currentIndex = 0;
+                }
+                const cardWidth = carousel.scrollWidth / totalCards;
+                carousel.scrollTo({ left: cardWidth * currentIndex, behavior: 'smooth' });
+            }, 2000);
+
+            // Store interval ID for cleanup
+            carousel._autoScrollInterval = interval;
+        }, 500);
+
+        return () => {
+            clearTimeout(timer);
+            const carousel = brandsCarouselRef.current;
+            if (carousel && carousel._autoScrollInterval) {
+                clearInterval(carousel._autoScrollInterval);
+            }
+        };
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -88,30 +126,31 @@ export default function Home() {
                                     </p>
                                 </motion.div>
 
-                                {/* Sophisticated Search Overlay - Mobile Optimized */}
+                                {/* Premium Search Box - CTA Component */}
                                 <motion.div
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.4 }}
-                                    className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-0 md:bg-white md:p-1.5 md:rounded-[5px] md:shadow-2xl w-full max-w-2xl mx-auto"
+                                    className="w-full max-w-lg"
                                 >
-                                    <div className="flex-[2] flex items-center px-6 h-16 md:h-14 bg-white rounded-[5px] shadow-xl md:shadow-none md:bg-transparent md:px-5 border-none focus-within:ring-0 transition-all duration-300">
-                                        <Search className="text-slate-400 mr-4" size={24} />
+                                    {/* Search Input with Submit Button */}
+                                    <div className="flex items-center h-16 bg-slate-900/80 backdrop-blur-sm rounded-xl border border-slate-700/50 hover:border-slate-600 focus-within:border-blue-500/50 transition-all duration-300 overflow-hidden">
                                         <input
                                             type="text"
-                                            placeholder="Search Model..."
+                                            placeholder="Search vehicles..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                            className="bg-transparent border-none outline-none ring-0 focus:ring-0 focus:outline-none flex-1 text-slate-900 placeholder:text-slate-400 font-bold text-xl md:text-lg p-0 h-full w-full"
+                                            className="bg-transparent border-none outline-none ring-0 focus:ring-0 focus:outline-none flex-1 text-white placeholder:text-slate-500 font-medium text-lg px-6 h-full w-full"
                                         />
+                                        <button
+                                            onClick={handleSearch}
+                                            className="h-full px-6 bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-wider text-sm flex items-center gap-2 transition-colors shrink-0"
+                                        >
+                                            <Search size={20} />
+                                            <span className="hidden sm:inline">Search</span>
+                                        </button>
                                     </div>
-                                    <Button
-                                        onClick={handleSearch}
-                                        className="flex-1 w-full md:w-auto btn-premium btn-premium-primary h-16 md:h-14 px-10 text-lg md:text-base font-black uppercase tracking-widest rounded-[5px] shadow-xl md:shadow-none transition-transform active:scale-95"
-                                    >
-                                        Discover
-                                    </Button>
                                 </motion.div>
                             </div>
                         </div>
@@ -144,9 +183,9 @@ export default function Home() {
                             </div>
                         </div>
 
-                        <div className="flex overflow-x-auto gap-4 md:gap-6 hide-scrollbar pb-8 -mx-4 px-4 md:mx-0 md:px-0 snap-x">
+                        <div ref={brandsCarouselRef} className="flex overflow-x-auto gap-4 md:gap-6 hide-scrollbar pb-8 -mx-4 px-4 md:mx-0 md:px-0 snap-x">
                             {/* Horizontal Categories */}
-                            {['Toyota', 'Subaru', 'Mazda', 'Nissan', 'Honda'].map(brand => (
+                            {brands.map(brand => (
                                 <div
                                     key={brand}
                                     onClick={() => navigate(`/vehicles?make=${brand}`)}
@@ -188,9 +227,6 @@ export default function Home() {
                     {/* 4. The Joram Standard */}
                     <section className="container-premium py-10">
                         <div className="bg-slate-950 rounded-[5px] p-8 md:p-16 relative overflow-hidden flex flex-col md:flex-row items-center gap-12 shadow-2xl">
-                            <div className="absolute top-0 right-0 p-4 opacity-5">
-                                <Car size={300} className="text-white" />
-                            </div>
 
                             <div className="flex-1 relative z-10 text-center md:text-left">
                                 <h2 className="text-white text-4xl md:text-6xl font-black tracking-tighter mb-8 italic">

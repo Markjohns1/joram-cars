@@ -6,7 +6,7 @@
 
 import VehicleCard from './VehicleCard';
 import { EmptyState, LoadingPage } from '../common';
-import { Car } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function VehicleGrid({
@@ -22,7 +22,7 @@ export default function VehicleGrid({
     if (!vehicles || vehicles.length === 0) {
         return (
             <EmptyState
-                icon={Car}
+                icon={Search}
                 title={emptyTitle}
                 description={emptyDescription}
                 action={
