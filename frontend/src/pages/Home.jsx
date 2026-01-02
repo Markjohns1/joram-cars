@@ -53,7 +53,7 @@ export default function Home() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="flex flex-col gap-10 md:gap-20 pb-20 w-full overflow-x-hidden"
+                    className="flex flex-col pb-20 w-full overflow-x-hidden"
                 >
                     {/* 1. Immersive Hero Section */}
                     <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center pt-24 pb-16 overflow-hidden">
