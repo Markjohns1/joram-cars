@@ -4,10 +4,10 @@
  * High-end inventory filtering and display.
  */
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
-    Filter, Search, ChevronDown, Check, X,
+    Filter, Search, ChevronDown, ChevronUp, Check, X,
     ArrowUpDown, Grid, List
 } from 'lucide-react';
 import { VehicleGrid } from '../components/vehicles';
@@ -118,14 +118,34 @@ export default function VehiclesListing() {
     };
 
     // Filter Section Component
-    const FilterSection = ({ title, children }) => (
-        <div className="border-b border-gray-100 py-6 last:border-0">
-            <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wide">{title}</h3>
-            <div className="space-y-2">
-                {children}
+    const FilterSection = ({ title, children, initialCount = 2 }) => {
+        const [isExpanded, setIsExpanded] = useState(false);
+        const childrenArray = React.Children.toArray(children);
+        const hasMore = childrenArray.length > initialCount;
+        const displayedChildren = isExpanded ? childrenArray : childrenArray.slice(0, initialCount);
+
+        return (
+            <div className="border-b border-gray-100 py-6 last:border-0">
+                <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wide flex justify-between items-center cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
+                    {title}
+                    <span className="text-gray-400">
+                        {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    </span>
+                </h3>
+                <div className="space-y-2 transition-all duration-300">
+                    {displayedChildren}
+                </div>
+                {hasMore && !isExpanded && (
+                    <button
+                        onClick={() => setIsExpanded(true)}
+                        className="mt-3 text-sm font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                    >
+                        Show {childrenArray.length - initialCount} more
+                    </button>
+                )}
             </div>
-        </div>
-    );
+        );
+    };
 
     const CheckboxFilter = ({ label, checked, onChange }) => (
         <label className="flex items-center gap-3 cursor-pointer group select-none">

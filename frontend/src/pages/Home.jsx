@@ -14,7 +14,7 @@ import { vehiclesAPI } from '../api';
 import { VehicleCard } from '../components/vehicles';
 import { Button, LoadingPage, SEO } from '../components/common';
 import { cn } from '../utils/helpers';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Home() {
     const navigate = useNavigate();
@@ -22,7 +22,13 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const brandsCarouselRef = useRef(null);
-    const brands = ['Toyota', 'Subaru', 'Mazda', 'Nissan', 'Honda'];
+    const brands = [
+        { name: 'Toyota', image: 'https://images.unsplash.com/photo-1621007947382-bb3c3968e3bb?auto=format&fit=crop&q=80' }, // Land Cruiser
+        { name: 'Subaru', image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&q=80' }, // WRX Blue
+        { name: 'Mazda', image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80' }, // CX-5
+        { name: 'Nissan', image: 'https://images.unsplash.com/photo-1579369617852-221747d42024?auto=format&fit=crop&q=80' }, // GTR
+        { name: 'Honda', image: 'https://images.unsplash.com/photo-1596574381830-4e0821dc8074?auto=format&fit=crop&q=80' }  // Civic
+    ];
 
     // Auto-scroll carousel on mobile (2s interval, infinite loop)
     useEffect(() => {
@@ -40,12 +46,15 @@ export default function Home() {
             const interval = setInterval(() => {
                 currentIndex++;
                 if (currentIndex >= totalCards) {
-                    // Reset to beginning for infinite loop
                     currentIndex = 0;
                 }
-                const cardWidth = carousel.scrollWidth / totalCards;
+
+                // Get accurate card width from first child to handle gaps/margins correctly
+                const firstCard = carousel.children[0];
+                const cardWidth = firstCard ? firstCard.clientWidth + 16 : carousel.scrollWidth / totalCards; // 16px is gap-4
+
                 carousel.scrollTo({ left: cardWidth * currentIndex, behavior: 'smooth' });
-            }, 2000);
+            }, 2500);
 
             // Store interval ID for cleanup
             carousel._autoScrollInterval = interval;
@@ -58,6 +67,22 @@ export default function Home() {
                 clearInterval(carousel._autoScrollInterval);
             }
         };
+    }, []);
+
+    // Desktop Continuous Rotation Logic
+    const [desktopBrands, setDesktopBrands] = useState(brands);
+    useEffect(() => {
+        // Only run on desktop
+        if (window.innerWidth < 768) return;
+
+        const interval = setInterval(() => {
+            setDesktopBrands(prev => {
+                const [first, ...rest] = prev;
+                return [...rest, first];
+            });
+        }, 3000); // Rotate every 3 seconds
+
+        return () => clearInterval(interval);
     }, []);
 
     useEffect(() => {
@@ -83,8 +108,8 @@ export default function Home() {
     return (
         <>
             <SEO
-                title="Home"
-                description="Kenya's Premier Used Car Marketplace. Discover luxury and quality vehicles at the best prices with Joram Cars."
+                title="Premier Luxury & Performance Cars"
+                description="Discover verified luxury and performance cars in Nairobi, Kenya. Joram Cars specializes in direct imports, pristine used vehicles, and seamless car sales. Worldwide inquiries welcome."
                 canonical="/"
             />
             {isLoading ? <LoadingPage /> : (
@@ -100,7 +125,9 @@ export default function Home() {
                             <img
                                 src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80"
                                 className="w-full h-full object-cover opacity-50 mix-blend-overlay"
-                                alt="Background"
+                                alt="Luxury Sports Car in Showroom"
+                                fetchPriority="high"
+                                loading="eager"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent" />
                             <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-transparent to-transparent" />
@@ -183,20 +210,95 @@ export default function Home() {
                             </div>
                         </div>
 
-                        <div ref={brandsCarouselRef} className="flex overflow-x-auto gap-4 md:gap-6 hide-scrollbar pb-8 -mx-4 px-4 md:mx-0 md:px-0 snap-x">
-                            {/* Horizontal Categories */}
+                        {/* Mobile View: Auto-scroll Carousel */}
+                        <div ref={brandsCarouselRef} className="md:hidden flex overflow-x-auto gap-4 hide-scrollbar pb-8 -mx-4 px-4 snap-x">
                             {brands.map(brand => (
                                 <div
-                                    key={brand}
-                                    onClick={() => navigate(`/vehicles?make=${brand}`)}
-                                    className="flex-shrink-0 w-[75vw] md:w-56 group cursor-pointer snap-center"
+                                    key={brand.name}
+                                    onClick={() => navigate(`/vehicles?make=${brand.name}`)}
+                                    className="flex-shrink-0 w-[80vw] mx-auto group cursor-pointer snap-center"
                                 >
-                                    <div className="aspect-square bg-white rounded-xl flex flex-col items-center justify-center gap-4 border border-slate-100 group-hover:bg-[var(--brand-primary)] group-hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-xl">
-                                        <Car size={48} className="text-slate-300 group-hover:text-white transition-colors" />
-                                        <span className="text-slate-900 font-black text-2xl tracking-tighter group-hover:text-white transition-colors uppercase">{brand}</span>
+                                    <div className="aspect-[4/3] rounded-2xl overflow-hidden relative shadow-lg">
+                                        <img
+                                            src={brand.image}
+                                            alt={brand.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 to-transparent" />
+                                        <div className="absolute bottom-0 left-0 right-0 p-5">
+                                            <span className="text-white font-black text-2xl tracking-tighter uppercase">{brand.name}</span>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
+                        </div>
+
+                        {/* Desktop View: Animated Hero Rotator */}
+                        <div className="hidden md:flex items-center gap-8 overflow-hidden py-12 px-2 relative min-h-[300px]">
+                            <AnimatePresence mode='popLayout'>
+                                {desktopBrands.map((brand, index) => (
+                                    <motion.div
+                                        layout
+                                        key={brand.name}
+                                        onClick={() => navigate(`/vehicles?make=${brand.name}`)}
+                                        initial={{ scale: 0.8, opacity: 0 }}
+                                        animate={{
+                                            scale: index === 0 ? 1.15 : 0.9,
+                                            opacity: index === 0 ? 1 : 0.3,
+                                            filter: index === 0 ? 'blur(0px)' : 'blur(2px)',
+                                            x: 0,
+                                        }}
+                                        exit={{ scale: 0.8, opacity: 0, x: -100 }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 350,
+                                            damping: 25,
+                                            layout: { duration: 0.6 }
+                                        }}
+                                        className={`flex-shrink-0 cursor-pointer relative group ${index === 0 ? 'z-20' : 'z-10'}`}
+                                        style={{ width: index === 0 ? '280px' : '220px' }}
+                                    >
+                                        <div className={`
+                                            aspect-square rounded-2xl flex flex-col items-center justify-end overflow-hidden border transition-all duration-500 shadow-2xl relative
+                                            ${index === 0
+                                                ? 'border-blue-500 shadow-blue-500/30'
+                                                : 'border-slate-200'
+                                            }
+                                        `}>
+                                            {/* Brand Image */}
+                                            <div className="absolute inset-0 bg-slate-900">
+                                                <img
+                                                    src={brand.image}
+                                                    alt={brand.name}
+                                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80"
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
+                                            </div>
+
+                                            {/* Text Overlay */}
+                                            <div className="relative z-10 p-6 w-full text-center">
+                                                <span className={`
+                                                    font-black tracking-tighter uppercase transition-colors text-white
+                                                    ${index === 0 ? 'text-4xl' : 'text-2xl opacity-80'}
+                                                `}>
+                                                    {brand.name}
+                                                </span>
+                                            </div>
+
+                                            {/* Active Indicator Label */}
+                                            {index === 0 && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: 10 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    className="absolute top-4 right-4 px-3 py-1 bg-blue-600 rounded-full text-white text-[10px] font-bold uppercase tracking-widest z-20 shadow-lg"
+                                                >
+                                                    View
+                                                </motion.div>
+                                            )}
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </AnimatePresence>
                         </div>
                     </section>
 

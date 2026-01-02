@@ -130,7 +130,9 @@ export default function VehicleDetail() {
             "price": vehicle.price,
             "availability": "https://schema.org/InStock",
             "itemCondition": vehicle.condition === 'Foreign Used' ? "https://schema.org/UsedCondition" : "https://schema.org/NewCondition"
-        }
+        },
+        "sku": vehicle.id,
+        "mpn": vehicle.id
     };
 
     return (
