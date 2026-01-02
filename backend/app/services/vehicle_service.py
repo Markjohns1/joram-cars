@@ -57,13 +57,13 @@ class VehicleService:
         if max_year is not None:
             query = query.filter(Vehicle.year <= max_year)
         if body_type:
-            query = query.filter(Vehicle.body_type == body_type)
+            query = query.filter(Vehicle.body_type.ilike(f"%{body_type}%"))
         if transmission:
             query = query.filter(Vehicle.transmission == transmission)
         if fuel_type:
             query = query.filter(Vehicle.fuel_type == fuel_type)
         if availability_status:
-            query = query.filter(Vehicle.availability_status == availability_status)
+            query = query.filter(Vehicle.availability_status.ilike(f"%{availability_status}%"))
         if location:
             query = query.filter(Vehicle.location.ilike(f"%{location}%"))
         if is_featured is not None:

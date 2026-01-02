@@ -402,25 +402,39 @@ export default function VehiclesListing() {
 
                     {/* Mobile Filters Modal */}
                     {showMobileFilters && (
-                        <div className="fixed inset-0 z-50 lg:hidden">
-                            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setShowMobileFilters(false)} />
-                            <div className="absolute inset-y-0 right-0 w-full max-w-sm bg-white shadow-2xl overflow-y-auto">
-                                <div className="sticky top-0 bg-white border-b border-gray-100 p-4 flex items-center justify-between z-10">
-                                    <h2 className="text-xl font-bold">Filters</h2>
-                                    <button onClick={() => setShowMobileFilters(false)} className="p-2 hover:bg-gray-100 rounded-full">
+                        <div className="fixed inset-0 z-[100] lg:hidden flex justify-end">
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                                onClick={() => setShowMobileFilters(false)}
+                            />
+                            <motion.div
+                                initial={{ x: '100%' }}
+                                animate={{ x: 0 }}
+                                className="relative w-full max-w-sm bg-white h-screen flex flex-col shadow-2xl"
+                            >
+                                {/* Header */}
+                                <div className="p-4 border-b border-gray-100 flex items-center justify-between shrink-0">
+                                    <h2 className="text-xl font-black italic tracking-tighter">FILTERS</h2>
+                                    <button
+                                        onClick={() => setShowMobileFilters(false)}
+                                        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                                    >
                                         <X size={24} />
                                     </button>
                                 </div>
 
-                                <div className="p-6 space-y-6">
+                                {/* Scrollable Content */}
+                                <div className="flex-1 overflow-y-auto p-6 space-y-8 pb-32">
                                     {/* Search */}
                                     <div>
                                         <div className="relative">
-                                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                                             <input
                                                 type="text"
                                                 placeholder="Search keyword..."
-                                                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none transition-all text-sm"
+                                                className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:border-blue-500 outline-none transition-all text-sm font-medium"
                                                 value={localSearch}
                                                 onChange={(e) => setLocalSearch(e.target.value)}
                                             />
@@ -429,69 +443,88 @@ export default function VehiclesListing() {
 
                                     {/* Price Range */}
                                     <FilterSection title="Price Range">
-                                        {PRICES.map((price) => (
-                                            <label key={price.value} className="flex items-center gap-3 cursor-pointer group py-2 select-none">
-                                                <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-all ${filters.price_range === price.value
-                                                    ? 'border-blue-600 ring-2 ring-blue-100'
-                                                    : 'border-gray-300 group-hover:border-blue-500'
-                                                    }`}>
-                                                    {filters.price_range === price.value && (
-                                                        <div className="w-2.5 h-2.5 rounded-full bg-blue-600" />
-                                                    )}
-                                                </div>
-                                                <span className={`text-sm ${filters.price_range === price.value ? 'text-gray-900 font-bold' : 'text-gray-600 group-hover:text-gray-900'}`}>
-                                                    {price.label}
-                                                </span>
-                                                <input
-                                                    type="radio"
-                                                    className="hidden"
-                                                    name="mobile_price_range"
-                                                    checked={filters.price_range === price.value}
-                                                    onChange={() => updateFilter('price_range', price.value)}
-                                                />
-                                            </label>
-                                        ))}
+                                        <div className="space-y-1">
+                                            {PRICES.map((price) => (
+                                                <label key={price.value} className="flex items-center gap-3 cursor-pointer group py-3 select-none">
+                                                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${filters.price_range === price.value
+                                                        ? 'border-blue-600 bg-blue-600'
+                                                        : 'border-gray-200 group-hover:border-blue-400'
+                                                        }`}>
+                                                        {filters.price_range === price.value && (
+                                                            <Check size={14} className="text-white stroke-[3px]" />
+                                                        )}
+                                                    </div>
+                                                    <span className={`text-sm ${filters.price_range === price.value ? 'text-gray-900 font-bold' : 'text-gray-600 group-hover:text-gray-900'}`}>
+                                                        {price.label}
+                                                    </span>
+                                                    <input
+                                                        type="radio"
+                                                        className="hidden"
+                                                        name="mobile_price_range"
+                                                        checked={filters.price_range === price.value}
+                                                        onChange={() => updateFilter('price_range', price.value)}
+                                                    />
+                                                </label>
+                                            ))}
+                                        </div>
                                     </FilterSection>
 
                                     {/* Make */}
                                     <FilterSection title="Make">
-                                        {MAKES.map((make) => (
-                                            <CheckboxFilter
-                                                key={make}
-                                                label={make}
-                                                checked={filters.make === make}
-                                                onChange={() => updateFilter('make', filters.make === make ? '' : make)}
-                                            />
-                                        ))}
+                                        <div className="space-y-1">
+                                            {MAKES.map((make) => (
+                                                <CheckboxFilter
+                                                    key={make}
+                                                    label={make}
+                                                    checked={filters.make === make}
+                                                    onChange={() => updateFilter('make', filters.make === make ? '' : make)}
+                                                />
+                                            ))}
+                                        </div>
                                     </FilterSection>
 
                                     {/* Body Type */}
                                     <FilterSection title="Body Type">
-                                        {BODY_TYPES.map((type) => (
-                                            <CheckboxFilter
-                                                key={type}
-                                                label={type}
-                                                checked={filters.body_type === type}
-                                                onChange={() => updateFilter('body_type', filters.body_type === type ? '' : type)}
-                                            />
-                                        ))}
+                                        <div className="space-y-1">
+                                            {BODY_TYPES.map((type) => (
+                                                <CheckboxFilter
+                                                    key={type}
+                                                    label={type}
+                                                    checked={filters.body_type === type}
+                                                    onChange={() => updateFilter('body_type', filters.body_type === type ? '' : type)}
+                                                />
+                                            ))}
+                                        </div>
                                     </FilterSection>
                                 </div>
 
-                                <div className="sticky bottom-0 bg-white border-t border-gray-100 p-4 space-y-3">
+                                {/* Sticky Footer - Always visible and not cut off */}
+                                <div className="absolute bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-gray-100 space-y-3 z-10 safe-area-bottom">
                                     {(filters.make || filters.body_type || filters.price_range || filters.search) && (
                                         <button
                                             onClick={clearFilters}
-                                            className="w-full py-2 text-sm text-red-500 hover:text-red-600 font-medium"
+                                            className="w-full py-2 text-xs font-bold text-red-500 hover:text-red-600 uppercase tracking-widest"
                                         >
                                             Reset All Filters
                                         </button>
                                     )}
-                                    <Button onClick={() => setShowMobileFilters(false)} className="w-full h-12">
-                                        Show {totalItems} Vehicles
-                                    </Button>
+                                    <div className="flex gap-3">
+                                        <Button
+                                            variant="outline"
+                                            onClick={() => setShowMobileFilters(false)}
+                                            className="flex-1 h-14 text-xs font-black uppercase tracking-widest border-2 hover:bg-gray-50"
+                                        >
+                                            Close
+                                        </Button>
+                                        <Button
+                                            onClick={() => setShowMobileFilters(false)}
+                                            className="flex-[2] h-14 text-xs font-black uppercase tracking-widest shadow-xl shadow-blue-500/20"
+                                        >
+                                            Show {totalItems} Vehicles
+                                        </Button>
+                                    </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         </div>
                     )}
                 </>

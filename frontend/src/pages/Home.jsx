@@ -153,15 +153,9 @@ export default function Home() {
                                     </p>
                                 </motion.div>
 
-                                {/* Premium Search Box - CTA Component */}
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.4 }}
-                                    className="w-full max-w-lg"
-                                >
+                                <div className="flex flex-col sm:flex-row items-center gap-4 mt-8 w-full max-w-lg">
                                     {/* Search Input with Submit Button */}
-                                    <div className="flex items-center h-16 bg-slate-900/80 backdrop-blur-sm rounded-xl border border-slate-700/50 hover:border-slate-600 focus-within:border-blue-500/50 transition-all duration-300 overflow-hidden">
+                                    <div className="flex items-center h-16 bg-slate-900/80 backdrop-blur-sm rounded-xl border border-slate-700/50 hover:border-slate-600 focus-within:border-blue-500/50 transition-all duration-300 overflow-hidden flex-1 w-full">
                                         <input
                                             type="text"
                                             placeholder="Search vehicles..."
@@ -178,7 +172,16 @@ export default function Home() {
                                             <span className="hidden sm:inline">Search</span>
                                         </button>
                                     </div>
-                                </motion.div>
+
+                                    {/* Visit Showroom CTA */}
+                                    <button
+                                        onClick={() => navigate('/vehicles')}
+                                        className="w-full sm:w-auto h-16 px-8 rounded-xl bg-white/10 hover:bg-white text-white hover:text-slate-900 font-black uppercase tracking-widest text-sm transition-all duration-300 border border-white/20 hover:border-white flex items-center justify-center gap-2 group whitespace-nowrap"
+                                    >
+                                        Visit Showroom
+                                        <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </section>
