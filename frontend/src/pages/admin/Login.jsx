@@ -50,8 +50,12 @@ export default function AdminLogin() {
                 />
 
                 <div className="relative z-20 text-center p-12 max-w-lg">
-                    <div className="w-20 h-20 bg-white/10 backdrop-blur-md rounded-3xl flex items-center justify-center mx-auto mb-8 border border-white/20 shadow-2xl">
-                        <Car className="text-white" size={40} />
+                    <div className="mb-8 flex justify-center">
+                        <img
+                            src="/brand/master-logo.png"
+                            alt="Joram Cars"
+                            className="h-24 md:h-28 w-auto object-contain drop-shadow-2xl"
+                        />
                     </div>
                     <h1 className="text-4xl font-bold text-white mb-6">Admin Workspace</h1>
                     <p className="text-blue-100 text-lg leading-relaxed">

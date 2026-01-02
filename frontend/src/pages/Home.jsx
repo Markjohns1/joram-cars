@@ -24,9 +24,9 @@ export default function Home() {
     const brandsCarouselRef = useRef(null);
     const brands = [
         { name: 'Toyota', image: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80' }, // Reliable Land Cruiser
-        { name: 'Subaru', image: 'https://images.unsplash.com/photo-1629897048514-3dd74151e86b?auto=format&fit=crop&q=80' }, // Reliable WRX
+        { name: 'Subaru', image: 'https://images.unsplash.com/photo-1626218174358-77b7f9a46038?auto=format&fit=crop&q=80' }, // Verified WRX STI
         { name: 'Mazda', image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80' }, // Reliable CX-5
-        { name: 'Nissan', image: 'https://images.unsplash.com/photo-1517524008697-5a92a8e48870?auto=format&fit=crop&q=80' }, // Reliable GTR
+        { name: 'Nissan', image: 'https://images.unsplash.com/photo-1605218427306-03fc6e3118fa?auto=format&fit=crop&q=80' }, // Verified GTR Nismo
         { name: 'Honda', image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80' }  // Reliable Civic
     ];
 

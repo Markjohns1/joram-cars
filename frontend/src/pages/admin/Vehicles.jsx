@@ -10,27 +10,49 @@ import { Plus, Search, Filter, MoreVertical, Edit2, Eye, Trash2 } from 'lucide-r
 import { Link } from 'react-router-dom';
 import { AdminLayout } from './components';
 import { Button, Badge, LoadingPage, EmptyState } from '../../components/common';
-import { vehiclesAPI } from '../../api';
+import { vehiclesAPI, adminAPI } from '../../api';
 import { formatPrice, getStatusColor, getStatusLabel, cn } from '../../utils/helpers';
 
 export default function AdminVehicles() {
     const [vehicles, setVehicles] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [search, setSearch] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState('');
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalVehicles, setTotalVehicles] = useState(0);
+    const [limit] = useState(20);
     const [filter, setFilter] = useState('all');
     const [selectedIds, setSelectedIds] = useState([]);
 
     useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(search);
+            setPage(1); // Reset to page 1 on new search
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [search]);
+
+    useEffect(() => {
         loadVehicles();
-    }, []);
+    }, [debouncedSearch, page]);
 
     const loadVehicles = async () => {
         setIsLoading(true);
         try {
-            const data = await vehiclesAPI.getAll({ limit: 10 }); // Limited fetch as requested
+            const params = {
+                page,
+                limit,
+                search: debouncedSearch || undefined,
+                availability_status: filter !== 'all' ? filter : undefined
+            };
+
+            const data = await adminAPI.getVehicles(params);
             setVehicles(data.items);
+            setTotalVehicles(data.total);
+            setTotalPages(Math.ceil(data.total / limit));
         } catch (error) {
-            // Error handled by layout
+            // Error managed by UI load state
         } finally {
             setIsLoading(false);
         }
@@ -132,72 +154,94 @@ export default function AdminVehicles() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {vehicles
-                                    .filter(v =>
-                                        v.make?.toLowerCase().includes(search.toLowerCase()) ||
-                                        v.model?.toLowerCase().includes(search.toLowerCase()) ||
-                                        v.year?.toString().includes(search)
-                                    )
-                                    .map((vehicle) => (
-                                        <tr key={vehicle.id} className={cn(
-                                            "group transition-colors",
-                                            selectedIds.includes(vehicle.id) ? "bg-blue-50/30" : "hover:bg-slate-50/50"
-                                        )}>
-                                            <td className="py-4 px-6">
-                                                <input
-                                                    type="checkbox"
-                                                    className="rounded border-slate-300 text-brand-primary focus:ring-brand-primary/20"
-                                                    checked={selectedIds.includes(vehicle.id)}
-                                                    onChange={() => toggleSelect(vehicle.id)}
-                                                />
-                                            </td>
-                                            <td className="py-4 px-6">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="w-16 h-12 bg-slate-100 overflow-hidden border border-black">
-                                                        {vehicle.primary_image && (
-                                                            <img
-                                                                src={vehicle.primary_image}
-                                                                alt={vehicle.model}
-                                                                className="w-full h-full object-cover"
-                                                            />
-                                                        )}
-                                                    </div>
-                                                    <div>
-                                                        <div className="font-bold text-slate-900">{vehicle.make} {vehicle.model}</div>
-                                                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{vehicle.year}</div>
-                                                    </div>
+                                {vehicles.map((vehicle) => (
+                                    <tr key={vehicle.id} className={cn(
+                                        "group transition-colors",
+                                        selectedIds.includes(vehicle.id) ? "bg-blue-50/30" : "hover:bg-slate-50/50"
+                                    )}>
+                                        <td className="py-4 px-6">
+                                            <input
+                                                type="checkbox"
+                                                className="rounded border-slate-300 text-brand-primary focus:ring-brand-primary/20"
+                                                checked={selectedIds.includes(vehicle.id)}
+                                                onChange={() => toggleSelect(vehicle.id)}
+                                            />
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-16 h-12 bg-slate-100 overflow-hidden border border-black">
+                                                    {vehicle.primary_image && (
+                                                        <img
+                                                            src={vehicle.primary_image}
+                                                            alt={vehicle.model}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    )}
                                                 </div>
-                                            </td>
-                                            <td className="py-4 px-6 text-slate-900">
-                                                <div className="font-bold">{formatPrice(vehicle.price)}</div>
-                                            </td>
-                                            <td className="py-4 px-6">
-                                                <Badge variant={getStatusColor(vehicle.availability_status)}>
-                                                    {getStatusLabel(vehicle.availability_status)}
-                                                </Badge>
-                                            </td>
-                                            <td className="py-4 px-6 text-right">
-                                                <div className="flex items-center justify-end gap-2">
-                                                    <Link
-                                                        to={`/admin/vehicles/${vehicle.id}/edit`}
-                                                        className="p-2 text-blue-600 hover:bg-blue-50 transition-all border border-transparent"
-                                                        title="Edit Vehicle"
-                                                    >
-                                                        <Edit2 size={16} />
-                                                    </Link>
-                                                    <button
-                                                        onClick={() => handleDelete(vehicle.id)}
-                                                        className="p-2 text-red-600 hover:bg-red-50 transition-all border border-transparent"
-                                                        title="Delete Vehicle"
-                                                    >
-                                                        <Trash2 size={16} />
-                                                    </button>
+                                                <div>
+                                                    <div className="font-bold text-slate-900">{vehicle.make} {vehicle.model}</div>
+                                                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{vehicle.year}</div>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                            </div>
+                                        </td>
+                                        <td className="py-4 px-6 text-slate-900">
+                                            <div className="font-bold">{formatPrice(vehicle.price)}</div>
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            <Badge variant={getStatusColor(vehicle.availability_status)}>
+                                                {getStatusLabel(vehicle.availability_status)}
+                                            </Badge>
+                                        </td>
+                                        <td className="py-4 px-6 text-right">
+                                            <div className="flex items-center justify-end gap-2">
+                                                <Link
+                                                    to={`/admin/vehicles/${vehicle.id}/edit`}
+                                                    className="p-2 text-blue-600 hover:bg-blue-50 transition-all border border-transparent"
+                                                    title="Edit Vehicle"
+                                                >
+                                                    <Edit2 size={16} />
+                                                </Link>
+                                                <button
+                                                    onClick={() => handleDelete(vehicle.id)}
+                                                    className="p-2 text-red-600 hover:bg-red-50 transition-all border border-transparent"
+                                                    title="Delete Vehicle"
+                                                >
+                                                    <Trash2 size={16} />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
+
+                        {/* Pagination UI */}
+                        {totalPages > 1 && (
+                            <div className="p-6 border-t border-black flex items-center justify-between bg-white">
+                                <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">
+                                    Displaying {vehicles.length} of {totalVehicles} items
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Button
+                                        onClick={() => setPage(prev => Math.max(1, prev - 1))}
+                                        disabled={page === 1}
+                                        className="bg-white border border-black text-black hover:bg-slate-50 px-4 py-2 text-xs font-black disabled:opacity-30 disabled:cursor-not-allowed"
+                                    >
+                                        Prev
+                                    </Button>
+                                    <div className="bg-slate-900 text-white px-4 py-2 text-xs font-black min-w-[3rem] text-center">
+                                        {page}
+                                    </div>
+                                    <Button
+                                        onClick={() => setPage(prev => Math.min(totalPages, prev + 1))}
+                                        disabled={page === totalPages}
+                                        className="bg-white border border-black text-black hover:bg-slate-50 px-4 py-2 text-xs font-black disabled:opacity-30 disabled:cursor-not-allowed"
+                                    >
+                                        Next
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>

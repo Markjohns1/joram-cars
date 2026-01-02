@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Users, UserPlus, Shield, User, Trash2, Mail, Clock, AlertCircle } from 'lucide-react';
+import { Users, UserPlus, Shield, User, Trash2, Mail, Clock, AlertCircle, Search } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AdminLayout } from './components';
 import { Button, Input } from '../../components/common';
@@ -11,6 +11,7 @@ export default function UsersManagement() {
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [search, setSearch] = useState(''); // Added search state
     const [isCreating, setIsCreating] = useState(location.pathname === '/admin/users/new');
     const [error, setError] = useState('');
     const [newUser, setNewUser] = useState({
@@ -87,8 +88,18 @@ export default function UsersManagement() {
                 </Link>
             }
         >
-            <div className="mb-6">
+            <div className="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <p className="text-slate-500 text-sm">Manage team access and permissions.</p>
+                <div className="relative w-full max-w-xs">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+                    <input
+                        type="text"
+                        placeholder="Search users..."
+                        className="w-full pl-10 pr-4 h-10 bg-white border border-slate-200 rounded-sm text-xs outline-none focus:border-blue-600 transition-all"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </div>
             </div>
 
             {error && (
@@ -166,51 +177,57 @@ export default function UsersManagement() {
                             </tr>
                         </thead>
                         <tbody>
-                            {users.map(u => (
-                                <tr key={u.id} className="hover:bg-slate-50/50 transition-colors">
-                                    <td className="px-6 py-4">
-                                        <div className="flex items-center gap-3">
-                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${u.role === 'admin' ? 'bg-blue-50 text-blue-600' : 'bg-slate-100 text-slate-600'
-                                                }`}>
-                                                {u.full_name?.charAt(0) || u.username?.charAt(0)}
+                            {users
+                                .filter(u =>
+                                    u.username?.toLowerCase().includes(search.toLowerCase()) ||
+                                    u.full_name?.toLowerCase().includes(search.toLowerCase()) ||
+                                    u.email?.toLowerCase().includes(search.toLowerCase())
+                                )
+                                .map(u => (
+                                    <tr key={u.id} className="hover:bg-slate-50/50 transition-colors">
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${u.role === 'admin' ? 'bg-blue-50 text-blue-600' : 'bg-slate-100 text-slate-600'
+                                                    }`}>
+                                                    {u.full_name?.charAt(0) || u.username?.charAt(0)}
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-bold text-slate-900">{u.full_name || u.username}</p>
+                                                    <p className="text-xs text-slate-500">{u.email}</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p className="text-sm font-bold text-slate-900">{u.full_name || u.username}</p>
-                                                <p className="text-xs text-slate-500">{u.email}</p>
+                                        </td>
+                                        <td className="px-6 py-4 hidden sm:table-cell">
+                                            <div className="flex items-center gap-2">
+                                                {u.role === 'admin' ? <Shield size={14} className="text-blue-600" /> : <User size={14} className="text-slate-400" />}
+                                                <span className={`text-xs font-bold uppercase tracking-wider ${u.role === 'admin' ? 'text-blue-600' : 'text-slate-500'
+                                                    }`}>
+                                                    {u.role}
+                                                </span>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 hidden sm:table-cell">
-                                        <div className="flex items-center gap-2">
-                                            {u.role === 'admin' ? <Shield size={14} className="text-blue-600" /> : <User size={14} className="text-slate-400" />}
-                                            <span className={`text-xs font-bold uppercase tracking-wider ${u.role === 'admin' ? 'text-blue-600' : 'text-slate-500'
-                                                }`}>
-                                                {u.role}
+                                        </td>
+                                        <td className="px-6 py-4 hidden md:table-cell">
+                                            <div className="flex items-center gap-2 text-xs text-slate-500">
+                                                <Clock size={14} />
+                                                {u.last_login ? new Date(u.last_login).toLocaleDateString() : 'Never'}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-green-50 text-green-600">
+                                                Active
                                             </span>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 hidden md:table-cell">
-                                        <div className="flex items-center gap-2 text-xs text-slate-500">
-                                            <Clock size={14} />
-                                            {u.last_login ? new Date(u.last_login).toLocaleDateString() : 'Never'}
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-green-50 text-green-600">
-                                            Active
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-right">
-                                        <button
-                                            onClick={() => handleDeleteUser(u.id)}
-                                            className="p-2 text-red-600 hover:bg-red-50 transition-all border border-transparent"
-                                            title="Delete User"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
+                                        </td>
+                                        <td className="px-6 py-4 text-right">
+                                            <button
+                                                onClick={() => handleDeleteUser(u.id)}
+                                                className="p-2 text-red-600 hover:bg-red-50 transition-all border border-transparent"
+                                                title="Delete User"
+                                            >
+                                                <Trash2 size={18} />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
                         </tbody>
                     </table>
                 </div>

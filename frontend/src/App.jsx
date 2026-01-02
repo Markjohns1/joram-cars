@@ -5,24 +5,21 @@
  */
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import { AuthProvider, useAuth } from './context';
 import { Layout } from './components/layout';
 import { LoadingPage, ScrollToTop, ErrorBoundary } from './components/common';
 
-// Public Pages
-import {
-  Home,
-  VehiclesListing,
-  VehicleDetail,
-  SellCar,
-  About,
-  Contact,
-  FAQ
-} from './pages';
+// Public Pages (lazy loaded)
+const Home = lazy(() => import('./pages/Home'));
+const VehiclesListing = lazy(() => import('./pages/VehiclesListing'));
+const VehicleDetail = lazy(() => import('./pages/VehicleDetail'));
+const SellCar = lazy(() => import('./pages/SellCar'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
+const FAQ = lazy(() => import('./pages/FAQ'));
 
 // Admin Pages (lazy loaded)
-import { lazy, Suspense } from 'react';
-
 const AdminLogin = lazy(() => import('./pages/admin/Login'));
 const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
 const AdminVehicles = lazy(() => import('./pages/admin/Vehicles'));

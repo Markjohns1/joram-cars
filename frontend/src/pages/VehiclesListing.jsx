@@ -43,8 +43,20 @@ export default function VehiclesListing() {
         body_type: '',
         price_range: '',
         sort: 'created_at',
-        order: 'desc'
+        order: 'desc',
+        page: 1, // Added page
+        limit: 20 // Added limit
     });
+
+    // Local search state for debounce
+    const [localSearch, setLocalSearch] = useState('');
+
+    // Sync local search with URL filters on mount/update (only if different to avoid loop)
+    useEffect(() => {
+        if (filters.search !== localSearch) {
+            setLocalSearch(filters.search || '');
+        }
+    }, [filters.search]);
 
     // Parse query params on load
     useEffect(() => {
@@ -57,6 +69,7 @@ export default function VehiclesListing() {
             price_range: params.get('price_range') || '',
             sort: params.get('sort') || 'created_at',
             order: params.get('order') || 'desc',
+            page: parseInt(params.get('page')) || 1,
         }));
     }, [location.search]);
 
@@ -82,6 +95,8 @@ export default function VehiclesListing() {
                 sort_by: filters.sort,
                 sort_order: filters.order,
                 search: filters.search || undefined,
+                page: filters.page,
+                limit: filters.limit,
                 availability_status: 'available'
             });
             setVehicles(data.items);
@@ -95,6 +110,12 @@ export default function VehiclesListing() {
 
     const updateFilter = (key, value) => {
         const newFilters = { ...filters, [key]: value };
+
+        // Reset to page 1 if any filter other than 'page' changes
+        if (key !== 'page') {
+            newFilters.page = 1;
+        }
+
         setFilters(newFilters);
 
         // Update URL
@@ -105,6 +126,16 @@ export default function VehiclesListing() {
         navigate({ search: params.toString() });
     };
 
+    // Debounce search updates
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (localSearch !== (filters.search || '')) {
+                updateFilter('search', localSearch);
+            }
+        }, 600);
+        return () => clearTimeout(timer);
+    }, [localSearch]);
+
     const clearFilters = () => {
         setFilters({
             search: '',
@@ -112,7 +143,9 @@ export default function VehiclesListing() {
             body_type: '',
             price_range: '',
             sort: 'created_at',
-            order: 'desc'
+            order: 'desc',
+            page: 1,
+            limit: 20
         });
         navigate({ search: '' });
     };
@@ -244,8 +277,8 @@ export default function VehiclesListing() {
                                                 type="text"
                                                 placeholder="Search keyword..."
                                                 className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-sm"
-                                                value={filters.search}
-                                                onChange={(e) => updateFilter('search', e.target.value)}
+                                                value={localSearch}
+                                                onChange={(e) => setLocalSearch(e.target.value)}
                                             />
                                         </div>
                                     </div>
@@ -330,6 +363,39 @@ export default function VehiclesListing() {
                                     emptyTitle="No vehicles found"
                                     emptyDescription="Try adjusting your filters to find what you're looking for."
                                 />
+
+                                {/* Pagination Controls */}
+                                {!isLoading && totalItems > filters.limit && (
+                                    <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-gray-100 pt-8">
+                                        <div className="text-sm font-medium text-gray-500 order-2 sm:order-1">
+                                            Showing <span className="text-gray-900 font-bold">{vehicles.length}</span> of <span className="text-gray-900 font-bold">{totalItems}</span> vehicles
+                                        </div>
+
+                                        <div className="flex items-center gap-2 order-1 sm:order-2">
+                                            <Button
+                                                variant="outline"
+                                                onClick={() => updateFilter('page', Math.max(1, filters.page - 1))}
+                                                disabled={filters.page === 1}
+                                                className="h-10 px-4 text-xs font-bold uppercase tracking-widest disabled:opacity-30"
+                                            >
+                                                Previous
+                                            </Button>
+
+                                            <div className="h-10 min-w-[3rem] px-4 bg-gray-900 text-white flex items-center justify-center text-xs font-black rounded-lg">
+                                                {filters.page}
+                                            </div>
+
+                                            <Button
+                                                variant="outline"
+                                                onClick={() => updateFilter('page', filters.page + 1)}
+                                                disabled={filters.page * filters.limit >= totalItems}
+                                                className="h-10 px-4 text-xs font-bold uppercase tracking-widest disabled:opacity-30"
+                                            >
+                                                Next
+                                            </Button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -355,8 +421,8 @@ export default function VehiclesListing() {
                                                 type="text"
                                                 placeholder="Search keyword..."
                                                 className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-blue-500 outline-none transition-all text-sm"
-                                                value={filters.search}
-                                                onChange={(e) => updateFilter('search', e.target.value)}
+                                                value={localSearch}
+                                                onChange={(e) => setLocalSearch(e.target.value)}
                                             />
                                         </div>
                                     </div>

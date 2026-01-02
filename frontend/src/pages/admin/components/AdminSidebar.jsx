@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, Link } from 'react-router-dom';
 import {
     LayoutDashboard, Car, MessageSquare, FileText,
     LogOut, X, ChevronLeft, Users, User, ChevronUp, ExternalLink
@@ -55,9 +55,16 @@ export default function AdminSidebar({ isOpen, isCollapsed, onToggleCollapse, on
                     isCollapsed ? "justify-center px-0" : ""
                 )}>
                     <div className="flex items-center gap-3 overflow-hidden">
-                        <div className="w-10 h-10 bg-blue-600 flex-shrink-0 flex items-center justify-center text-white border border-black/20">
-                            <Car size={22} className="fill-current text-white" />
-                        </div>
+                        <Link to="/" className="flex-shrink-0">
+                            <img
+                                src="/brand/master-logo.png"
+                                alt="Joram Cars"
+                                className={cn(
+                                    "object-contain transition-all duration-300",
+                                    isCollapsed ? "h-8 w-8" : "h-12 w-auto"
+                                )}
+                            />
+                        </Link>
                         {!isCollapsed && (
                             <div className="flex flex-col whitespace-nowrap animate-in fade-in duration-500">
                                 <span className="font-bold text-lg leading-tight tracking-tight text-white">Joram Cars</span>
@@ -100,21 +107,16 @@ export default function AdminSidebar({ isOpen, isCollapsed, onToggleCollapse, on
                             className={({ isActive }) => cn(
                                 'flex items-center gap-3 px-4 py-3.5 transition-all duration-200 group relative',
                                 isActive
-                                    ? 'bg-blue-600 text-white font-semibold'
+                                    ? 'text-blue-500 font-bold'
                                     : 'text-gray-400 hover:bg-white/5 hover:text-white font-medium',
                                 isCollapsed ? "justify-center px-0 w-12 mx-auto" : ""
                             )}
                         >
                             {({ isActive }) => (
                                 <>
-                                    <item.icon size={20} className={cn(isActive ? "text-white" : "group-hover:text-white text-gray-400")} />
+                                    <item.icon size={20} className={cn(isActive ? "text-blue-500" : "group-hover:text-white text-gray-400")} />
                                     {!isCollapsed && (
                                         <span className="whitespace-nowrap animate-in slide-in-from-left-2 duration-300">{item.label}</span>
-                                    )}
-
-                                    {/* Active Indicator Bar for Collapsed State */}
-                                    {isCollapsed && isActive && (
-                                        <div className="absolute right-[-8px] top-1/2 -translate-y-1/2 w-1.5 h-6 bg-blue-600 rounded-l-full animate-in fade-in slide-in-from-right-1" />
                                     )}
                                 </>
                             )}
@@ -181,7 +183,7 @@ export default function AdminSidebar({ isOpen, isCollapsed, onToggleCollapse, on
                         )}
                     </div>
                 </div>
-            </aside>
+            </aside >
         </>
     );
 }
