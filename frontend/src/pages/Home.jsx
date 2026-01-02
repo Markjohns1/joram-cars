@@ -23,11 +23,11 @@ export default function Home() {
     const [searchQuery, setSearchQuery] = useState('');
     const brandsCarouselRef = useRef(null);
     const brands = [
-        { name: 'Toyota', image: 'https://images.unsplash.com/photo-1621007947382-bb3c3968e3bb?auto=format&fit=crop&q=80' }, // Land Cruiser
-        { name: 'Subaru', image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&q=80' }, // WRX Blue
-        { name: 'Mazda', image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80' }, // CX-5
-        { name: 'Nissan', image: 'https://images.unsplash.com/photo-1579369617852-221747d42024?auto=format&fit=crop&q=80' }, // GTR
-        { name: 'Honda', image: 'https://images.unsplash.com/photo-1596574381830-4e0821dc8074?auto=format&fit=crop&q=80' }  // Civic
+        { name: 'Toyota', image: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80' }, // Reliable Land Cruiser
+        { name: 'Subaru', image: 'https://images.unsplash.com/photo-1629897048514-3dd74151e86b?auto=format&fit=crop&q=80' }, // Reliable WRX
+        { name: 'Mazda', image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80' }, // Reliable CX-5
+        { name: 'Nissan', image: 'https://images.unsplash.com/photo-1517524008697-5a92a8e48870?auto=format&fit=crop&q=80' }, // Reliable GTR
+        { name: 'Honda', image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80' }  // Reliable Civic
     ];
 
     // Auto-scroll carousel on mobile (2s interval, infinite loop)

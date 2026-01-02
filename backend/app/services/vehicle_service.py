@@ -70,15 +70,21 @@ class VehicleService:
             query = query.filter(Vehicle.is_featured == is_featured)
         
         # Search across make, model, description
+        # Advanced Search Logic: Split terms and match ANY field for EACH term
         if search:
-            search_term = f"%{search}%"
-            query = query.filter(
-                or_(
-                    Vehicle.make.ilike(search_term),
-                    Vehicle.model.ilike(search_term),
-                    Vehicle.description.ilike(search_term)
+            search_terms = search.strip().split()
+            for term in search_terms:
+                term_pattern = f"%{term}%"
+                query = query.filter(
+                    or_(
+                        Vehicle.make.ilike(term_pattern),
+                        Vehicle.model.ilike(term_pattern),
+                        Vehicle.year.cast(String).ilike(term_pattern),
+                        Vehicle.description.ilike(term_pattern),
+                        Vehicle.color.ilike(term_pattern),
+                        Vehicle.trim.ilike(term_pattern)
+                    )
                 )
-            )
         
         # Get total count before pagination
         total = query.count()

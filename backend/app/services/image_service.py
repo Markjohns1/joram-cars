@@ -105,9 +105,13 @@ class ImageService:
         """Optimize an image for web delivery."""
         try:
             with Image.open(file_path) as img:
-                # Convert to RGB if necessary
-                if img.mode in ("RGBA", "P"):
-                    img = img.convert("RGB")
+                # Handle transparency and color modes
+                if img.mode == 'P':
+                    img = img.convert('RGBA')
+                
+                # Only convert to RGB if saving as JPEG (which doesn't support transparency)
+                if img.mode == 'RGBA' and file_path.lower().endswith(('.jpg', '.jpeg')):
+                    img = img.convert('RGB')
                 
                 # Resize if too large
                 if img.size[0] > cls.LARGE_SIZE[0] or img.size[1] > cls.LARGE_SIZE[1]:
