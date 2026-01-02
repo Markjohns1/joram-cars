@@ -53,10 +53,10 @@ export default function Home() {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="flex flex-col gap-12 md:gap-24 pb-24 w-full overflow-x-hidden"
+                    className="flex flex-col gap-10 md:gap-20 pb-20 w-full overflow-x-hidden"
                 >
                     {/* 1. Immersive Hero Section */}
-                    <section className="relative min-h-[85vh] flex items-center pt-20 pb-12 overflow-hidden">
+                    <section className="relative min-h-[70vh] md:min-h-[80vh] flex items-center pt-24 pb-16 overflow-hidden">
                         {/* Visual Backdrop with Stronger Contrast Gradient */}
                         <div className="absolute inset-0 bg-slate-950">
                             <img
@@ -93,22 +93,22 @@ export default function Home() {
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.4 }}
-                                    className="flex flex-col md:flex-row items-stretch md:items-center gap-4 md:gap-0 md:bg-white md:p-1 md:rounded-[5px] md:shadow-2xl"
+                                    className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-0 md:bg-white md:p-1 md:rounded-[5px] md:shadow-2xl"
                                 >
-                                    <div className="flex flex-1 items-center px-6 h-16 bg-white rounded-[5px] shadow-xl md:shadow-none md:bg-transparent md:h-auto md:px-4 border-2 border-transparent focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/20 transition-all duration-300">
-                                        <Search className="text-slate-400 mr-4" size={24} />
+                                    <div className="flex flex-1 items-center px-5 h-14 md:h-12 bg-white rounded-[5px] shadow-xl md:shadow-none md:bg-transparent md:px-4 border-none focus-within:ring-0 transition-all duration-300">
+                                        <Search className="text-slate-400 mr-3" size={20} />
                                         <input
                                             type="text"
                                             placeholder="Search Model..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                            className="bg-transparent border-none outline-none focus:ring-0 flex-1 text-slate-900 placeholder:text-slate-400 font-bold text-lg p-0 h-full w-full"
+                                            className="bg-transparent border-none outline-none ring-0 focus:ring-0 focus:outline-none flex-1 text-slate-900 placeholder:text-slate-400 font-bold text-base p-0 h-full w-full shadow-none"
                                         />
                                     </div>
                                     <Button
                                         onClick={handleSearch}
-                                        className="w-full md:w-auto btn-premium btn-premium-primary h-16 px-8 text-base font-bold uppercase tracking-widest rounded-[5px] shadow-xl md:shadow-none md:rounded-[3px]"
+                                        className="w-full md:w-auto btn-premium btn-premium-primary h-14 md:h-12 px-8 text-sm font-bold uppercase tracking-widest rounded-[5px] shadow-xl md:shadow-none transition-transform active:scale-95"
                                     >
                                         Discover
                                     </Button>
@@ -120,7 +120,7 @@ export default function Home() {
                     {/* 2. Premium Grid Categories */}
                     {/* 2. Premium Grid Categories */}
                     <section className="container-premium relative">
-                        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-6">
+                        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-10 gap-6">
                             <div>
                                 <h2 className="text-4xl font-black tracking-tighter text-slate-900 mb-2">COLLECTIONS</h2>
                                 <p className="text-slate-500 font-bold text-sm uppercase tracking-widest">Hand-picked by our automotive experts</p>
@@ -162,10 +162,10 @@ export default function Home() {
                     </section>
 
                     {/* 3. Featured Showcase */}
-                    <section className="bg-slate-50 py-20 md:py-32">
+                    <section className="bg-slate-50 py-10 md:py-16">
                         <div className="container-premium">
                             <div className="flex items-center justify-between mb-10">
-                                <h2 className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900 uppercase">The Showroom</h2>
+                                <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 uppercase">The Showroom</h2>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -177,7 +177,7 @@ export default function Home() {
                             {/* Browse More CTA */}
                             <div className="mt-16 flex justify-center">
                                 <Link to="/vehicles">
-                                    <button className="bg-blue-600 text-white h-16 px-12 rounded-[5px] font-bold text-base uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl w-full md:w-auto min-w-[200px]">
+                                    <button className="bg-blue-600 text-white h-12 px-8 rounded-[5px] font-bold text-sm uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl w-full md:w-auto min-w-[180px] active:scale-95">
                                         Browse Full Inventory
                                     </button>
                                 </Link>
@@ -187,7 +187,7 @@ export default function Home() {
 
                     {/* 4. The Joram Standard */}
                     <section className="container-premium py-10">
-                        <div className="bg-slate-950 rounded-[5px] p-10 md:p-24 relative overflow-hidden flex flex-col md:flex-row items-center gap-16 shadow-2xl">
+                        <div className="bg-slate-950 rounded-[5px] p-8 md:p-16 relative overflow-hidden flex flex-col md:flex-row items-center gap-12 shadow-2xl">
                             <div className="absolute top-0 right-0 p-4 opacity-5">
                                 <Car size={300} className="text-white" />
                             </div>
@@ -216,16 +216,16 @@ export default function Home() {
                     </section>
 
                     {/* 5. Sell CTA */}
-                    <section className="container-premium">
+                    <section className="container-premium mb-12">
                         <div className="relative group cursor-pointer overflow-hidden rounded-[5px] shadow-lg">
                             <div className="absolute inset-0 bg-blue-600 group-hover:bg-blue-700 transition-colors duration-500" />
-                            <div className="relative z-10 p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-8">
+                            <div className="relative z-10 p-6 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6">
                                 <div className="text-center md:text-left">
-                                    <h2 className="text-white text-3xl md:text-5xl font-black tracking-tighter mb-4">SELL YOUR VEHICLE.</h2>
-                                    <p className="text-blue-100 text-base md:text-lg font-bold">Get a world-class valuation in under 10 minutes.</p>
+                                    <h2 className="text-white text-2xl md:text-4xl font-black tracking-tighter mb-2">SELL YOUR VEHICLE.</h2>
+                                    <p className="text-blue-100 text-sm md:text-base font-bold italic opacity-90">Get a world-class valuation in under 10 minutes.</p>
                                 </div>
                                 <Link to="/sell-car">
-                                    <button className="bg-white text-blue-900 h-16 px-10 rounded-[5px] font-black text-lg hover:bg-slate-50 transition-colors shadow-xl">
+                                    <button className="bg-white text-blue-900 h-14 px-8 rounded-[3px] font-black text-sm hover:bg-slate-50 transition-colors shadow-xl uppercase tracking-widest">
                                         START APPRAISAL
                                     </button>
                                 </Link>

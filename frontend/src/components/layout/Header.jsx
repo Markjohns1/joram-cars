@@ -48,20 +48,19 @@ export default function Header() {
                 className={cn(
                     'fixed top-0 left-0 right-0 z-[100] transition-all duration-300',
                     isScrolled
-                        ? 'bg-white border-b border-slate-200 py-3 shadow-sm'
-                        : 'bg-white/80 backdrop-blur-md py-4'
+                        ? 'bg-white border-b border-slate-200 py-2 shadow-sm'
+                        : 'bg-white/80 backdrop-blur-md py-3'
                 )}
             >
                 <div className="container-premium flex items-center justify-between h-12">
 
                     {/* Brand Signature */}
-                    <Link to="/" className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-slate-950 rounded-lg flex items-center justify-center text-white">
-                            <Car size={18} />
-                        </div>
-                        <span className="text-lg font-black tracking-tighter text-slate-950">
-                            JORAMCARS
-                        </span>
+                    <Link to="/" className="flex items-center">
+                        <img
+                            src="/brand/logo.png"
+                            alt="Joram Cars"
+                            className="h-10 md:h-12 lg:h-14 w-auto object-contain hover:opacity-90 transition-opacity"
+                        />
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -161,7 +160,7 @@ export default function Header() {
             </div>
 
             {/* SPACER - CRITICAL TO PREVENT OVERLAP */}
-            <div className="h-[68px] lg:h-[80px]" />
+            <div className="h-[60px] lg:h-[72px]" />
         </>
     );
 }

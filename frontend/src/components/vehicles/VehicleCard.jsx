@@ -58,8 +58,8 @@ export default function VehicleCard({ vehicle }) {
             </div>
 
             {/* 2. Refined Information Architecture */}
-            <div className="p-5 md:p-6 flex flex-col flex-grow">
-                <div className="flex justify-between items-start mb-3">
+            <div className="p-4 md:p-5 flex flex-col flex-grow">
+                <div className="flex justify-between items-start mb-2">
                     <Link to={`/vehicles/${vehicle.id}`} className="flex-1 mr-4">
                         <h3 className="text-lg md:text-xl font-bold tracking-tight text-slate-900 mb-1 leading-tight line-clamp-1 group-hover:text-brand-primary transition-colors">
                             {vehicle.year} {vehicle.make} {vehicle.model}
@@ -69,14 +69,14 @@ export default function VehicleCard({ vehicle }) {
                 </div>
 
                 {/* Price Landmark */}
-                <div className="mb-5">
+                <div className="mb-4">
                     <p className="text-brand-primary font-extrabold text-xl md:text-2xl tracking-tight">
                         {(formatPrice(vehicle.price, vehicle.currency) || '').replace('KSH', 'KSh')}
                     </p>
                 </div>
 
                 {/* Minimalist Tech Specs */}
-                <div className="grid grid-cols-3 gap-4 pt-5 border-t border-slate-100">
+                <div className="grid grid-cols-3 gap-3 pt-4 border-t border-slate-100">
                     <div className="flex flex-col gap-0.5">
                         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Mileage</span>
                         <div className="flex items-center gap-1.5 text-slate-700 font-bold text-xs">

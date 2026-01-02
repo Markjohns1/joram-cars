@@ -18,19 +18,18 @@ export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-[#1a1f36] text-slate-300 pb-24 md:pb-0"> {/* pb-24 for mobile nav clearance */}
-            <div className="container px-6 py-12 mx-auto">
+        <footer className="bg-[#1a1f36] text-slate-300 pb-20 md:pb-0"> {/* pb-20 for mobile nav clearance */}
+            <div className="container px-6 py-10 mx-auto">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-10 md:gap-8 text-left">
 
                     {/* Brand Section - Full width on mobile */}
                     <div className="col-span-2 md:col-span-1 flex flex-col items-start space-y-4">
-                        <Link to="/" className="flex items-center gap-2 group">
-                            <div className="w-10 h-10 rounded-xl bg-[#0066ff] flex items-center justify-center text-white shadow-lg shadow-blue-900/50">
-                                <Car size={24} />
-                            </div>
-                            <span className="text-xl font-bold text-white tracking-tight">
-                                Joram<span className="text-[#0066ff]">Cars</span>
-                            </span>
+                        <Link to="/" className="flex items-center group">
+                            <img
+                                src="/brand/logo.png"
+                                alt="Joram Cars"
+                                className="h-10 md:h-12 w-auto object-contain brightness-0 invert"
+                            />
                         </Link>
                         <p className="text-sm leading-relaxed max-w-xs text-slate-400">
                             Kenya's most trusted marketplace for verified quality used cars.

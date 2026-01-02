@@ -17,9 +17,9 @@
   --color-slate-900: #0f172a;
   --color-slate-950: #020617;
 
-  --spacing-header: 80px;
-  --spacing-header-mobile: 68px;
-  --spacing-nav-mobile: 68px;
+  --spacing-header: 72px;
+  --spacing-header-mobile: 60px;
+  --spacing-nav-mobile: 64px;
 
   --radius-premium: 12px;
   --radius-card: 12px;
@@ -66,7 +66,7 @@
 
   .container-premium,
   .container {
-    @apply w-full max-w-[1280px] mx-auto px-4 md:px-8;
+    @apply w-full max-w-[1240px] mx-auto px-5 md:px-10;
   }
 
   /* Professional Buttons - Not oversized */
