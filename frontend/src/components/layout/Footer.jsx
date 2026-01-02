@@ -24,12 +24,18 @@ export default function Footer() {
 
                     {/* Brand Section - Full width on mobile */}
                     <div className="col-span-2 md:col-span-1 flex flex-col items-start space-y-4">
-                        <Link to="/" className="flex items-center group">
+                        <Link to="/" className="flex items-center gap-3 group">
                             <img
                                 src="/brand/logo.png"
                                 alt="Joram Cars"
-                                className="h-10 md:h-12 w-auto object-contain brightness-0 invert"
+                                className="h-10 md:h-12 w-auto object-contain brightness-0 invert opacity-60 group-hover:opacity-100 transition-opacity"
                             />
+                            <div className="flex flex-col leading-none">
+                                <span className="text-xl font-black tracking-tighter text-white">
+                                    JORAM <span className="text-blue-500">CARS</span>
+                                </span>
+                                <span className="text-[8px] font-bold text-slate-500 uppercase tracking-widest text-left font-mono">Elite Auto Hub</span>
+                            </div>
                         </Link>
                         <p className="text-sm leading-relaxed max-w-xs text-slate-400">
                             Kenya's most trusted marketplace for verified quality used cars.

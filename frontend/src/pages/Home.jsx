@@ -93,22 +93,22 @@ export default function Home() {
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{ delay: 0.4 }}
-                                    className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-0 md:bg-white md:p-1 md:rounded-[5px] md:shadow-2xl"
+                                    className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-0 md:bg-white md:p-1.5 md:rounded-[5px] md:shadow-2xl w-full max-w-2xl mx-auto"
                                 >
-                                    <div className="flex flex-1 items-center px-5 h-14 md:h-12 bg-white rounded-[5px] shadow-xl md:shadow-none md:bg-transparent md:px-4 border-none focus-within:ring-0 transition-all duration-300">
-                                        <Search className="text-slate-400 mr-3" size={20} />
+                                    <div className="flex-[2] flex items-center px-6 h-16 md:h-14 bg-white rounded-[5px] shadow-xl md:shadow-none md:bg-transparent md:px-5 border-none focus-within:ring-0 transition-all duration-300">
+                                        <Search className="text-slate-400 mr-4" size={24} />
                                         <input
                                             type="text"
                                             placeholder="Search Model..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                            className="bg-transparent border-none outline-none ring-0 focus:ring-0 focus:outline-none flex-1 text-slate-900 placeholder:text-slate-400 font-bold text-base p-0 h-full w-full shadow-none"
+                                            className="bg-transparent border-none outline-none ring-0 focus:ring-0 focus:outline-none flex-1 text-slate-900 placeholder:text-slate-400 font-bold text-xl md:text-lg p-0 h-full w-full"
                                         />
                                     </div>
                                     <Button
                                         onClick={handleSearch}
-                                        className="w-full md:w-auto btn-premium btn-premium-primary h-14 md:h-12 px-8 text-sm font-bold uppercase tracking-widest rounded-[5px] shadow-xl md:shadow-none transition-transform active:scale-95"
+                                        className="flex-1 w-full md:w-auto btn-premium btn-premium-primary h-16 md:h-14 px-10 text-lg md:text-base font-black uppercase tracking-widest rounded-[5px] shadow-xl md:shadow-none transition-transform active:scale-95"
                                     >
                                         Discover
                                     </Button>

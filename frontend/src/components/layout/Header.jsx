@@ -52,15 +52,21 @@ export default function Header() {
                         : 'bg-white/80 backdrop-blur-md py-3'
                 )}
             >
-                <div className="container-premium flex items-center justify-between h-12">
+                <div className="container-premium flex items-center justify-between h-16 md:h-20">
 
                     {/* Brand Signature */}
-                    <Link to="/" className="flex items-center">
+                    <Link to="/" className="flex items-center gap-3 group">
                         <img
                             src="/brand/logo.png"
                             alt="Joram Cars"
-                            className="h-10 md:h-12 lg:h-14 w-auto object-contain hover:opacity-90 transition-opacity"
+                            className="h-10 md:h-12 lg:h-14 w-auto object-contain transition-transform group-hover:scale-105"
                         />
+                        <div className="flex flex-col leading-none">
+                            <span className="text-xl md:text-2xl font-black tracking-tighter text-slate-900 leading-tight">
+                                JORAM <span className="text-blue-600">CARS</span>
+                            </span>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Premium Selection</span>
+                        </div>
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -160,7 +166,7 @@ export default function Header() {
             </div>
 
             {/* SPACER - CRITICAL TO PREVENT OVERLAP */}
-            <div className="h-[60px] lg:h-[72px]" />
+            <div className="h-[76px] lg:h-[96px]" />
         </>
     );
 }
