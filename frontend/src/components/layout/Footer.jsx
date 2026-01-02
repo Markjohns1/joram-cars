@@ -24,17 +24,17 @@ export default function Footer() {
 
                     {/* Brand Section - Full width on mobile */}
                     <div className="col-span-2 md:col-span-1 flex flex-col items-start space-y-4">
-                        <Link to="/" className="flex items-center gap-3 group">
+                        <Link to="/" className="flex items-center gap-4 group">
                             <img
                                 src="/brand/logo.png"
                                 alt="Joram Cars"
-                                className="h-10 md:h-12 w-auto object-contain brightness-0 invert opacity-60 group-hover:opacity-100 transition-opacity"
+                                className="h-12 md:h-16 w-auto object-contain brightness-0 invert opacity-80 group-hover:opacity-100 transition-all"
                             />
-                            <div className="flex flex-col leading-none">
-                                <span className="text-xl font-black tracking-tighter text-white">
+                            <div className="flex flex-col justify-center leading-none">
+                                <span className="text-2xl font-black tracking-tighter text-white leading-[0.8]">
                                     JORAM <span className="text-blue-500">CARS</span>
                                 </span>
-                                <span className="text-[8px] font-bold text-slate-500 uppercase tracking-widest text-left font-mono">Elite Auto Hub</span>
+                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mt-1 pl-0.5">ELITE AUTO HUB</span>
                             </div>
                         </Link>
                         <p className="text-sm leading-relaxed max-w-xs text-slate-400">
