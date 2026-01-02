@@ -155,20 +155,20 @@ export default function Home() {
 
                                 <div className="flex flex-col sm:flex-row items-center gap-4 mt-8 w-full max-w-lg">
                                     {/* Search Input with Submit Button */}
-                                    <div className="flex items-center h-16 bg-slate-900/80 backdrop-blur-sm rounded-xl border border-slate-700/50 hover:border-slate-600 focus-within:border-blue-500/50 transition-all duration-300 overflow-hidden flex-1 w-full">
+                                    <div className="flex items-center h-20 bg-slate-900/80 backdrop-blur-sm rounded-xl border-2 border-slate-700/50 hover:border-slate-500 focus-within:border-blue-500 transition-all duration-300 overflow-hidden flex-1 w-full">
                                         <input
                                             type="text"
                                             placeholder="Search vehicles..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                                            className="bg-transparent border-none outline-none ring-0 focus:ring-0 focus:outline-none flex-1 text-white placeholder:text-slate-500 font-medium text-lg px-6 h-full w-full"
+                                            className="bg-transparent border-none outline-none ring-0 focus:ring-0 focus:outline-none flex-1 text-white placeholder:text-slate-500 font-bold text-xl px-8 h-full w-full"
                                         />
                                         <button
                                             onClick={handleSearch}
-                                            className="h-full px-6 bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-wider text-sm flex items-center gap-2 transition-colors shrink-0"
+                                            className="h-full px-8 bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-wider text-sm flex items-center gap-2 transition-colors shrink-0"
                                         >
-                                            <Search size={20} />
+                                            <Search size={24} />
                                             <span className="hidden sm:inline">Search</span>
                                         </button>
                                     </div>
@@ -176,10 +176,10 @@ export default function Home() {
                                     {/* Visit Showroom CTA */}
                                     <button
                                         onClick={() => navigate('/vehicles')}
-                                        className="w-full sm:w-auto h-16 px-8 rounded-xl bg-white/10 hover:bg-white text-white hover:text-slate-900 font-black uppercase tracking-widest text-sm transition-all duration-300 border border-white/20 hover:border-white flex items-center justify-center gap-2 group whitespace-nowrap"
+                                        className="w-full sm:w-auto h-20 px-10 rounded-xl bg-white/10 hover:bg-white text-white hover:text-slate-900 font-black uppercase tracking-widest text-sm transition-all duration-300 border-2 border-white/20 hover:border-white flex items-center justify-center gap-2 group whitespace-nowrap"
                                     >
                                         Visit Showroom
-                                        <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                                        <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
                                     </button>
                                 </div>
                             </div>
