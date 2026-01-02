@@ -55,17 +55,19 @@ export default function Header() {
                 <div className="container-premium flex items-center justify-between h-16 md:h-20">
 
                     {/* Brand Signature */}
-                    <Link to="/" className="flex items-center gap-4 group">
+                    <Link to="/" className="flex items-center gap-3 md:gap-4 group">
                         <img
                             src="/brand/logo.png"
                             alt="Joram Cars"
-                            className="h-14 md:h-20 lg:h-24 w-auto object-contain transition-all group-hover:scale-105 group-hover:rotate-1"
+                            className="h-12 md:h-16 w-auto object-contain transition-all group-hover:scale-105"
                         />
                         <div className="flex flex-col justify-center leading-none">
-                            <span className="text-2xl md:text-4xl lg:text-5xl font-black tracking-tighter text-slate-950 leading-[0.8] mb-1">
-                                JORAM <span className="text-blue-600">CARS</span>
+                            <span className="text-xl md:text-2xl font-black tracking-tighter text-slate-900 leading-[0.9]">
+                                JORAM
                             </span>
-                            <span className="text-[12px] md:text-sm font-black text-slate-400 uppercase tracking-[0.3em] pl-1">PREMIUM SELECTION</span>
+                            <span className="text-xl md:text-2xl font-black tracking-tighter text-blue-600 leading-[0.9]">
+                                CARS
+                            </span>
                         </div>
                     </Link>
 
@@ -166,7 +168,7 @@ export default function Header() {
             </div>
 
             {/* SPACER - CRITICAL TO PREVENT OVERLAP */}
-            <div className="h-[90px] md:h-[110px] lg:h-[130px]" />
+            <div className="h-[76px] md:h-[84px] lg:h-[88px]" />
         </>
     );
 }

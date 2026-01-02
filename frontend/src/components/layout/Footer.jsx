@@ -28,13 +28,15 @@ export default function Footer() {
                             <img
                                 src="/brand/logo.png"
                                 alt="Joram Cars"
-                                className="h-12 md:h-16 w-auto object-contain brightness-0 invert opacity-80 group-hover:opacity-100 transition-all"
+                                className="h-10 md:h-12 w-auto object-contain brightness-0 invert opacity-80 group-hover:opacity-100 transition-all"
                             />
                             <div className="flex flex-col justify-center leading-none">
-                                <span className="text-2xl font-black tracking-tighter text-white leading-[0.8]">
-                                    JORAM <span className="text-blue-500">CARS</span>
+                                <span className="text-xl font-black tracking-tighter text-white leading-[0.9]">
+                                    JORAM
                                 </span>
-                                <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mt-1 pl-0.5">ELITE AUTO HUB</span>
+                                <span className="text-xl font-black tracking-tighter text-blue-500 leading-[0.9]">
+                                    CARS
+                                </span>
                             </div>
                         </Link>
                         <p className="text-sm leading-relaxed max-w-xs text-slate-400">
@@ -95,6 +97,6 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-        </footer>
+        </footer >
     );
 }
