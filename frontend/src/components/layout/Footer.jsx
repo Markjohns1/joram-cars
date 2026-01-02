@@ -77,7 +77,7 @@ export default function Footer() {
                             </li>
                             <li className="flex items-start gap-3">
                                 <MapPin size={16} className="text-[#0066ff] mt-1 shrink-0" />
-                                <span className="text-slate-300">{CONTACT_INFO.city}, {CONTACT_INFO.country}</span>
+                                <span className="text-slate-300">{CONTACT_INFO.address}</span>
                             </li>
                             <li className="flex items-start gap-3">
                                 <Clock size={16} className="text-[#0066ff] mt-1 shrink-0" />

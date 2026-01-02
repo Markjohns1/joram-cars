@@ -125,7 +125,7 @@ export const SOCIAL_LINKS = {
 export const NAV_LINKS = [
     { path: '/', label: 'Home' },
     { path: '/vehicles', label: 'Vehicles' },
-    { path: '/sell', label: 'Sell Your Car' },
+    { path: '/sell-car', label: 'Sell Your Car' },
     { path: '/about', label: 'About Us' },
     { path: '/contact', label: 'Contact' },
     { path: '/faq', label: 'FAQ' },
