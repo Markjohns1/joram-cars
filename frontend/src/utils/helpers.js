@@ -58,7 +58,7 @@ export function formatDateTime(dateString) {
  * Get image URL with fallback
  */
 export function getImageUrl(path) {
-    if (!path) return '/placeholder-car.jpg';
+    if (!path) return 'https://images.unsplash.com/photo-1489824904134-891ab64558e1?auto=format&fit=crop&q=80';
     if (path.startsWith('http')) return path;
 
     const uploadsUrl = import.meta.env.VITE_UPLOADS_URL || 'http://localhost:8000/uploads';

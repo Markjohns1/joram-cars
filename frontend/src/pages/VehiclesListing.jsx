@@ -22,8 +22,9 @@ const PRICES = [
     { label: 'Above KSH 5M', value: '5000000-100000000' },
 ];
 
-const BODY_TYPES = ['SUV', 'Sedan', 'Hatchback', 'Pickup', 'Coupe', 'Convertible', 'Van'];
-const MAKES = ['Toyota', 'Subaru', 'Mazda', 'Nissan', 'Honda', 'Mercedes-Benz', 'BMW', 'Audi', 'Volkswagen', 'Land Rover'];
+const BODY_TYPES = ['SUV', 'Sedan', 'Coupe', 'Convertible', 'Hatchback', 'Pickup', 'Van'];
+const MAKES = ['Range Rover', 'Mercedes-Benz', 'BMW', 'Porsche', 'Toyota', 'Audi', 'Lexus', 'Land Rover', 'Volkswagen', 'Mazda'];
+const LOCATIONS = ['Nairobi', 'Mombasa', 'Direct Import'];
 
 export default function VehiclesListing() {
     const location = useLocation();
@@ -61,8 +62,8 @@ export default function VehiclesListing() {
     // Parse query params on load
     useEffect(() => {
         const params = new URLSearchParams(location.search);
-        setFilters(prev => ({
-            ...prev,
+        const newFilters = {
+            ...filters,
             search: params.get('search') || '',
             make: params.get('make') || '',
             body_type: params.get('body_type') || '',
@@ -70,7 +71,15 @@ export default function VehiclesListing() {
             sort: params.get('sort') || 'created_at',
             order: params.get('order') || 'desc',
             page: parseInt(params.get('page')) || 1,
-        }));
+        };
+
+        setFilters(newFilters);
+
+        // Sync local search if it came from URL (e.g. from Hero search)
+        const urlSearch = params.get('search') || '';
+        if (urlSearch !== localSearch) {
+            setLocalSearch(urlSearch);
+        }
     }, [location.search]);
 
     // Fetch data when filters change
@@ -151,29 +160,29 @@ export default function VehiclesListing() {
     };
 
     // Filter Section Component
-    const FilterSection = ({ title, children, initialCount = 2 }) => {
+    const FilterSection = ({ title, children, initialCount = 3 }) => {
         const [isExpanded, setIsExpanded] = useState(false);
         const childrenArray = React.Children.toArray(children);
         const hasMore = childrenArray.length > initialCount;
         const displayedChildren = isExpanded ? childrenArray : childrenArray.slice(0, initialCount);
 
         return (
-            <div className="border-b border-gray-100 py-6 last:border-0">
-                <h3 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wide flex justify-between items-center cursor-pointer" onClick={() => setIsExpanded(!isExpanded)}>
+            <div className="border-b border-slate-100 py-6 last:border-0">
+                <h3 className="font-black text-slate-900 mb-5 text-[11px] uppercase tracking-[0.2em] flex justify-between items-center cursor-pointer group" onClick={() => setIsExpanded(!isExpanded)}>
                     {title}
-                    <span className="text-gray-400">
-                        {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                    <span className="text-slate-300 group-hover:text-blue-500 transition-colors">
+                        {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                     </span>
                 </h3>
-                <div className="space-y-2 transition-all duration-300">
+                <div className="space-y-3">
                     {displayedChildren}
                 </div>
                 {hasMore && !isExpanded && (
                     <button
                         onClick={() => setIsExpanded(true)}
-                        className="mt-3 text-sm font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                        className="mt-4 text-[10px] font-black text-blue-600 hover:text-blue-700 uppercase tracking-widest flex items-center gap-2"
                     >
-                        Show {childrenArray.length - initialCount} more
+                        View More Brands
                     </button>
                 )}
             </div>
@@ -181,14 +190,14 @@ export default function VehiclesListing() {
     };
 
     const CheckboxFilter = ({ label, checked, onChange }) => (
-        <label className="flex items-center gap-3 cursor-pointer group select-none">
-            <div className={`w-5 h-5 rounded border flex items-center justify-center transition-all ${checked
-                ? 'bg-blue-600 border-blue-600 text-white'
-                : 'bg-white border-gray-300 group-hover:border-blue-500'
+        <label className="flex items-center gap-4 cursor-pointer group select-none py-1">
+            <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all duration-300 ${checked
+                ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-500/30'
+                : 'bg-white border-slate-200 group-hover:border-blue-400'
                 }`}>
-                {checked && <Check size={12} strokeWidth={3} />}
+                {checked && <Check size={14} strokeWidth={4} />}
             </div>
-            <span className={`text-sm ${checked ? 'text-gray-900 font-bold' : 'text-gray-600 group-hover:text-gray-900'}`}>
+            <span className={`text-sm tracking-tight transition-colors ${checked ? 'text-slate-900 font-black italic' : 'text-slate-500 font-bold group-hover:text-slate-900'}`}>
                 {label}
             </span>
             <input
@@ -209,14 +218,17 @@ export default function VehiclesListing() {
             />
             {isLoading ? <LoadingPage /> : (
                 <>
-                    {/* Header / Toolbar */}
-                    <div className="sticky top-[72px] z-20 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
-                        <div className="container py-4">
-                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                <div className="flex items-center gap-2">
-                                    <h1 className="text-xl font-bold text-gray-900">Inventory</h1>
-                                    <span className="px-2 py-0.5 rounded-full bg-gray-100 text-xs font-medium text-gray-600">
-                                        {totalItems} Vehicles
+                    {/* Header / Toolbar - Ultra-Premium Sticky */}
+                    <div className="sticky top-[72px] z-20 bg-white/90 backdrop-blur-xl border-b border-slate-100 shadow-sm">
+                        <div className="container-premium py-5">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                <div className="flex items-center gap-4">
+                                    <h1 className="text-3xl font-black tracking-tighter text-slate-900 uppercase italic">
+                                        Inventory<span className="text-blue-600">.</span>
+                                    </h1>
+                                    <div className="h-6 w-px bg-slate-200 hidden md:block" />
+                                    <span className="px-3 py-1 rounded-full bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">
+                                        {totalItems} Available Units
                                     </span>
                                 </div>
 
@@ -268,15 +280,15 @@ export default function VehiclesListing() {
                                     )}
                                 </div>
 
-                                <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+                                <div className="bg-white rounded-2xl border border-slate-100 p-8 shadow-2xl shadow-slate-200/50">
                                     {/* Search */}
-                                    <div className="mb-6">
-                                        <div className="relative">
-                                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                                    <div className="mb-8">
+                                        <div className="relative group">
+                                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors" size={20} />
                                             <input
                                                 type="text"
-                                                placeholder="Search keyword..."
-                                                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all text-sm"
+                                                placeholder="Model or keyword..."
+                                                className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border border-slate-100 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 outline-none transition-all text-sm font-bold"
                                                 value={localSearch}
                                                 onChange={(e) => setLocalSearch(e.target.value)}
                                             />
@@ -335,23 +347,23 @@ export default function VehiclesListing() {
                             {/* Main Content */}
                             <div className="lg:col-span-3">
                                 {filters.make || filters.body_type || filters.search ? (
-                                    <div className="mb-6 flex flex-wrap gap-2">
+                                    <div className="mb-8 flex flex-wrap gap-3">
                                         {filters.search && (
-                                            <div className="px-3 py-1 bg-gray-100 rounded-full text-xs font-medium flex items-center gap-2">
+                                            <div className="px-4 py-2 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-3 transition-all hover:bg-blue-600">
                                                 Search: {filters.search}
-                                                <button onClick={() => updateFilter('search', '')}><X size={12} /></button>
+                                                <button onClick={() => updateFilter('search', '')} className="hover:scale-125 transition-transform"><X size={14} /></button>
                                             </div>
                                         )}
                                         {filters.make && (
-                                            <div className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium flex items-center gap-2">
-                                                Make: {filters.make}
-                                                <button onClick={() => updateFilter('make', '')}><X size={12} /></button>
+                                            <div className="px-4 py-2 bg-blue-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-3 transition-all hover:bg-slate-900">
+                                                Brand: {filters.make}
+                                                <button onClick={() => updateFilter('make', '')} className="hover:scale-125 transition-transform"><X size={14} /></button>
                                             </div>
                                         )}
                                         {filters.body_type && (
-                                            <div className="px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-xs font-medium flex items-center gap-2">
+                                            <div className="px-4 py-2 bg-white border border-slate-200 text-slate-900 rounded-xl text-[10px] font-black uppercase tracking-widest flex items-center gap-3 transition-all hover:border-blue-500">
                                                 Type: {filters.body_type}
-                                                <button onClick={() => updateFilter('body_type', '')}><X size={12} /></button>
+                                                <button onClick={() => updateFilter('body_type', '')} className="hover:scale-125 transition-transform"><X size={14} /></button>
                                             </div>
                                         )}
                                     </div>

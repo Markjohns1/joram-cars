@@ -3,8 +3,11 @@
 # Python / Backend
 backend/venv/
 backend/__pycache__/
+backend/**/__pycache__/
 backend/*.pyc
 backend/.env
+*.db
+*.db-journal
 
 # Node / Frontend
 frontend/node_modules/

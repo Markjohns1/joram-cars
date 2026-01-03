@@ -6,7 +6,7 @@ Business logic for vehicle operations.
 
 from typing import List, Optional, Tuple
 from sqlalchemy.orm import Session
-from sqlalchemy import and_, or_, desc, asc
+from sqlalchemy import and_, or_, desc, asc, String
 
 from app.models import Vehicle, VehicleImage
 from app.schemas import VehicleCreate, VehicleUpdate
@@ -75,13 +75,12 @@ class VehicleService:
             search_terms = search.strip().split()
             for term in search_terms:
                 term_pattern = f"%{term}%"
+                # For high precision, we wrap the OR in a single filter block per term
                 query = query.filter(
                     or_(
                         Vehicle.make.ilike(term_pattern),
                         Vehicle.model.ilike(term_pattern),
                         Vehicle.year.cast(String).ilike(term_pattern),
-                        Vehicle.description.ilike(term_pattern),
-                        Vehicle.color.ilike(term_pattern),
                         Vehicle.trim.ilike(term_pattern)
                     )
                 )

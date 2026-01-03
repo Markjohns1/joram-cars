@@ -27,12 +27,11 @@ export default function VehicleCard({ vehicle }) {
             {/* 1. Immersive Image Base */}
             <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
                 <Link to={`/vehicles/${vehicle.id}`}>
-                    <LazyLoadImage
+                    <img
                         src={vehicle.primary_image ? getImageUrl(vehicle.primary_image) : 'https://images.unsplash.com/photo-1489824904134-891ab64558e1?auto=format&fit=crop&q=80'}
                         alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
-                        effect="blur"
-                        wrapperClassName="w-full h-full"
-                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                        onLoad={(e) => e.target.classList.remove('opacity-0')}
+                        className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 opacity-0"
                     />
                 </Link>
 
