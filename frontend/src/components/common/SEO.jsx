@@ -8,6 +8,7 @@ import { Helmet } from 'react-helmet-async';
 export default function SEO({
     title,
     description,
+    keywords = [],
     type = 'website',
     image,
     canonical,
@@ -19,11 +20,16 @@ export default function SEO({
     const defaultImage = `${siteUrl}/brand/og-image.png`;
     const metaDescription = description || "Kenya's Premier Used Car Marketplace. Quality vehicles at the best prices.";
 
+    // Automation: Auto-generate high-intent keywords for luxury car buyers
+    const defaultKeywords = ['luxury cars kenya', 'used cars nairobi', 'premium vehicles', 'buy cars kenya', 'joram cars'];
+    const allKeywords = [...new Set([...defaultKeywords, ...keywords])].join(', ');
+
     return (
         <Helmet>
             {/* Standard Meta Tags */}
             <title>{fullTitle}</title>
             <meta name="description" content={metaDescription} />
+            <meta name="keywords" content={allKeywords} />
             {canonical && <link rel="canonical" href={canonical.startsWith('http') ? canonical : `${siteUrl}${canonical}`} />}
 
             {/* Open Graph / Facebook */}

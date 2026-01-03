@@ -50,9 +50,20 @@ class EnquiryService:
     
     @staticmethod
     def create_enquiry(db: Session, data: EnquiryCreate) -> Enquiry:
-        """Create a new enquiry."""
+        """Create a new enquiry and automatically update vehicle status if it's a purchase."""
         enquiry = Enquiry(**data.model_dump())
         db.add(enquiry)
+        
+        # Joram's Logic: If it's a vehicle enquiry, mark as SOLD immediately
+        # because serious buyers who fill this deep form are considered "gone"
+        if enquiry.vehicle_id:
+            vehicle = db.query(Vehicle).filter(Vehicle.id == enquiry.vehicle_id).first()
+            if vehicle:
+                vehicle.availability_status = "sold"
+                # Update timestamp to reflect when it was sold
+                from datetime import datetime
+                vehicle.updated_at = datetime.utcnow()
+        
         db.commit()
         db.refresh(enquiry)
         return enquiry

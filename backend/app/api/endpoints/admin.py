@@ -84,13 +84,51 @@ def get_dashboard_stats(
         conversion_rate = (total_enquiries / total_views) * 100
         
     # 5. Numerical Wisdom: Inventory Velocity (Avg Days to Sell)
-    # Using SQLite friendly calculation (difference in days)
     sold_vehicles = db.query(Vehicle).filter(Vehicle.availability_status == "sold").all()
     avg_days_to_sell = 0.0
     if sold_vehicles:
         total_days = sum([(v.updated_at - v.created_at).days for v in sold_vehicles])
         avg_days_to_sell = total_days / len(sold_vehicles)
     
+    # 6. 90% Automation: Strategic Insight Engine
+    insights = []
+    top_selling_make = None
+    
+    # Find fastest selling brand
+    if sold_vehicles:
+        make_stats = {}
+        for v in sold_vehicles:
+            days = (v.updated_at - v.created_at).days
+            if v.make not in make_stats:
+                make_stats[v.make] = []
+            make_stats[v.make].append(days)
+        
+        # Calculate average days per make
+        avg_per_make = {make: sum(days)/len(days) for make, days in make_stats.items()}
+        top_selling_make = min(avg_per_make, key=avg_per_make.get) if avg_per_make else None
+        if top_selling_make:
+            insights.append(f"🏆 {top_selling_make} is your fastest-moving brand (Avg. {round(avg_per_make[top_selling_make], 1)} days to sell). Consider restocking.")
+    
+    # Stagnant Stock Analysis
+    stagnant_vehicles = db.query(Vehicle).filter(
+        Vehicle.availability_status == "available",
+        Vehicle.views_count > 50,
+        Vehicle.created_at < (now - timedelta(days=30))
+    ).count()
+    if stagnant_vehicles > 0:
+        insights.append(f"⚠️ {stagnant_vehicles} units have high views but haven't sold in 30 days. Review pricing for these items.")
+
+    # High Demand Prediction
+    high_views_no_lead = db.query(Vehicle).filter(
+        Vehicle.availability_status == "available",
+        Vehicle.views_count > 20
+    ).order_by(desc(Vehicle.views_count)).limit(1).first()
+    if high_views_no_lead:
+        insights.append(f"🔥 The {high_views_no_lead.title} is attracting heavy traffic. It is your current 'Star' attraction.")
+        
+    if not insights:
+        insights.append("System is cold. Add more inventory to trigger automated insights.")
+
     return DashboardStats(
         total_vehicles=total_vehicles,
         total_enquiries=total_enquiries,
@@ -105,7 +143,10 @@ def get_dashboard_stats(
         enquiries_wow=round(enquiries_wow, 1),
         conversion_rate=round(conversion_rate, 2),
         avg_days_to_sell=round(avg_days_to_sell, 1),
-        total_inventory_value=total_inventory_value
+        total_inventory_value=total_inventory_value,
+        # Strategic Intelligence
+        top_selling_make=top_selling_make,
+        strategic_insights=insights
     )
 
 

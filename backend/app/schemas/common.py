@@ -43,3 +43,6 @@ class DashboardStats(BaseModel):
     conversion_rate: float = 0.0 # Lead conversion %
     avg_days_to_sell: float = 0.0 # Inventory velocity
     total_inventory_value: float = 0.0 # Market value of active stock
+    # 90% Automation: Strategic Insights
+    top_selling_make: Optional[str] = None
+    strategic_insights: list[str] = []

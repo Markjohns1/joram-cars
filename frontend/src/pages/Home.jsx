@@ -112,6 +112,7 @@ export default function Home() {
             <SEO
                 title="Premier Luxury & Performance Cars"
                 description="Discover verified luxury and performance cars in Nairobi, Kenya. Joram Cars specializes in direct imports, pristine used vehicles, and seamless car sales. Worldwide inquiries welcome."
+                keywords={['luxury cars', 'performance cars', 'buy used cars kenya', 'nairobi car dealer', 'premium automotive', 'direct import kenya']}
                 canonical="/"
             />
             <motion.div
@@ -197,12 +198,16 @@ export default function Home() {
                 </section>
 
                 {/* 2. Premium Grid Categories */}
-                {/* 2. Premium Grid Categories */}
-                <section className="container-premium relative">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-10 gap-6">
-                        <div>
-                            <h2 className="text-4xl font-black tracking-tighter text-slate-900 mb-2">COLLECTIONS</h2>
-                            <p className="text-slate-500 font-bold text-sm uppercase tracking-widest">Hand-picked by our automotive experts</p>
+                <section className="container-premium relative py-12">
+
+                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6 relative">
+                        <div className="relative">
+                            <h2 className="text-4xl md:text-5xl font-black tracking-tighter text-slate-900 mb-3 italic">
+                                COLLECTIONS<span className="text-blue-600">.</span>
+                            </h2>
+                            <p className="text-slate-500 font-bold text-[10px] uppercase tracking-[0.3em]">
+                                Hand-picked by our automotive experts
+                            </p>
                         </div>
                         {/* PC Tabs */}
                         <div className="hidden md:flex gap-4">
@@ -223,6 +228,12 @@ export default function Home() {
                         </div>
                     </div>
 
+                    {/* Branding Carousel Framing - Top */}
+                    <div className="relative mb-12">
+                        <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-400 to-transparent" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-blue-600 border-4 border-white shadow-[0_0_15px_rgba(37,99,235,0.4)]" />
+                    </div>
+
                     {/* Mobile View: Auto-scroll Carousel */}
                     <div ref={brandsCarouselRef} className="md:hidden flex overflow-x-auto gap-4 hide-scrollbar pb-8 -mx-4 px-4 snap-x">
                         {brands.map(brand => (
@@ -234,12 +245,18 @@ export default function Home() {
                                 <div className="aspect-[4/3] rounded-2xl overflow-hidden relative shadow-lg">
                                     <img
                                         src={brand.image}
+                                        crossOrigin="anonymous"
                                         alt={brand.name}
                                         className="w-full h-full object-cover"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 to-transparent" />
-                                    <div className="absolute bottom-0 left-0 right-0 p-5">
-                                        <span className="text-white font-black text-2xl tracking-tighter uppercase">{brand.name}</span>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80" />
+                                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                                        <div className="flex flex-col">
+                                            <span className="text-white font-black text-3xl tracking-tighter uppercase leading-none">
+                                                {brand.name}<span className="text-blue-500">.</span>
+                                            </span>
+                                            <div className="w-12 h-1 bg-blue-500 mt-2 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -282,6 +299,7 @@ export default function Home() {
                                         <div className="absolute inset-0 bg-slate-900">
                                             <img
                                                 src={brand.image}
+                                                crossOrigin="anonymous"
                                                 alt={brand.name}
                                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80"
                                             />
@@ -290,12 +308,21 @@ export default function Home() {
 
                                         {/* Text Overlay */}
                                         <div className="relative z-10 p-6 w-full text-center">
-                                            <span className={`
-                                                    font-black tracking-tighter uppercase transition-colors text-white
-                                                    ${index === 0 ? 'text-4xl' : 'text-2xl opacity-80'}
-                                                `}>
-                                                {brand.name}
-                                            </span>
+                                            <div className="flex flex-col items-center">
+                                                <span className={`
+                                                        font-black tracking-tighter uppercase transition-colors text-white leading-none
+                                                        ${index === 0 ? 'text-4xl' : 'text-2xl opacity-80'}
+                                                    `}>
+                                                    {brand.name}<span className="text-blue-500">.</span>
+                                                </span>
+                                                {index === 0 && (
+                                                    <motion.div
+                                                        initial={{ width: 0 }}
+                                                        animate={{ width: 50 }}
+                                                        className="h-1 bg-blue-500 mt-2 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"
+                                                    />
+                                                )}
+                                            </div>
                                         </div>
 
                                         {/* Active Indicator Label */}
@@ -312,6 +339,12 @@ export default function Home() {
                                 </motion.div>
                             ))}
                         </AnimatePresence>
+                    </div>
+
+                    {/* Branding Carousel Framing - Bottom */}
+                    <div className="relative mt-12">
+                        <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-400 to-transparent" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-blue-600 border-4 border-white shadow-[0_0_15px_rgba(37,99,235,0.4)]" />
                     </div>
                 </section>
 

@@ -153,8 +153,64 @@
     @apply border-b border-black hover:bg-slate-50/50;
   }
 
+  /* Ultra-Premium Badges */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border font-bold text-[10px] uppercase tracking-[0.15em] transition-all duration-300;
+  }
+
+  .badge-success {
+    @apply bg-emerald-600 border-emerald-500 text-white shadow-lg shadow-emerald-500/20;
+  }
+
+  .badge-error {
+    @apply bg-rose-600 border-rose-500 text-white shadow-lg shadow-rose-500/20;
+  }
+
+  .badge-primary {
+    @apply bg-blue-600 border-blue-500 text-white shadow-lg shadow-blue-500/20;
+  }
+
+  .badge-warning {
+    @apply bg-amber-500 border-amber-400 text-slate-950 shadow-lg shadow-amber-500/20;
+  }
+
   /* Select specific */
   .select {
     @apply appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiM2NDc0OGIiIGNsYXNzPSJ3LTYgaC02Ij48cGF0aCBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGQ9Ik0xOSA5bDctNyA3LTdtOCA2aDE2IiAvPjwvc3ZnPg==')] bg-no-repeat bg-[right_1rem_center];
+  }
+
+  /* Custom Animations for Premium Badges */
+  @keyframes status-pulse {
+
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    50% {
+      transform: scale(1.5);
+      opacity: 0.5;
+    }
+  }
+
+  .animate-status-pulse {
+    animation: status-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes bounce-subtle {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+
+  .animate-bounce-subtle {
+    animation: bounce-subtle 2s infinite ease-in-out;
   }
 }

@@ -110,6 +110,34 @@ export default function Dashboard() {
                     </Button>
                 </Link>
             </div>
+            {/* 90% Automation: Strategic Intelligence */}
+            {stats.strategic_insights?.length > 0 && (
+                <div className="mb-8 overflow-hidden">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-2">
+                            <Zap size={18} className="text-blue-600 animate-pulse" />
+                            <h2 className="text-sm font-black uppercase tracking-[0.2em] text-slate-900">Strategic Intelligence</h2>
+                        </div>
+                        <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full uppercase tracking-tighter">AI Assistant Active</span>
+                    </div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {stats.strategic_insights.map((insight, idx) => (
+                            <motion.div
+                                key={idx}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: idx * 0.1 }}
+                                className="bg-slate-950 p-4 rounded-[5px] border-l-4 border-blue-600 shadow-xl group hover:bg-slate-900 transition-colors"
+                            >
+                                <p className="text-slate-200 text-xs font-medium leading-relaxed">
+                                    {insight}
+                                </p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <StatCard
                     title="Active Fleet"

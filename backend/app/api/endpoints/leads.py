@@ -29,7 +29,8 @@ def capture_lead(
             customer_name=data.name,
             customer_email=data.email or "",
             customer_phone=data.phone,
-            enquiry_type="purchase_request",
+            vehicle_id=data.vehicle_id,
+            enquiry_type="purchase",
             message=data.message or f"Interested in vehicle {data.vehicle_id}"
         )
         # Note: If EnquiriesService supports linking to User ID, we should update it.

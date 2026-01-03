@@ -79,6 +79,8 @@ export default function VehicleDetail() {
                 vehicle_id: id,
             });
             setSubmitSuccess(true);
+            // Refresh vehicle data to show the automatic "Sold" status
+            loadVehicle();
             setFormData({
                 customer_name: '',
                 customer_email: '',
@@ -138,9 +140,10 @@ export default function VehicleDetail() {
     return (
         <div className="min-h-screen bg-gray-50 pt-8 pb-20">
             <SEO
-                title={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
-                description={`Verified ${vehicle.year} ${vehicle.make} ${vehicle.model} for sale at Joram Cars. Price: ${formatPrice(vehicle.price, vehicle.currency)}. Mileage: ${formatMileage(vehicle.mileage)}.`}
+                title={`${vehicle.year} ${vehicle.make} ${vehicle.model} ${vehicle.trim || ''}`}
+                description={`Verified ${vehicle.year} ${vehicle.make} ${vehicle.model} for sale at Joram Cars. Price: ${formatPrice(vehicle.price, vehicle.currency)}. Mileage: ${formatMileage(vehicle.mileage)}. Best luxury vehicle deal in Kenya.`}
                 image={getImageUrl(vehicle.primary_image)}
+                keywords={[vehicle.make, vehicle.model, vehicle.year, vehicle.body_type, 'luxury cars kenya', 'verified cars', 'joram cars nairobi', 'performance vehicles']}
                 type="article"
                 jsonLd={vehicleJsonLd}
             />
@@ -166,10 +169,24 @@ export default function VehicleDetail() {
                                     className="w-full h-full object-cover"
                                 />
 
-                                <div className="absolute top-4 left-4">
-                                    <Badge variant={getStatusColor(vehicle.availability_status)} className="shadow-lg backdrop-blur-md">
+                                {/* High-Contrast Availability Badge - Absolute Corner */}
+                                <div className="absolute top-0 left-0 z-20">
+                                    <div className={cn(
+                                        "flex items-center gap-1.5 px-4 py-2 rounded-br-3xl font-black text-xs uppercase tracking-[0.2em] shadow-2xl",
+                                        vehicle.availability_status === 'available'
+                                            ? "bg-emerald-600 text-white"
+                                            : vehicle.availability_status === 'sold'
+                                                ? "bg-rose-600 text-white"
+                                                : "bg-blue-600 text-white"
+                                    )}>
+                                        {vehicle.availability_status === 'available' && (
+                                            <span className="relative flex h-2 w-2">
+                                                <span className="animate-status-pulse absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                                            </span>
+                                        )}
                                         {getStatusLabel(vehicle.availability_status)}
-                                    </Badge>
+                                    </div>
                                 </div>
 
                                 {images.length > 1 && (

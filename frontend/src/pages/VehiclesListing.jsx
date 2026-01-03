@@ -227,7 +227,7 @@ export default function VehiclesListing() {
                                         Inventory<span className="text-blue-600">.</span>
                                     </h1>
                                     <div className="h-6 w-px bg-slate-200 hidden md:block" />
-                                    <span className="px-3 py-1 rounded-full bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest shadow-lg">
+                                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
                                         {totalItems} Available Units
                                     </span>
                                 </div>

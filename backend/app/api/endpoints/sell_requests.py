@@ -14,6 +14,9 @@ from app.schemas import SellRequestCreate, SellRequestResponse, MessageResponse
 router = APIRouter(prefix="/sell-requests", tags=["Sell Requests"])
 
 
+from app.services.lead_service import LeadService
+from app.schemas.lead import LeadCaptureRequest
+
 @router.post("", response_model=SellRequestResponse, status_code=status.HTTP_201_CREATED)
 def create_sell_request(
     data: SellRequestCreate,
@@ -23,8 +26,22 @@ def create_sell_request(
     Submit a request to sell your car.
     
     After submission, you can upload images using the upload-image endpoint.
+    Also automatically captures the user as a strategic lead.
     """
+    # 1. Create the Sell Request
     sell_request = SellRequestService.create_sell_request(db, data)
+    
+    # 2. Automation: Sync with Lead Capture system
+    try:
+        LeadService.capture_lead(db, LeadCaptureRequest(
+            name=data.customer_name,
+            email=data.customer_email,
+            phone=data.customer_phone,
+            message=f"Wants to SELL: {data.vehicle_year} {data.vehicle_make} {data.vehicle_model}. Asking: {data.asking_price}"
+        ))
+    except Exception as e:
+        print(f"Strategic Lead Capture failed for sell request: {e}")
+        
     return sell_request
 
 
