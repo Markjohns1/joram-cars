@@ -165,6 +165,7 @@ export default function VehicleDetail() {
                             <div className="relative aspect-[4/3] md:aspect-[16/10] bg-gray-100 rounded-2xl overflow-hidden">
                                 <img
                                     src={currentImage ? getImageUrl(currentImage) : '/placeholder-car.jpg'}
+                                    crossOrigin="anonymous"
                                     alt={vehicle.title}
                                     className="w-full h-full object-cover"
                                 />
@@ -220,6 +221,7 @@ export default function VehicleDetail() {
                                         >
                                             <img
                                                 src={getImageUrl(img.image_url)}
+                                                crossOrigin="anonymous"
                                                 alt=""
                                                 className="w-full h-full object-cover"
                                             />

@@ -126,6 +126,7 @@ export default function Home() {
                     <div className="absolute inset-0 bg-slate-950">
                         <img
                             src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80"
+                            crossOrigin="anonymous"
                             className="w-full h-full object-cover opacity-50 mix-blend-overlay"
                             alt="Luxury Sports Car in Showroom"
                             fetchPriority="high"
