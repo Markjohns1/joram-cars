@@ -117,7 +117,7 @@
   }
 
   .input {
-    @apply w-full h-12 px-4 bg-white border border-slate-200 rounded-[5px] text-slate-900 font-medium placeholder:text-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/5 outline-none transition-all duration-200;
+    @apply w-full h-12 px-4 bg-white border border-slate-200 rounded-premium text-slate-900 font-medium placeholder:text-slate-400 focus:border-slate-400 focus:ring-2 focus:ring-slate-400/5 outline-none transition-all duration-200;
   }
 
   .input-error {
@@ -176,7 +176,7 @@
 
   /* Select specific */
   .select {
-    @apply appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyNCAyNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiM2NDc0OGIiIGNsYXNzPSJ3LTYgaC02Ij48cGF0aCBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGQ9Ik0xOSA5bDctNyA3LTdtOCA2aDE2IiAvPjwvc3ZnPg==')] bg-no-repeat bg-[right_1rem_center];
+    @apply appearance-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NDc0OGIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJtNiA5IDYgNiA2LTYiLz48L3N2Zz4=')] bg-no-repeat bg-[right_1rem_center];
   }
 
   /* Custom Animations for Premium Badges */

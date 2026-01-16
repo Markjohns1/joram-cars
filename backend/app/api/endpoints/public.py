@@ -21,7 +21,7 @@ def get_sitemap(db: Session = Depends(get_db)):
     base_url = "https://joramcars.co.ke" # Should ideally come from settings
     
     # Static pages
-    static_pages = ["", "/vehicles", "/about", "/contact", "/sell"]
+    static_pages = ["", "/vehicles", "/about", "/contact", "/sell-car"]
     
     xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'

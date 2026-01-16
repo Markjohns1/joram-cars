@@ -15,6 +15,7 @@ import { Button } from '../components/common';
 import { sellRequestsAPI } from '../api';
 import { cn } from '../utils/helpers';
 import { useNavigate } from 'react-router-dom';
+import { SEO } from '../components/common';
 
 export default function SellCar() {
     const navigate = useNavigate();
@@ -103,6 +104,12 @@ export default function SellCar() {
 
     return (
         <div className="pb-24 pt-4 min-h-screen bg-gray-50/50">
+            <SEO
+                title="Sell Your Car"
+                description="Get a competitive instant valuation for your car. We make selling your vehicle in Nairobi quick, safe, and hassle-free."
+                keywords={['sell car kenya', 'car valuation', 'sell used car nairobi', 'trade in car']}
+                canonical="/sell-car"
+            />
             {/* Step Indicator */}
             <div className="px-6 mb-8">
                 <div className="flex items-center justify-between relative">

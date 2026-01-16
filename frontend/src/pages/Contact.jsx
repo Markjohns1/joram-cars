@@ -5,7 +5,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Clock, Send, MessageCircle, Check } from 'lucide-react';
-import { Button, Input, Textarea, Select } from '../components/common';
+import { Button, Input, Textarea, Select, SEO } from '../components/common';
 import { enquiriesAPI } from '../api';
 import { ENQUIRY_TYPES, CONTACT_INFO } from '../utils/constants';
 import { getWhatsAppLink } from '../utils/helpers';
@@ -60,6 +60,12 @@ export default function Contact() {
 
     return (
         <div className="min-h-screen">
+            <SEO
+                title="Contact Us"
+                description="Get in touch with Joram Cars. Visit our showroom in Nairobi, call us, or send an enquiry."
+                keywords={['contact joram cars', 'showroom location', 'car dealer contacts']}
+                canonical="/contact"
+            />
             {/* Hero */}
             {/* Hero */}
             <section className="bg-slate-50 py-12 border-b border-gray-200">

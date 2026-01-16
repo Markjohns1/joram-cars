@@ -4,10 +4,17 @@
 
 import { motion } from 'framer-motion';
 import { Shield, Clock, Users, Award, ThumbsUp, Car, Target, Eye } from 'lucide-react';
+import { SEO } from '../components/common';
 
 export default function About() {
     return (
         <div className="min-h-screen">
+            <SEO
+                title="About Us - Joram Cars"
+                description="Learn more about Joram Cars, Nairobi's most trusted used car marketplace since 2014. Our mission is to provide quality vehicles and exceptional service."
+                keywords={['about joram cars', 'trusted car dealer nairobi', 'used cars kenya history']}
+                canonical="/about"
+            />
             {/* Hero */}
             <section className="bg-slate-50 py-12 md:py-16">
                 <div className="container">

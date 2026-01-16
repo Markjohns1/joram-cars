@@ -17,7 +17,7 @@ export default function SEO({
     const siteName = 'Joram Cars';
     const fullTitle = title ? `${title} | ${siteName}` : siteName;
     const siteUrl = window.location.origin;
-    const defaultImage = `${siteUrl}/brand/og-image.png`;
+    const defaultImage = `${siteUrl}/brand/master-logo.png`;
     const metaDescription = description || "Kenya's Premier Used Car Marketplace. Quality vehicles at the best prices.";
 
     // Automation: Auto-generate high-intent keywords for luxury car buyers

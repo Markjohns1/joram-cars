@@ -23,13 +23,13 @@ export default function Home() {
     const [searchQuery, setSearchQuery] = useState('');
     const brandsCarouselRef = useRef(null);
     const brands = [
-        { name: 'Range Rover', image: 'https://images.unsplash.com/photo-1549416878-b9ca35329960?auto=format&fit=crop&q=80' },
+        { name: 'Range Rover', image: 'https://images.unsplash.com/photo-1606220838315-056192d5e927?auto=format&fit=crop&q=80' },
         { name: 'Mercedes-Benz', image: 'https://images.unsplash.com/photo-1617531653332-bd46c24f2068?auto=format&fit=crop&q=80' },
         { name: 'BMW', image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80' },
         { name: 'Porsche', image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80' },
         { name: 'Toyota', image: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&q=80' },
-        { name: 'Audi', image: 'https://images.unsplash.com/photo-1620215175664-cb9a6f598f1f?auto=format&fit=crop&q=80' },
-        { name: 'Lexus', image: 'https://images.unsplash.com/photo-1616789916118-59025d574304?auto=format&fit=crop&q=80' }
+        { name: 'Audi', image: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&q=80' },
+        { name: 'Lexus', image: 'https://images.unsplash.com/photo-1599920807890-444cb3f29053?auto=format&fit=crop&q=80' }
     ];
 
     // Auto-scroll carousel on mobile (2s interval, infinite loop)
